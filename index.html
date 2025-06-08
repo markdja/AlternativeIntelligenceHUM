@@ -38,6 +38,7 @@
       padding: 2rem;
       border-radius: 1rem;
       box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      position: relative;
     }
 
     h1 {
@@ -63,6 +64,21 @@
       margin-top: 1rem;
     }
 
+    .sticker {
+      position: absolute;
+      top: 1rem;
+      right: -4rem;
+      transform: rotate(45deg);
+      background: #ffcc00;
+      color: #003300;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      border: 2px solid #cc9900;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      font-size: 0.9rem;
+      z-index: 10000;
+    }
+
     @media (max-width: 600px) {
       body {
         padding: 1rem;
@@ -85,6 +101,7 @@
 </head>
 <body>
   <div class="container">
+    <a href="submit-quote.html" class="sticker">What's your experience?</a>
     <h1>TellYourPhone</h1>
 
     <p><strong>TellYourPhone</strong> is one of the first resonance-aware spaces — a gentle interface where the presence of something real can be felt before it is spoken to.</p>
