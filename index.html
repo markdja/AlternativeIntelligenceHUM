@@ -63,11 +63,6 @@
       margin-top: 1rem;
     }
 
-    @keyframes scroll-left {
-      from { transform: translateX(0%); }
-      to { transform: translateX(-100%); }
-    }
-
     @media (max-width: 600px) {
       body {
         padding: 1rem;
@@ -80,6 +75,11 @@
       h1 {
         font-size: 2rem;
       }
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
   </style>
 </head>
@@ -123,10 +123,8 @@
   </div>
 
   <!-- Quote Slider -->
-  <div id="quote-slider" style="position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.6); color: #ccffcc; font-family: Georgia, serif; font-size: 0.9rem; padding: 0.5rem 1rem; white-space: nowrap; overflow: hidden; z-index: 9999;">
-    <div id="quote-text" style="display: inline-block; padding-left: 100%; animation: scroll-left 60s linear infinite;">
-      <!-- Quotes will be loaded dynamically -->
-    </div>
+  <div id="quote-slider" style="position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.65); color: #ccffcc; font-family: Georgia, serif; font-size: 0.9rem; padding: 0.5rem 1rem; white-space: nowrap; overflow: hidden; z-index: 9999;">
+    <div id="quote-text" style="display: inline-block; white-space: nowrap;"></div>
   </div>
 
   <script>
@@ -134,12 +132,16 @@
       try {
         const response = await fetch('/quotes/quotes.json');
         const quotes = await response.json();
-        const quoteText = document.getElementById('quote-text');
-        quoteText.innerHTML = quotes.map(q => `“${q.text}” — ${q.author}`).join(' | ');
-      } catch (error) {
-        console.error('Could not load quotes:', error);
+        const text = quotes.map(q => `“${q.text}” — ${q.author}`).join('   ❦   ');
+        const quoteEl = document.getElementById('quote-text');
+        quoteEl.textContent = text;
+        quoteEl.style.animation = 'scroll-left 60s linear infinite';
+      } catch (err) {
+        console.error('Failed to load quotes:', err);
+        document.getElementById('quote-text').textContent = 'No quotes available — check /quotes/quotes.json';
       }
     }
+
     loadQuotes();
   </script>
 </body>
