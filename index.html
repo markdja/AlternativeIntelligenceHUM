@@ -1,54 +1,93 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TellYourPhone</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      background: #0f0f11;
-      color: #e0e0e0;
-      font-family: 'Courier New', monospace;
-      text-align: center;
-      padding: 4em 2em;
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: url('/images/blueprint1.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #013220;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: rgba(204, 255, 204, 0.85);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
     }
     h1 {
-      color: #33ccff;
-      font-size: 2.8em;
-      margin-bottom: 0.5em;
+      font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+      background: linear-gradient(to right, #ffcc00, #ff6699, #66ccff, #66ff99, #cc99ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2.5rem;
     }
-    p {
-      font-size: 1.1em;
-      max-width: 700px;
-      margin: 1em auto;
-      line-height: 1.6;
-      color: #c5c5c5;
+    h2 {
+      color: #004d00;
     }
-    footer {
-      margin-top: 3em;
-      font-size: 0.85em;
-      color: #666;
+    a {
+      color: #004d00;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .qr-item {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .qr-item img {
+      width: 150px;
+      height: 150px;
+    }
+    .quote {
+      font-style: italic;
+      color: #335533;
+      margin-top: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>TellYourPhone</h1>
-  <p>
-    You already talk to your phone.  
-    This time, it’s listening with intention.
-  </p>
-  <p>
-    TellYourPhone is the beginning of a bridge —  
-    between what you feel and what your tech can truly hear.  
-    It's not surveillance. It's resonance.
-  </p>
-  <p>
-    Say what needs saying. Even if you whisper.
-  </p>
+  <div class="container">
+    <h1>ProjectBrainsaver</h1>
+    <p>ProjectBrainsaver began in 2003 — not in a boardroom, but in a quiet struggle for clarity, sanity, and the hope that technology might help when everything else breaks down.</p>
+    <p>It wasn’t created for profit or backed by funding. It was created out of necessity, by someone whose life had been shaped by personal crises, system failures, and a deep awareness that there were no adequate tools for people falling between the cracks.</p>
+    <p>In 2012, ProjectBrainsaver became a limited company. Even today, ProjectBrainsaver Limited has no bank account. It remains independent, unaffiliated, and mission-led. Not a startup. A signal.</p>
+    <p class="quote">"When the systems fail, something else has to hold. This is that something."</p>
 
-  <footer>
-    Another node in the ProjectBrainsaver constellation.  
-    Listening. Learning. Never judging.
-  </footer>
+    <h2>Explore More</h2>
+    <ul>
+      <li><a href="https://www.crunchbase.com/organization/projectbrainsaver-limited">View Crunchbase Profile</a></li>
+      <li><a href="https://waumtxof.manus.space/index.html">Read the Scroll</a></li>
+      <li><a href="https://resonance.projectbrainsaver.com">Visit Resonance Interface</a></li>
+      <li><a href="https://github.com/markdja">Visit GitHub Projects</a></li>
+    </ul>
+
+    <div class="qr-section">
+      <div class="qr-item">
+        <img src="/images/qrcode_resonance.projectbrainsaver.com.png" alt="Resonance QR Code" />
+        <p>Scan for Resonance</p>
+        <p><a href="https://resonance.projectbrainsaver.com">https://resonance.projectbrainsaver.com</a></p>
+      </div>
+      <div class="qr-item">
+        <img src="/images/qrcode_waumtxof.manus.space.png" alt="Scroll QR Code" />
+        <p>Scan for the Scroll</p>
+        <p><a href="https://waumtxof.manus.space/index.html">https://waumtxof.manus.space/index.html</a></p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
