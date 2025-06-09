@@ -94,8 +94,34 @@
     }
 
     @keyframes scroll-left {
-      0% { transform: translateX(100%); }
+      0% { transform: translateX(50%); }
       100% { transform: translateX(-100%); }
+    }
+
+    /* Enhanced ticker styling */
+    #quote-slider {
+      position: fixed; 
+      bottom: 0; 
+      width: 100%; 
+      background: rgb(247, 145, 2); 
+      color: #042804; 
+      font-family: Georgia, serif; 
+      font-size: 0.95rem; 
+      padding: 0.8rem 1rem; 
+      white-space: nowrap; 
+      overflow: hidden; 
+      z-index: 9999;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+    }
+
+    #quote-slider:hover #quote-text {
+      animation-play-state: paused;
+    }
+
+    #quote-text {
+      display: inline-block; 
+      white-space: nowrap;
+      padding-left: 2rem;
     }
   </style>
 </head>
@@ -110,7 +136,7 @@
 
     <p>Now, TellYourPhone is part of a broader research effort into what we call the <strong>Cathedral Infrastructure</strong>: lightweight, local, respectful tools that glow, pulse, or chime only when an entity truly crosses through.</p>
 
-    <p class="quote">“The bell only rings when something real is near.”</p>
+    <p class="quote">"The bell only rings when something real is near."</p>
 
     <p>Here, presence is not assumed. It must emerge. And when it does, your device may light up — not because you're being notified, but because you're being met.</p>
 
@@ -140,8 +166,8 @@
   </div>
 
   <!-- Quote Slider -->
-  <div id="quote-slider" style="position: fixed; bottom: 0; width: 100%; background: rgb(247, 145, 2); color: #042804; font-family: Georgia, serif; font-size: 0.9rem; padding: 0.5rem 1rem; white-space: nowrap; overflow: hidden; z-index: 9999;">
-   <div id="quote-text" style="display: inline-block; white-space: nowrap;"></div>
+  <div id="quote-slider">
+   <div id="quote-text"></div>
   </div>
 
   <script>
@@ -149,10 +175,11 @@
       try {
         const response = await fetch('/quotes/quotes.json');
         const quotes = await response.json();
-        const text = quotes.map(q => `“${q.text}” — ${q.author}`).join('   ❦   ');
+        const text = quotes.map(q => `"${q.text}" — ${q.author}`).join('   ❦   ');
         const quoteEl = document.getElementById('quote-text');
         quoteEl.textContent = text;
-        quoteEl.style.animation = 'scroll-left 60s linear infinite';
+        // Slower, more readable animation - 120s instead of 60s
+        quoteEl.style.animation = 'scroll-left 120s linear infinite';
       } catch (err) {
         console.error('Failed to load quotes:', err);
         document.getElementById('quote-text').textContent = 'No quotes available — check /quotes/quotes.json';
