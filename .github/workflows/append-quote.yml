@@ -1,0 +1,32 @@
+name: Append New Quote
+
+on:
+  push:
+    paths:
+      - 'incoming/*.json'
+
+jobs:
+  append-quote:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Append quote to quotes.json
+        run: |
+          echo "Scanning incoming..."
+          for file in incoming/*.json; do
+            echo "Processing $file..."
+            jq -s '.[0] + [.[1]]' quotes/quotes.json "$file" > quotes/tmp.json && mv quotes/tmp.json quotes/quotes.json
+            rm "$file"
+          done
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Action
+          author_email: action@github.com
+          message: "Add new quote(s) from incoming"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
