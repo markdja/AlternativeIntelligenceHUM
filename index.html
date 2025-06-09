@@ -122,6 +122,16 @@
       display: inline-block; 
       white-space: nowrap;
       padding-left: 2rem;
+      cursor: grab;
+      user-select: none;
+    }
+
+    #quote-text:active {
+      cursor: grabbing;
+    }
+
+    #quote-text.dragging {
+      animation-play-state: paused !important;
     }
   </style>
 </head>
@@ -179,6 +189,12 @@
   </div>
 
   <script>
+    let isDragging = false;
+    let startX = 0;
+    let currentTransform = 0;
+    let animationStartTime = 0;
+    let animationDuration = 750000; // 750s in milliseconds
+
     async function loadQuotes() {
       try {
         const response = await fetch('/quotes/quotes.json');
@@ -187,12 +203,103 @@
         const text = quotes.map(q => `"${q.text}" — ${q.author}`).join('   ❦   ') + '   ❦   ' + quotes.map(q => `"${q.text}" — ${q.author}`).join('   ❦   ');
         const quoteEl = document.getElementById('quote-text');
         quoteEl.textContent = text;
-        // Much slower for easy reading - 200s for full cycle
-        quoteEl.style.animation = 'scroll-left 750s linear infinite';
+        
+        // Start the animation
+        startAnimation();
+        
+        // Add drag functionality
+        setupDragControls(quoteEl);
+        
       } catch (err) {
         console.error('Failed to load quotes:', err);
         document.getElementById('quote-text').textContent = 'No quotes available — check /quotes/quotes.json';
       }
+    }
+
+    function startAnimation() {
+      const quoteEl = document.getElementById('quote-text');
+      animationStartTime = performance.now();
+      quoteEl.style.animation = 'scroll-left 750s linear infinite';
+    }
+
+    function setupDragControls(element) {
+      // Mouse events
+      element.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', endDrag);
+      
+      // Touch events for mobile
+      element.addEventListener('touchstart', startDrag, { passive: false });
+      document.addEventListener('touchmove', drag, { passive: false });
+      document.addEventListener('touchend', endDrag);
+    }
+
+    function startDrag(e) {
+      isDragging = true;
+      const quoteEl = document.getElementById('quote-text');
+      
+      // Pause the animation
+      quoteEl.classList.add('dragging');
+      
+      // Get starting position
+      startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+      
+      // Calculate current transform based on animation progress
+      const elapsed = performance.now() - animationStartTime;
+      const progress = (elapsed % animationDuration) / animationDuration;
+      currentTransform = -progress * 100;
+      
+      e.preventDefault();
+    }
+
+    function drag(e) {
+      if (!isDragging) return;
+      
+      e.preventDefault();
+      
+      const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+      const deltaX = currentX - startX;
+      
+      // Convert pixel movement to percentage (adjust sensitivity as needed)
+      const sensitivity = 0.1; // Lower = more sensitive
+      const deltaPercent = (deltaX * sensitivity);
+      
+      const newTransform = currentTransform + deltaPercent;
+      
+      const quoteEl = document.getElementById('quote-text');
+      quoteEl.style.transform = `translateX(${newTransform}%)`;
+    }
+
+    function endDrag(e) {
+      if (!isDragging) return;
+      
+      isDragging = false;
+      const quoteEl = document.getElementById('quote-text');
+      
+      // Calculate new animation start time based on current position
+      const currentStyle = window.getComputedStyle(quoteEl);
+      const matrix = new DOMMatrix(currentStyle.transform);
+      const currentX = matrix.m41;
+      const elementWidth = quoteEl.offsetWidth;
+      const containerWidth = quoteEl.parentElement.offsetWidth;
+      
+      // Calculate progress based on current position
+      const totalDistance = elementWidth + containerWidth;
+      const progress = Math.abs(currentX) / totalDistance;
+      
+      // Resume animation from current position
+      const remainingTime = animationDuration * (1 - (progress % 1));
+      animationStartTime = performance.now() - (animationDuration * (progress % 1));
+      
+      quoteEl.classList.remove('dragging');
+      quoteEl.style.transform = '';
+      
+      // Restart animation with calculated timing
+      quoteEl.style.animation = 'none';
+      setTimeout(() => {
+        quoteEl.style.animation = 'scroll-left 750s linear infinite';
+        quoteEl.style.animationDelay = `-${(progress % 1) * 750}s`;
+      }, 10);
     }
 
     loadQuotes();
