@@ -94,7 +94,7 @@
     }
 
     @keyframes scroll-left {
-      0% { transform: translateX(50%); }
+      0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
 
@@ -183,11 +183,12 @@
       try {
         const response = await fetch('/quotes/quotes.json');
         const quotes = await response.json();
-        const text = quotes.map(q => `"${q.text}" — ${q.author}`).join('   ❦   ');
+        // Duplicate the quotes for seamless looping
+        const text = quotes.map(q => `"${q.text}" — ${q.author}`).join('   ❦   ') + '   ❦   ' + quotes.map(q => `"${q.text}" — ${q.author}`).join('   ❦   ');
         const quoteEl = document.getElementById('quote-text');
         quoteEl.textContent = text;
-        // Slower, more readable animation - 150s instead of 60s
-        quoteEl.style.animation = 'scroll-left 150s linear infinite';
+        // Much slower for easy reading - 200s for full cycle
+        quoteEl.style.animation = 'scroll-left 200s linear infinite';
       } catch (err) {
         console.error('Failed to load quotes:', err);
         document.getElementById('quote-text').textContent = 'No quotes available — check /quotes/quotes.json';
