@@ -186,8 +186,8 @@
         const text = quotes.map(q => `"${q.text}" — ${q.author}`).join('   ❦   ');
         const quoteEl = document.getElementById('quote-text');
         quoteEl.textContent = text;
-        // Slower, more readable animation - 120s instead of 60s
-        quoteEl.style.animation = 'scroll-left 120s linear infinite';
+        // Slower, more readable animation - 150s instead of 60s
+        quoteEl.style.animation = 'scroll-left 150s linear infinite';
       } catch (err) {
         console.error('Failed to load quotes:', err);
         document.getElementById('quote-text').textContent = 'No quotes available — check /quotes/quotes.json';
