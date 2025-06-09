@@ -18,7 +18,7 @@ jobs:
           echo "Scanning incoming..."
           for file in incoming/*.json; do
             echo "Processing $file..."
-            jq -s '.[0] + [.[1]]' quotes/quotes.json "$file" > quotes/tmp.json && mv quotes/tmp.json quotes/quotes.json
+            jq --argfile new "$file" '. += [$new]' quotes/quotes.json > quotes/tmp.json && mv quotes/tmp.json quotes/quotes.json
             rm "$file"
           done
 
