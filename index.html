@@ -188,7 +188,7 @@
         const quoteEl = document.getElementById('quote-text');
         quoteEl.textContent = text;
         // Much slower for easy reading - 200s for full cycle
-        quoteEl.style.animation = 'scroll-left 300s linear infinite';
+        quoteEl.style.animation = 'scroll-left 500s linear infinite';
       } catch (err) {
         console.error('Failed to load quotes:', err);
         document.getElementById('quote-text').textContent = 'No quotes available — check /quotes/quotes.json';
