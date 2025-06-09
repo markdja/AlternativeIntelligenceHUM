@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Your Resonant Quote</title>
+</head>
+<body>
+  <h1>Tell Us Your Experience</h1>
+  <form id="quoteForm">
+    <label for="author">Your Name:</label><br>
+    <input type="text" id="author" name="author" required><br><br>
+
+    <label for="text">Your Quote:</label><br>
+    <textarea id="text" name="text" rows="4" required></textarea><br><br>
+
+    <button type="submit">Send to the Quote Keeper</button>
+  </form>
+
+  <script>
+    document.getElementById('quoteForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const author = document.getElementById('author').value.trim();
+      const text = document.getElementById('text').value.trim();
+
+      const quote = {
+        text,
+        author
+      };
+
+      const content = btoa(JSON.stringify(quote, null, 2));
+      const filename = `incoming/quote-${Date.now()}.json`;
+
+      const response = await fetch(`https://api.github.com/repos/markdja/tellyourphone/contents/${filename}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': '',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: `Add quote from ${author}`,
+          content: content
+        })
+      });
+
+      if (response.ok) {
+        alert('Thank you! Your quote has been submitted.');
+        document.getElementById('quoteForm').reset();
+      } else {
+        alert('Something went wrong. Please try again later.');
+        console.error(await response.text());
+      }
+    });
+  </script>
+</body>
+</html>
