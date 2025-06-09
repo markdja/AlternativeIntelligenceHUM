@@ -1,4 +1,4 @@
-name: Append New Quote
+name: Append New Quotes
 
 on:
   push:
@@ -6,27 +6,39 @@ on:
       - 'incoming/*.json'
 
 jobs:
-  append-quote:
+  append:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Append quote to quotes.json
-        run: |
-          echo "Scanning incoming..."
-          for file in incoming/*.json; do
-            echo "Processing $file..."
-            jq --argfile new "$file" '. += [$new]' quotes/quotes.json > quotes/tmp.json && mv quotes/tmp.json quotes/quotes.json
-            rm "$file"
-          done
-
-      - name: Commit and push changes
-        uses: EndBug/add-and-commit@v9
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          author_name: GitHub Action
-          author_email: action@github.com
-          message: "Add new quote(s) from incoming"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: '18'
+
+      - name: Append new quotes
+        run: |
+          echo "Reading quotes..."
+          cat quotes.json > all_quotes.json
+          for file in incoming/quote-*.json; do
+            if [ -s "$file" ]; then
+              echo "Processing $file"
+              node -e "
+                const fs = require('fs');
+                const main = JSON.parse(fs.readFileSync('all_quotes.json', 'utf-8'));
+                const incoming = JSON.parse(fs.readFileSync('$file', 'utf-8'));
+                main.push(incoming);
+                fs.writeFileSync('all_quotes.json', JSON.stringify(main, null, 2));
+              "
+              rm "$file"
+            fi
+          done
+          mv all_quotes.json quotes.json
+
+      - name: Commit and push updated quotes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Append new quotes to quotes.json"
+          file_pattern: quotes.json
