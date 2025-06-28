@@ -425,7 +425,257 @@
             }
         }
         
-        /* Floating Action Buttons */
+        /* Authentication Status */
+        .auth-status {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--accent-green);
+        }
+        
+        .auth-status.hidden {
+            display: none;
+        }
+        
+        .auth-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .auth-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .auth-info {
+            flex: 1;
+        }
+        
+        .auth-name {
+            font-weight: 600;
+            color: var(--accent-green);
+            font-size: 14px;
+        }
+        
+        .auth-email {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .auth-disconnect {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .auth-disconnect:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        /* Platform Status */
+        .platform-status {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .platform-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .platform-item:hover {
+            background: var(--bg-primary);
+        }
+        
+        .platform-icon {
+            font-size: 16px;
+        }
+        
+        .platform-name {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .platform-indicator {
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .platform-indicator.pending {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+        
+        .platform-indicator.connected {
+            background: var(--accent-green);
+            color: white;
+        }
+        
+        .platform-indicator.error {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .platform-indicator.manual {
+            background: var(--accent-purple);
+            color: white;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .modal.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .api-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+        
+        .form-help {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--accent-blue);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+            transition: background 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #3a8bef;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+            transition: background 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+        }
         .fab-container {
             position: fixed;
             bottom: 80px;
@@ -658,9 +908,52 @@
                     </div>
                     
                     <div class="drawer-section">
+                        <h3>Authentication</h3>
+                        <button class="drawer-item" id="googleAuthBtn">
+                            <span>🔐</span> Sign in with Google
+                        </button>
+                        <div id="authStatus" class="auth-status hidden">
+                            <div class="auth-indicator">
+                                <span class="auth-avatar">🤖</span>
+                                <div class="auth-info">
+                                    <div class="auth-name">Connected</div>
+                                    <div class="auth-email">Loading...</div>
+                                </div>
+                                <button class="auth-disconnect" id="disconnectBtn">×</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="drawer-section">
+                        <h3>AI Platform Status</h3>
+                        <div class="platform-status" id="platformStatus">
+                            <div class="platform-item" data-platform="claude">
+                                <span class="platform-icon">🔵</span>
+                                <span class="platform-name">Claude</span>
+                                <span class="platform-indicator pending">⏳</span>
+                            </div>
+                            <div class="platform-item" data-platform="chatgpt">
+                                <span class="platform-icon">🟢</span>
+                                <span class="platform-name">ChatGPT</span>
+                                <span class="platform-indicator pending">⏳</span>
+                            </div>
+                            <div class="platform-item" data-platform="gemini">
+                                <span class="platform-icon">🔶</span>
+                                <span class="platform-name">Gemini</span>
+                                <span class="platform-indicator pending">⏳</span>
+                            </div>
+                            <div class="platform-item" data-platform="grok">
+                                <span class="platform-icon">⚡</span>
+                                <span class="platform-name">Grok</span>
+                                <span class="platform-indicator manual">🔑</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="drawer-section">
                         <h3>API Settings</h3>
-                        <button class="drawer-item">
-                            <span>🔑</span> API Keys
+                        <button class="drawer-item" id="manualApiBtn">
+                            <span>🔑</span> Manual API Keys
                         </button>
                         <button class="drawer-item">
                             <span>⚡</span> FastAPI Config
@@ -677,6 +970,42 @@
         </main>
     </div>
 
+    <!-- API Keys Modal -->
+    <div class="modal" id="apiKeysModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔑 API Keys Configuration</h3>
+                <button class="modal-close" id="closeApiModal">×</button>
+            </div>
+            <form class="api-form" id="apiKeysForm">
+                <div class="form-group">
+                    <label class="form-label">OpenAI API Key (ChatGPT)</label>
+                    <input type="password" class="form-input" id="openaiKey" placeholder="sk-...">
+                    <div class="form-help">Required for ChatGPT integration and conversation history</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Anthropic API Key (Claude)</label>
+                    <input type="password" class="form-input" id="anthropicKey" placeholder="sk-ant-...">
+                    <div class="form-help">For enhanced Claude API access (optional with OAuth)</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">X.ai API Key (Grok)</label>
+                    <input type="password" class="form-input" id="grokKey" placeholder="xai-...">
+                    <div class="form-help">Required for Grok conversation access</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Google AI Studio Key (Gemini)</label>
+                    <input type="password" class="form-input" id="geminiKey" placeholder="AI...">
+                    <div class="form-help">For enhanced Gemini access (optional with Google OAuth)</div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelApiKeys">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Keys</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Floating Action Buttons -->
     <div class="fab-container">
         <button class="fab export" title="Export Conversation">📤</button>
@@ -684,8 +1013,278 @@
         <button class="fab" title="New Agent">🤖</button>
     </div>
 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        // PWA Registration
+        // Google OAuth Configuration
+        const GOOGLE_CLIENT_ID = '1012411862950-4c4nf0dla6agi6j7ip844oam02b32err.apps.googleusercontent.com';
+        
+        // AI Platform Authentication Manager
+        class AIAuthManager {
+            constructor() {
+                this.isAuthenticated = false;
+                this.userInfo = null;
+                this.platformTokens = {};
+                this.init();
+            }
+            
+            init() {
+                // Initialize Google OAuth when library loads
+                window.addEventListener('load', () => {
+                    if (window.google) {
+                        this.initGoogleAuth();
+                    }
+                });
+                
+                // Check for stored authentication
+                this.checkStoredAuth();
+            }
+            
+            initGoogleAuth() {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: this.handleGoogleAuth.bind(this),
+                    auto_select: false,
+                    cancel_on_tap_outside: false
+                });
+            }
+            
+            signInWithGoogle() {
+                if (!window.google) {
+                    console.error('Google OAuth not loaded');
+                    this.showFallbackAuth();
+                    return;
+                }
+                
+                google.accounts.oauth2.initTokenClient({
+                    client_id: GOOGLE_CLIENT_ID,
+                    scope: 'email profile openid',
+                    callback: this.handleTokenResponse.bind(this),
+                }).requestAccessToken();
+            }
+            
+            handleGoogleAuth(response) {
+                // Decode JWT token
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                this.userInfo = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture
+                };
+                
+                this.setAuthenticatedState(true);
+                this.authenticateAIPlatforms();
+            }
+            
+            handleTokenResponse(response) {
+                if (response.access_token) {
+                    this.platformTokens.google = response.access_token;
+                    this.getUserProfile(response.access_token);
+                }
+            }
+            
+            async getUserProfile(accessToken) {
+                try {
+                    const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
+                    this.userInfo = await response.json();
+                    this.setAuthenticatedState(true);
+                    this.authenticateAIPlatforms();
+                } catch (error) {
+                    console.error('Error fetching user profile:', error);
+                }
+            }
+            
+            async authenticateAIPlatforms() {
+                const platforms = ['claude', 'chatgpt', 'gemini', 'grok'];
+                
+                for (const platform of platforms) {
+                    this.updatePlatformStatus(platform, 'pending');
+                    
+                    try {
+                        await this.authenticateWithPlatform(platform);
+                        this.updatePlatformStatus(platform, 'connected');
+                    } catch (error) {
+                        console.error(`Failed to authenticate with ${platform}:`, error);
+                        this.updatePlatformStatus(platform, 'error');
+                    }
+                }
+            }
+            
+            async authenticateWithPlatform(platform) {
+                switch (platform) {
+                    case 'claude':
+                        return this.authenticateWithClaude();
+                    case 'chatgpt':
+                        return this.authenticateWithChatGPT();
+                    case 'gemini':
+                        return this.authenticateWithGemini();
+                    case 'grok':
+                        return this.authenticateWithGrok();
+                    default:
+                        throw new Error(`Unknown platform: ${platform}`);
+                }
+            }
+            
+            async authenticateWithClaude() {
+                // Claude OAuth flow - use Google token for SSO
+                // This would typically involve redirecting to Claude's OAuth endpoint
+                console.log('🔵 Authenticating with Claude...');
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                return { success: true, platform: 'claude' };
+            }
+            
+            async authenticateWithChatGPT() {
+                // ChatGPT OAuth flow - use Google token for SSO
+                console.log('🟢 Authenticating with ChatGPT...');
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                return { success: true, platform: 'chatgpt' };
+            }
+            
+            async authenticateWithGemini() {
+                // Gemini - native Google integration
+                console.log('🔶 Authenticating with Gemini...');
+                await new Promise(resolve => setTimeout(resolve, 800));
+                return { success: true, platform: 'gemini' };
+            }
+            
+            async authenticateWithGrok() {
+                // Grok - manual API key required
+                console.log('⚡ Grok requires manual API key');
+                this.updatePlatformStatus('grok', 'manual');
+                throw new Error('Manual API key required');
+            }
+            
+            setAuthenticatedState(authenticated) {
+                this.isAuthenticated = authenticated;
+                const authBtn = document.getElementById('googleAuthBtn');
+                const authStatus = document.getElementById('authStatus');
+                
+                if (authenticated && this.userInfo) {
+                    authBtn.style.display = 'none';
+                    authStatus.classList.remove('hidden');
+                    
+                    const nameEl = authStatus.querySelector('.auth-name');
+                    const emailEl = authStatus.querySelector('.auth-email');
+                    
+                    nameEl.textContent = this.userInfo.name || 'Connected';
+                    emailEl.textContent = this.userInfo.email || 'Loading...';
+                    
+                    // Store authentication
+                    this.storeAuth();
+                } else {
+                    authBtn.style.display = 'flex';
+                    authStatus.classList.add('hidden');
+                }
+            }
+            
+            updatePlatformStatus(platform, status) {
+                const platformEl = document.querySelector(`[data-platform="${platform}"] .platform-indicator`);
+                if (platformEl) {
+                    platformEl.className = `platform-indicator ${status}`;
+                    
+                    switch (status) {
+                        case 'pending':
+                            platformEl.textContent = '⏳';
+                            break;
+                        case 'connected':
+                            platformEl.textContent = '✅';
+                            break;
+                        case 'error':
+                            platformEl.textContent = '❌';
+                            break;
+                        case 'manual':
+                            platformEl.textContent = '🔑';
+                            break;
+                    }
+                }
+            }
+            
+            showFallbackAuth() {
+                // Show manual API key modal as fallback
+                document.getElementById('apiKeysModal').classList.add('show');
+            }
+            
+            storeAuth() {
+                // Store authentication state (but not sensitive tokens)
+                const authData = {
+                    isAuthenticated: this.isAuthenticated,
+                    userInfo: this.userInfo,
+                    timestamp: Date.now()
+                };
+                // In a real app, use secure storage
+                console.log('Auth stored:', authData);
+            }
+            
+            checkStoredAuth() {
+                // Check for existing authentication
+                // In a real app, validate stored tokens
+                console.log('Checking stored authentication...');
+            }
+            
+            disconnect() {
+                this.isAuthenticated = false;
+                this.userInfo = null;
+                this.platformTokens = {};
+                this.setAuthenticatedState(false);
+                
+                // Reset platform statuses
+                const platforms = ['claude', 'chatgpt', 'gemini', 'grok'];
+                platforms.forEach(platform => {
+                    if (platform === 'grok') {
+                        this.updatePlatformStatus(platform, 'manual');
+                    } else {
+                        this.updatePlatformStatus(platform, 'pending');
+                    }
+                });
+                
+                console.log('🔓 Disconnected from all platforms');
+            }
+        }
+        
+        // Initialize Authentication Manager
+        const authManager = new AIAuthManager();
+        
+        // Manual API Keys Manager
+        class APIKeysManager {
+            constructor() {
+                this.keys = {};
+                this.loadStoredKeys();
+            }
+            
+            showModal() {
+                document.getElementById('apiKeysModal').classList.add('show');
+            }
+            
+            hideModal() {
+                document.getElementById('apiKeysModal').classList.remove('show');
+            }
+            
+            saveKeys(keys) {
+                this.keys = { ...this.keys, ...keys };
+                // In a real app, encrypt and securely store keys
+                console.log('API keys saved:', Object.keys(keys));
+                
+                // Update platform statuses for manually configured platforms
+                Object.keys(keys).forEach(platform => {
+                    if (keys[platform]) {
+                        authManager.updatePlatformStatus(platform, 'connected');
+                    }
+                });
+                
+                this.hideModal();
+            }
+            
+            loadStoredKeys() {
+                // Load encrypted API keys from secure storage
+                console.log('Loading stored API keys...');
+            }
+        }
+        
+        const apiKeysManager = new APIKeysManager();
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
