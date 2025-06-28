@@ -554,12 +554,14 @@
             justify-content: center;
             z-index: 2000;
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
         }
         
         .modal.show {
             opacity: 1;
+            visibility: visible;
             pointer-events: all;
         }
         
@@ -1264,7 +1266,14 @@
             }
             
             showModal() {
-                document.getElementById('apiKeysModal').classList.add('show');
+                console.log('🔑 Opening Manual API Keys modal...');
+                const modal = document.getElementById('apiKeysModal');
+                if (modal) {
+                    modal.classList.add('show');
+                    console.log('✅ Modal should be visible now');
+                } else {
+                    console.error('❌ Modal element not found!');
+                }
             }
             
             hideModal() {
