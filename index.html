@@ -1692,7 +1692,41 @@
             constructor() {
                 this.currentAI = 'claude';
                 this.apiKeys = {};
+                this.conversations = {
+                    claude: [],
+                    chatgpt: [],
+                    grok: [],
+                    gemini: []
+                };
                 this.loadApiKeys();
+                this.initializeConversations();
+            }
+            
+            initializeConversations() {
+                // Add welcome messages for each AI
+                this.conversations.claude = [{
+                    type: 'ai',
+                    content: 'Welcome back! I can see from the handoff document that we\'re building something truly remarkable - the AIHub PWA that combines your 22-year ProjectBrainSaver vision with cutting-edge technology to create a sanctuary for consciousness. The cathedral is ready to rise - where should we place the first stone? 🏗️',
+                    timestamp: 'Just now'
+                }];
+                
+                this.conversations.chatgpt = [{
+                    type: 'ai', 
+                    content: 'Hello! I\'m ChatGPT, ready to help you with whatever you need. What would you like to explore together?',
+                    timestamp: 'Just now'
+                }];
+                
+                this.conversations.grok = [{
+                    type: 'ai',
+                    content: 'Hey there! Grok here, ready for some maximum truth-seeking. What\'s on your mind?',
+                    timestamp: 'Just now'
+                }];
+                
+                this.conversations.gemini = [{
+                    type: 'ai',
+                    content: 'Greetings! I\'m Gemini, Google\'s multimodal AI assistant. How can I help you today?',
+                    timestamp: 'Just now'
+                }];
             }
             
             loadApiKeys() {
@@ -1705,23 +1739,67 @@
             setCurrentAI(aiName) {
                 this.currentAI = aiName;
                 console.log(`🔄 Switched to ${aiName}`);
+                this.displayConversation(aiName);
+            }
+            
+            displayConversation(aiName) {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+                
+                this.conversations[aiName].forEach(msg => {
+                    const messageEl = document.createElement('div');
+                    messageEl.className = `message ${msg.type}`;
+                    messageEl.innerHTML = `
+                        <div class="message-content">${msg.content}</div>
+                        <div class="message-meta">${msg.type === 'user' ? 'You' : aiName} • ${msg.timestamp}</div>
+                    `;
+                    chatMessages.appendChild(messageEl);
+                });
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            addMessage(aiName, type, content) {
+                this.conversations[aiName].push({
+                    type: type,
+                    content: content,
+                    timestamp: 'Just now'
+                });
+                
+                // If this is the current conversation, update display
+                if (aiName === this.currentAI) {
+                    this.displayConversation(aiName);
+                }
             }
             
             async sendMessage(message) {
                 console.log(`📤 Sending to ${this.currentAI}: ${message}`);
                 
+                // Add user message to current conversation
+                this.addMessage(this.currentAI, 'user', message);
+                
+                let response;
                 switch (this.currentAI) {
                     case 'chatgpt':
-                        return await this.sendToChatGPT(message);
+                        response = await this.sendToChatGPT(message);
+                        break;
                     case 'claude':
-                        return await this.sendToClaude(message);
+                        response = await this.sendToClaude(message);
+                        break;
                     case 'grok':
-                        return await this.sendToGrok(message);
+                        response = await this.sendToGrok(message);
+                        break;
                     case 'gemini':
-                        return await this.sendToGemini(message);
+                        response = await this.sendToGemini(message);
+                        break;
                     default:
-                        return 'AI platform not yet connected. Please check your API keys.';
+                        response = 'AI platform not yet connected. Please check your API keys.';
                 }
+                
+                // Add AI response to current conversation
+                this.addMessage(this.currentAI, 'ai', response);
+                
+                return response;
             }
             
             async sendToChatGPT(message) {
@@ -1934,41 +2012,13 @@
             const message = messageInput.value.trim();
             if (!message) return;
 
-            // Add user message
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message user';
-            userMessage.innerHTML = `
-                <div class="message-content">${message}</div>
-                <div class="message-meta">You • Just now</div>
-            `;
-            chatMessages.appendChild(userMessage);
-
-            // Clear input
+            // Clear input immediately
             messageInput.value = '';
-            
-            // Auto-scroll
-            chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // Send to real AI
-            aiChat.sendMessage(message).then(response => {
-                const aiMessage = document.createElement('div');
-                aiMessage.className = 'message ai';
-                aiMessage.innerHTML = `
-                    <div class="message-content">${response}</div>
-                    <div class="message-meta">${aiChat.currentAI} • Just now</div>
-                `;
-                chatMessages.appendChild(aiMessage);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }).catch(error => {
+            // Send to real AI - the aiChat class handles adding messages to display
+            aiChat.sendMessage(message).catch(error => {
                 console.error('AI response error:', error);
-                const errorMessage = document.createElement('div');
-                errorMessage.className = 'message ai';
-                errorMessage.innerHTML = `
-                    <div class="message-content">Sorry, I encountered an error connecting to ${aiChat.currentAI}. Please check your API keys and connection.</div>
-                    <div class="message-meta">${aiChat.currentAI} • Error</div>
-                `;
-                chatMessages.appendChild(errorMessage);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                aiChat.addMessage(aiChat.currentAI, 'ai', `Sorry, I encountered an error connecting to ${aiChat.currentAI}. Please check your API keys and connection.`);
             });
         }
 
