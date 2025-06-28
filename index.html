@@ -1095,64 +1095,22 @@
                     </div>
                     
                     <div class="drawer-section">
-                        <h3>Authentication</h3>
-                        <button class="drawer-item" id="googleAuthBtn">
-                            <span>🔐</span> Sign in with Google
-                        </button>
-                        <button class="drawer-item" id="manualApiBtn">
-                            <span>🔑</span> Manual API Keys
-                        </button>
-                        <div id="inlineApiEntry" class="inline-api-entry hidden">
-                            <div class="api-quick-form">
-                                <div class="api-input-group">
-                                    <select id="apiProvider" class="api-provider-select">
-                                        <option value="openai">🟢 OpenAI (ChatGPT)</option>
-                                        <option value="anthropic">🔵 Anthropic (Claude)</option>
-                                        <option value="grok">⚡ X.ai (Grok)</option>
-                                        <option value="gemini">🔶 Google (Gemini)</option>
-                                    </select>
-                                </div>
-                                <div class="api-input-group">
-                                    <input 
-                                        type="password" 
-                                        id="quickApiKey" 
-                                        class="quick-api-input" 
-                                        placeholder="Paste API key and press Enter..."
-                                        autocomplete="off"
-                                    >
-                                </div>
-                                <div class="api-validation" id="apiValidation"></div>
-                            </div>
-                        </div>
-                        <div id="authStatus" class="auth-status hidden">
-                            <div class="auth-indicator">
-                                <span class="auth-avatar">🤖</span>
-                                <div class="auth-info">
-                                    <div class="auth-name">Connected</div>
-                                    <div class="auth-email">Loading...</div>
-                                </div>
-                                <button class="auth-disconnect" id="disconnectBtn">×</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="drawer-section">
                         <h3>AI Platform Status</h3>
                         <div class="platform-status" id="platformStatus">
                             <div class="platform-item" data-platform="claude">
                                 <span class="platform-icon">🔵</span>
                                 <span class="platform-name">Claude</span>
-                                <span class="platform-indicator pending">⏳</span>
+                                <span class="platform-indicator ready">○</span>
                             </div>
                             <div class="platform-item" data-platform="chatgpt">
                                 <span class="platform-icon">🟢</span>
                                 <span class="platform-name">ChatGPT</span>
-                                <span class="platform-indicator pending">⏳</span>
+                                <span class="platform-indicator ready">○</span>
                             </div>
                             <div class="platform-item" data-platform="gemini">
                                 <span class="platform-icon">🔶</span>
                                 <span class="platform-name">Gemini</span>
-                                <span class="platform-indicator pending">⏳</span>
+                                <span class="platform-indicator ready">○</span>
                             </div>
                             <div class="platform-item" data-platform="grok">
                                 <span class="platform-icon">⚡</span>
@@ -1726,7 +1684,11 @@
             }
         }
         
+        // Initialize managers
+        const authManager = new AIAuthManager();
         const apiKeysManager = new APIKeysManager();
+
+        console.log('🏗️ AIHub PWA initialized - Ready to build your cathedral!');
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
@@ -1898,7 +1860,46 @@
             document.body.classList.add('dark-theme');
         }
 
-        console.log('🏗️ AIHub PWA initialized - Ready to build your cathedral!');
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🏗️ AIHub DOM loaded, setting up events...');
+            
+            // Check if header elements exist
+            const headerGoogleAuth = document.getElementById('headerGoogleAuth');
+            const headerApiKeys = document.getElementById('headerApiKeys');
+            const headerDisconnect = document.getElementById('headerDisconnect');
+            
+            console.log('🔍 Header elements found:');
+            console.log('  - Google Auth:', headerGoogleAuth ? 'YES' : 'NO');
+            console.log('  - API Keys:', headerApiKeys ? 'YES' : 'NO');
+            console.log('  - Disconnect:', headerDisconnect ? 'YES' : 'NO');
+            
+            // Header Authentication buttons
+            if (headerGoogleAuth) {
+                headerGoogleAuth.addEventListener('click', () => {
+                    console.log('🔐 Header Google Auth clicked');
+                    clearDecks(); // Auto-collapse drawers
+                    authManager.signInWithGoogle();
+                });
+                console.log('✅ Google Auth button connected');
+            }
+            
+            if (headerApiKeys) {
+                headerApiKeys.addEventListener('click', () => {
+                    console.log('🔑 Header API Keys clicked');
+                    clearDecks(); // Auto-collapse drawers
+                    apiKeysManager.showModal(); // Show modal with clear view
+                });
+                console.log('✅ API Keys button connected');
+            }
+            
+            if (headerDisconnect) {
+                headerDisconnect.addEventListener('click', () => {
+                    console.log('🔓 Header disconnect clicked');
+                    authManager.disconnect();
+                });
+                console.log('✅ Disconnect button connected');
+            }
     </script>
 </body>
 </html>
