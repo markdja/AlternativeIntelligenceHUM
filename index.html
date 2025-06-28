@@ -1146,7 +1146,14 @@
                 const headerUserInfo = document.getElementById('headerUserInfo');
                 
                 if (authenticated && this.userInfo) {
-                    headerButtons.style.display = 'none';
+                    // Don't hide the buttons completely - just hide the Sign In button
+                    const signInBtn = document.getElementById('headerGoogleAuth');
+                    const apiKeysBtn = document.getElementById('headerApiKeys');
+                    
+                    if (signInBtn) signInBtn.style.display = 'none';
+                    // Keep API Keys button visible
+                    if (apiKeysBtn) apiKeysBtn.style.display = 'inline-block';
+                    
                     headerUserInfo.classList.remove('hidden');
                     
                     const nameEl = headerUserInfo.querySelector('.header-user-name');
@@ -1156,7 +1163,13 @@
                     
                     this.storeAuth();
                 } else {
-                    headerButtons.style.display = 'flex';
+                    // Show both buttons when not authenticated
+                    const signInBtn = document.getElementById('headerGoogleAuth');
+                    const apiKeysBtn = document.getElementById('headerApiKeys');
+                    
+                    if (signInBtn) signInBtn.style.display = 'inline-block';
+                    if (apiKeysBtn) apiKeysBtn.style.display = 'inline-block';
+                    
                     headerUserInfo.classList.add('hidden');
                 }
             }
@@ -1183,6 +1196,13 @@
                 this.userInfo = null;
                 this.platformTokens = {};
                 this.setAuthenticatedState(false);
+                
+                // Show both auth buttons again
+                const signInBtn = document.getElementById('headerGoogleAuth');
+                const apiKeysBtn = document.getElementById('headerApiKeys');
+                if (signInBtn) signInBtn.style.display = 'inline-block';
+                if (apiKeysBtn) apiKeysBtn.style.display = 'inline-block';
+                
                 cathedralManager.logActivity('🔓', 'Disconnected from all platforms');
             }
         }
@@ -1795,6 +1815,7 @@
                 cathedralManager.logActivity('🆘', 'Glass overlay emergency stop - All monitoring ceased');
             }
         }
+        }
         
         // Agent Orchestration System
         class AgentOrchestrator {
@@ -1969,33 +1990,69 @@
             }
         });
         
-        // Drawer item interactions
-        document.querySelectorAll('.drawer-item').forEach(item => {
-            item.addEventListener('click', () => {
-                // Remove active from siblings in same section
-                const section = item.closest('.drawer-section');
-                if (section) {
-                    section.querySelectorAll('.drawer-item').forEach(sibling => {
-                        sibling.classList.remove('active');
+        // Drawer item interactions - Fixed to work properly
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for DOM to be ready, then attach listeners
+            setTimeout(() => {
+                console.log('🔧 Setting up drawer item interactions...');
+                
+                const drawerItems = document.querySelectorAll('.drawer-item');
+                console.log(`Found ${drawerItems.length} drawer items`);
+                
+                drawerItems.forEach((item, index) => {
+                    console.log(`Setting up item ${index}: ${item.textContent.trim()}`);
+                    
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        console.log('🎯 Drawer item clicked:', item.textContent.trim());
+                        
+                        // Remove active from siblings in same section
+                        const section = item.closest('.drawer-section');
+                        if (section) {
+                            section.querySelectorAll('.drawer-item').forEach(sibling => {
+                                sibling.classList.remove('active');
+                            });
+                        }
+                        
+                        // Add active to clicked item
+                        item.classList.add('active');
+                        
+                        const action = item.textContent.trim();
+                        cathedralManager.logActivity('🎯', `Action: ${action}`);
+                        
+                        // Handle specific actions
+                        if (action.includes('Scan All')) {
+                            cathedralManager.domHarvester.scanAllConversations();
+                        } else if (action.includes('Research Agent')) {
+                            cathedralManager.logActivity('🔬', 'Research Agent spawned and ready for deployment');
+                        } else if (action.includes('Emergency Stop')) {
+                            cathedralManager.emergencyStop();
+                        } else if (action.includes('Reading Mode')) {
+                            cathedralManager.toggleReadingMode();
+                        } else if (action.includes('Command Intercept')) {
+                            cathedralManager.toggleCommandMode();
+                        } else if (action.includes('Sensor Array')) {
+                            cathedralManager.glassOverlay.toggleSensors();
+                        } else if (action.includes('Writing Agent')) {
+                            cathedralManager.logActivity('📝', 'Writing Agent spawned and ready');
+                        } else if (action.includes('Business Agent')) {
+                            cathedralManager.logActivity('💼', 'Business Agent spawned and ready');
+                        } else if (action.includes('Task Executor')) {
+                            cathedralManager.logActivity('⚡', 'Task Executor Agent spawned and ready');
+                        } else if (action.includes('Data Analyst')) {
+                            cathedralManager.logActivity('📈', 'Data Analyst Agent spawned and ready');
+                        } else if (action.includes('Export')) {
+                            cathedralManager.logActivity('📤', `Export initiated: ${action}`);
+                        } else {
+                            cathedralManager.logActivity('🎯', `Action triggered: ${action}`);
+                        }
                     });
-                }
+                });
                 
-                // Add active to clicked item
-                item.classList.add('active');
-                
-                const action = item.textContent.trim();
-                console.log('🎯 Action triggered:', action);
-                cathedralManager.logActivity('🎯', `Action: ${action}`);
-                
-                // Handle specific actions
-                if (action.includes('Scan All')) {
-                    cathedralManager.domHarvester.scanAllConversations();
-                } else if (action.includes('Research Agent')) {
-                    cathedralManager.logActivity('🔬', 'Research Agent spawned and ready for deployment');
-                } else if (action.includes('Emergency Stop')) {
-                    cathedralManager.emergencyStop();
-                }
-            });
+                console.log('✅ All drawer items configured');
+            }, 500);
         });
         
         // PWA Service Worker Registration
