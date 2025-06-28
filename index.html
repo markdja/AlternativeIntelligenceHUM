@@ -64,6 +64,81 @@
             gap: 12px;
         }
         
+        .header-auth {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            margin-right: 12px;
+        }
+        
+        .header-auth-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        .header-auth-btn:hover {
+            background: var(--accent-blue);
+        }
+        
+        .header-auth-btn.primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+        
+        .header-auth-btn.primary:hover {
+            background: #3a8bef;
+        }
+        
+        .header-user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+        }
+        
+        .header-user-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+        
+        .header-user-name {
+            font-size: 12px;
+            color: var(--text-primary);
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .header-disconnect {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 2px;
+            font-size: 10px;
+        }
+        
+        .header-disconnect:hover {
+            color: var(--text-primary);
+        }
+        
         .menu-btn {
             background: none;
             border: none;
@@ -825,6 +900,24 @@
             <div class="header-top">
                 <button class="menu-btn" id="leftDrawerToggle">☰</button>
                 <div class="logo">AIHub</div>
+                
+                <!-- Header Authentication -->
+                <div class="header-auth">
+                    <div id="headerAuthButtons" class="header-auth-buttons">
+                        <button class="header-auth-btn primary" id="headerGoogleAuth">
+                            🔐 Sign in
+                        </button>
+                        <button class="header-auth-btn" id="headerApiKeys">
+                            🔑 API Keys
+                        </button>
+                    </div>
+                    <div id="headerUserInfo" class="header-user-info hidden">
+                        <div class="header-user-avatar">🤖</div>
+                        <div class="header-user-name">Connected</div>
+                        <button class="header-disconnect" id="headerDisconnect">×</button>
+                    </div>
+                </div>
+                
                 <div class="status-indicator"></div>
                 <button class="menu-btn" id="rightDrawerToggle">⚙</button>
             </div>
@@ -1297,24 +1390,23 @@
             
             setAuthenticatedState(authenticated) {
                 this.isAuthenticated = authenticated;
-                const authBtn = document.getElementById('googleAuthBtn');
-                const authStatus = document.getElementById('authStatus');
+                const headerButtons = document.getElementById('headerAuthButtons');
+                const headerUserInfo = document.getElementById('headerUserInfo');
                 
                 if (authenticated && this.userInfo) {
-                    authBtn.style.display = 'none';
-                    authStatus.classList.remove('hidden');
+                    headerButtons.style.display = 'none';
+                    headerUserInfo.classList.remove('hidden');
                     
-                    const nameEl = authStatus.querySelector('.auth-name');
-                    const emailEl = authStatus.querySelector('.auth-email');
-                    
-                    nameEl.textContent = this.userInfo.name || 'Connected';
-                    emailEl.textContent = this.userInfo.email || 'Loading...';
+                    const nameEl = headerUserInfo.querySelector('.header-user-name');
+                    if (nameEl) {
+                        nameEl.textContent = this.userInfo.name || this.userInfo.email || 'Connected';
+                    }
                     
                     // Store authentication
                     this.storeAuth();
                 } else {
-                    authBtn.style.display = 'flex';
-                    authStatus.classList.add('hidden');
+                    headerButtons.style.display = 'flex';
+                    headerUserInfo.classList.add('hidden');
                 }
             }
             
