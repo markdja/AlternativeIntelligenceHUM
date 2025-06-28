@@ -425,7 +425,99 @@
             }
         }
         
-        /* Authentication Status */
+        /* Inline API Entry */
+        .inline-api-entry {
+            margin-top: 8px;
+            padding: 16px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--accent-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .inline-api-entry.hidden {
+            display: none;
+        }
+        
+        .inline-api-entry.show {
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                padding: 0 16px;
+            }
+            to {
+                opacity: 1;
+                max-height: 200px;
+                padding: 16px;
+            }
+        }
+        
+        .api-quick-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .api-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .api-provider-select {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .api-provider-select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+        
+        .quick-api-input {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .quick-api-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+        }
+        
+        .api-validation {
+            font-size: 12px;
+            padding: 4px 0;
+            min-height: 16px;
+        }
+        
+        .api-validation.success {
+            color: var(--accent-green);
+        }
+        
+        .api-validation.error {
+            color: #ef4444;
+        }
+        
+        .api-validation.info {
+            color: var(--text-secondary);
+        }
         .auth-status {
             margin-top: 12px;
             padding: 12px;
@@ -917,6 +1009,28 @@
                         <button class="drawer-item" id="manualApiBtn">
                             <span>🔑</span> Manual API Keys
                         </button>
+                        <div id="inlineApiEntry" class="inline-api-entry hidden">
+                            <div class="api-quick-form">
+                                <div class="api-input-group">
+                                    <select id="apiProvider" class="api-provider-select">
+                                        <option value="openai">🟢 OpenAI (ChatGPT)</option>
+                                        <option value="anthropic">🔵 Anthropic (Claude)</option>
+                                        <option value="grok">⚡ X.ai (Grok)</option>
+                                        <option value="gemini">🔶 Google (Gemini)</option>
+                                    </select>
+                                </div>
+                                <div class="api-input-group">
+                                    <input 
+                                        type="password" 
+                                        id="quickApiKey" 
+                                        class="quick-api-input" 
+                                        placeholder="Paste API key and press Enter..."
+                                        autocomplete="off"
+                                    >
+                                </div>
+                                <div class="api-validation" id="apiValidation"></div>
+                            </div>
+                        </div>
                         <div id="authStatus" class="auth-status hidden">
                             <div class="auth-indicator">
                                 <span class="auth-avatar">🤖</span>
@@ -1272,8 +1386,198 @@
             }
         }
         
-        // Initialize Authentication Manager
-        const authManager = new AIAuthManager();
+        // Inline API Key Manager
+        class InlineAPIManager {
+            constructor() {
+                this.isVisible = false;
+                this.currentProvider = 'openai';
+                this.setupEventListeners();
+            }
+            
+            show() {
+                console.log('🔑 Showing inline API entry...');
+                const button = document.getElementById('manualApiBtn');
+                const entry = document.getElementById('inlineApiEntry');
+                
+                if (button && entry) {
+                    // Hide button, show entry form
+                    button.style.display = 'none';
+                    entry.classList.remove('hidden');
+                    entry.classList.add('show');
+                    
+                    // Focus input
+                    const input = document.getElementById('quickApiKey');
+                    if (input) {
+                        setTimeout(() => input.focus(), 100);
+                    }
+                    
+                    this.isVisible = true;
+                    this.showInstructions();
+                }
+            }
+            
+            hide() {
+                console.log('🔑 Hiding inline API entry...');
+                const button = document.getElementById('manualApiBtn');
+                const entry = document.getElementById('inlineApiEntry');
+                
+                if (button && entry) {
+                    // Show button, hide entry form
+                    button.style.display = 'flex';
+                    entry.classList.add('hidden');
+                    entry.classList.remove('show');
+                    
+                    // Clear input
+                    const input = document.getElementById('quickApiKey');
+                    if (input) {
+                        input.value = '';
+                    }
+                    
+                    this.isVisible = false;
+                    this.clearValidation();
+                }
+            }
+            
+            toggle() {
+                if (this.isVisible) {
+                    this.hide();
+                } else {
+                    this.show();
+                }
+            }
+            
+            setupEventListeners() {
+                // Wait for DOM to be ready
+                document.addEventListener('DOMContentLoaded', () => {
+                    const input = document.getElementById('quickApiKey');
+                    const select = document.getElementById('apiProvider');
+                    
+                    if (input) {
+                        input.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') {
+                                this.validateAndSaveKey();
+                            }
+                        });
+                        
+                        input.addEventListener('paste', () => {
+                            setTimeout(() => this.validateKey(), 100);
+                        });
+                        
+                        input.addEventListener('input', () => {
+                            this.validateKey();
+                        });
+                    }
+                    
+                    if (select) {
+                        select.addEventListener('change', (e) => {
+                            this.currentProvider = e.target.value;
+                            this.showInstructions();
+                        });
+                    }
+                });
+            }
+            
+            validateKey() {
+                const input = document.getElementById('quickApiKey');
+                const key = input?.value?.trim();
+                
+                if (!key) {
+                    this.showValidation('', 'info');
+                    return false;
+                }
+                
+                const patterns = {
+                    openai: /^sk-[a-zA-Z0-9]{32,}$/,
+                    anthropic: /^sk-ant-[a-zA-Z0-9\-_]{95,}$/,
+                    grok: /^xai-[a-zA-Z0-9]{32,}$/,
+                    gemini: /^AI[a-zA-Z0-9]{35,}$/
+                };
+                
+                const pattern = patterns[this.currentProvider];
+                const isValid = pattern ? pattern.test(key) : key.length > 20;
+                
+                if (isValid) {
+                    this.showValidation('✅ Valid API key format', 'success');
+                    return true;
+                } else {
+                    this.showValidation('⚠️ Invalid format for ' + this.getProviderName(), 'error');
+                    return false;
+                }
+            }
+            
+            validateAndSaveKey() {
+                const input = document.getElementById('quickApiKey');
+                const key = input?.value?.trim();
+                
+                if (!key) {
+                    this.showValidation('Please paste an API key', 'error');
+                    return;
+                }
+                
+                if (this.validateKey()) {
+                    this.saveKey(key);
+                }
+            }
+            
+            saveKey(key) {
+                console.log(`💾 Saving ${this.currentProvider} API key...`);
+                
+                // Store the key (in a real app, encrypt this)
+                const keys = JSON.parse(localStorage.getItem('aihub_api_keys') || '{}');
+                keys[this.currentProvider] = key;
+                localStorage.setItem('aihub_api_keys', JSON.stringify(keys));
+                
+                // Update platform status
+                authManager.updatePlatformStatus(this.currentProvider, 'connected');
+                
+                // Show success and hide
+                this.showValidation(`🎉 ${this.getProviderName()} connected!`, 'success');
+                
+                setTimeout(() => {
+                    this.hide();
+                }, 1500);
+            }
+            
+            showInstructions() {
+                const instructions = {
+                    openai: 'Get your key from platform.openai.com → API Keys',
+                    anthropic: 'Get your key from console.anthropic.com → API Keys',
+                    grok: 'Get your key from x.ai → API Keys',
+                    gemini: 'Get your key from aistudio.google.com → API Keys'
+                };
+                
+                this.showValidation(instructions[this.currentProvider] || 'Paste your API key', 'info');
+            }
+            
+            showValidation(message, type) {
+                const validation = document.getElementById('apiValidation');
+                if (validation) {
+                    validation.textContent = message;
+                    validation.className = `api-validation ${type}`;
+                }
+            }
+            
+            clearValidation() {
+                const validation = document.getElementById('apiValidation');
+                if (validation) {
+                    validation.textContent = '';
+                    validation.className = 'api-validation';
+                }
+            }
+            
+            getProviderName() {
+                const names = {
+                    openai: 'ChatGPT',
+                    anthropic: 'Claude',
+                    grok: 'Grok',
+                    gemini: 'Gemini'
+                };
+                return names[this.currentProvider] || this.currentProvider;
+            }
+        }
+        
+        // Initialize Inline API Manager
+        const inlineAPIManager = new InlineAPIManager();
         
         // Manual API Keys Manager
         class APIKeysManager {
