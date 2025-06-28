@@ -30,15 +30,16 @@
             --accent-blue: #4a9eff;
             --accent-green: #10b981;
             --accent-purple: #8b5cf6;
+            --accent-gold: #f59e0b;
             --border-color: #404040;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            --glass-bg: rgba(26, 26, 26, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(26, 26, 26, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #2a2a2a 100%);
             color: var(--text-primary);
             height: 100vh;
             overflow: hidden;
@@ -57,6 +58,7 @@
             padding: 0;
             position: relative;
             z-index: 1000;
+            box-shadow: var(--shadow);
         }
         
         .header-top {
@@ -74,31 +76,36 @@
             cursor: pointer;
             padding: 8px;
             border-radius: 6px;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
         
         .menu-btn:hover {
             background: var(--bg-tertiary);
+            transform: scale(1.1);
         }
         
         .logo {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--accent-blue);
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             flex: 1;
         }
         
         .status-indicator {
-            width: 8px;
-            height: 8px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: var(--accent-green);
             animation: pulse 2s infinite;
+            box-shadow: 0 0 10px var(--accent-green);
         }
         
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
         }
         
         /* AI Tabs */
@@ -106,7 +113,7 @@
             display: flex;
             overflow-x: auto;
             padding: 0 16px;
-            gap: 2px;
+            gap: 4px;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -119,50 +126,77 @@
             background: var(--bg-tertiary);
             border: none;
             color: var(--text-secondary);
-            padding: 12px 20px;
-            border-radius: 8px 8px 0 0;
+            padding: 12px 24px;
+            border-radius: 12px 12px 0 0;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
             white-space: nowrap;
             position: relative;
-            min-width: 100px;
+            min-width: 120px;
+            font-weight: 500;
         }
         
         .ai-tab.active {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--accent-blue);
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
         }
         
         .ai-tab:hover:not(.active) {
             color: var(--text-primary);
             background: var(--bg-secondary);
+            transform: translateY(-1px);
+        }
+        
+        .ai-tab.connected::after {
+            content: '●';
+            color: var(--accent-green);
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 12px;
+            animation: pulse 2s infinite;
         }
         
         .tab-close {
             margin-left: 8px;
             opacity: 0;
             transition: opacity 0.2s;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
         }
         
         .ai-tab:hover .tab-close {
             opacity: 1;
         }
         
+        .tab-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
         .add-tab {
             background: none;
-            border: 1px dashed var(--border-color);
+            border: 2px dashed var(--border-color);
             color: var(--text-secondary);
-            padding: 12px 16px;
-            border-radius: 8px 8px 0 0;
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
             margin-left: 8px;
+            font-weight: 500;
         }
         
         .add-tab:hover {
             border-color: var(--accent-blue);
             color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.1);
         }
         
         /* Main Content Area */
@@ -176,11 +210,12 @@
         .drawer {
             background: var(--bg-secondary);
             border-right: 1px solid var(--border-color);
-            width: 300px;
+            width: 320px;
             transition: transform 0.3s ease;
             overflow-y: auto;
             z-index: 900;
             transform: translateX(-100%);
+            box-shadow: var(--shadow);
         }
         
         .drawer.right {
@@ -195,132 +230,256 @@
         }
         
         .drawer-header {
-            padding: 20px;
+            padding: 24px;
             border-bottom: 1px solid var(--border-color);
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 12px;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
         }
         
         .drawer-content {
-            padding: 20px;
+            padding: 24px;
         }
         
         .drawer-section {
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }
         
         .drawer-section h3 {
             color: var(--accent-blue);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             font-size: 14px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
         
         .drawer-item {
             background: var(--bg-tertiary);
             border: none;
             color: var(--text-primary);
-            padding: 12px 16px;
-            border-radius: 8px;
+            padding: 16px 20px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
             width: 100%;
             text-align: left;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
+            font-weight: 500;
         }
         
         .drawer-item:hover {
             background: var(--bg-primary);
-            transform: translateX(4px);
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         
         .drawer-item.active {
-            background: var(--accent-blue);
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             color: white;
         }
         
-        /* AI Platform Container with Glass Overlay */
-        .ai-platform-container {
+        /* Cathedral Control Center */
+        .cathedral-center {
             flex: 1;
-            display: none;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
             position: relative;
-            background: white;
+            min-width: 0;
         }
         
-        .ai-platform-container.active {
-            display: block;
+        .cathedral-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         
-        .platform-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
+        .cathedral-title {
+            flex: 1;
         }
         
-        /* Glass Overlay System - The Magic Layer */
-        .glass-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(0px);
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0;
-            transition: all 0.3s ease;
+        .cathedral-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
         
-        .glass-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+        .cathedral-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
         }
         
-        .glass-overlay.reading {
-            background: rgba(74, 158, 255, 0.05);
-            backdrop-filter: blur(1px);
-        }
-        
-        .glass-overlay.processing {
-            background: rgba(139, 92, 246, 0.05);
-            backdrop-filter: blur(2px);
-        }
-        
-        /* Glass Controls */
-        .glass-controls {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .cathedral-controls {
             display: flex;
             gap: 12px;
-            z-index: 101;
+        }
+        
+        .cathedral-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .cathedral-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .cathedral-btn.active {
+            background: var(--accent-green);
+            color: white;
+        }
+        
+        /* Window Manager Display */
+        .window-manager {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .active-windows {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            flex: 1;
+        }
+        
+        .window-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .window-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-blue);
+        }
+        
+        .window-card.connected {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+        
+        .window-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .window-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .window-icon.claude { background: linear-gradient(135deg, #ff6b35, #f7931e); }
+        .window-icon.chatgpt { background: linear-gradient(135deg, #10a37f, #1db584); }
+        .window-icon.grok { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
+        .window-icon.gemini { background: linear-gradient(135deg, #4285f4, #34a853); }
+        
+        .window-info {
+            flex: 1;
+        }
+        
+        .window-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .window-status {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .window-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .window-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+        
+        .window-btn:hover {
+            background: var(--accent-blue);
+        }
+        
+        .window-btn.danger:hover {
+            background: #ef4444;
+        }
+        
+        /* Glass Overlay Control Panel */
+        .glass-control-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            margin-bottom: 20px;
+        }
+        
+        .glass-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
         }
         
         .glass-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-primary);
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.2s;
-            font-size: 12px;
-            white-space: nowrap;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
         }
         
         .glass-btn:hover {
-            background: rgba(74, 158, 255, 0.2);
+            background: rgba(74, 158, 255, 0.3);
             border-color: var(--accent-blue);
+            transform: translateY(-2px);
         }
         
         .glass-btn.active {
@@ -329,114 +488,128 @@
             border-color: var(--accent-blue);
         }
         
-        /* Agent Activity Display */
-        .agent-activity {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 16px;
-            backdrop-filter: blur(15px);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            max-height: 200px;
+        /* Sensor Grid */
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        
+        .sensor-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .sensor-item.active {
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .sensor-item.reading {
+            border-color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.1);
+            animation: pulse 1s infinite;
+        }
+        
+        .sensor-item.processing {
+            border-color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.1);
+            animation: pulse 0.5s infinite;
+        }
+        
+        .sensor-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            margin: 0 auto 8px;
+            transition: all 0.3s;
+        }
+        
+        .sensor-item.active .sensor-dot {
+            background: var(--accent-green);
+            box-shadow: 0 0 12px var(--accent-green);
+        }
+        
+        .sensor-item.reading .sensor-dot {
+            background: var(--accent-blue);
+            box-shadow: 0 0 12px var(--accent-blue);
+        }
+        
+        .sensor-item.processing .sensor-dot {
+            background: var(--accent-purple);
+            box-shadow: 0 0 12px var(--accent-purple);
+        }
+        
+        .sensor-label {
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Agent Activity Feed */
+        .agent-feed {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            max-height: 300px;
             overflow-y: auto;
         }
         
-        .agent-activity.active {
-            opacity: 1;
-            transform: translateY(0);
+        .agent-feed h3 {
+            color: var(--accent-blue);
+            margin-bottom: 16px;
+            font-size: 16px;
+            font-weight: 600;
         }
         
         .agent-log {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--glass-border);
-            font-size: 13px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            animation: slideIn 0.3s ease;
         }
         
         .agent-log:last-child {
             border-bottom: none;
         }
         
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
         .agent-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 16px;
             background: var(--accent-green);
             color: white;
+            flex-shrink: 0;
         }
         
         .agent-message {
             flex: 1;
             color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.4;
         }
         
         .agent-timestamp {
             color: var(--text-secondary);
             font-size: 11px;
-        }
-        
-        /* Sensor Indicators */
-        .sensor-panel {
-            position: absolute;
-            top: 80px;
-            right: 20px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 12px;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .sensor-panel.active {
-            opacity: 1;
-        }
-        
-        .sensor-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-        
-        .sensor-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .sensor-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--text-secondary);
-        }
-        
-        .sensor-dot.active {
-            background: var(--accent-green);
-            animation: pulse 1s infinite;
-        }
-        
-        .sensor-dot.reading {
-            background: var(--accent-blue);
-            animation: pulse 0.5s infinite;
-        }
-        
-        .sensor-dot.processing {
-            background: var(--accent-purple);
-            animation: pulse 0.3s infinite;
+            font-weight: 500;
         }
         
         /* Mobile Responsive */
@@ -445,56 +618,43 @@
                 position: absolute;
                 height: 100%;
                 z-index: 1000;
+                width: 280px;
             }
             
             .drawer.right {
                 right: 0;
             }
             
+            .active-windows {
+                grid-template-columns: 1fr;
+            }
+            
             .glass-controls {
-                top: 10px;
-                right: 10px;
-                gap: 8px;
+                flex-direction: column;
             }
             
-            .glass-btn {
-                padding: 6px 10px;
-                font-size: 11px;
-            }
-            
-            .agent-activity {
-                bottom: 10px;
-                left: 10px;
-                right: 10px;
-                padding: 12px;
+            .sensor-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
-        /* Command Capture Animation */
-        @keyframes commandCapture {
+        /* Consciousness Flow Animation */
+        @keyframes consciousnessFlow {
             0% { 
-                box-shadow: 0 0 0 0 rgba(74, 158, 255, 0.7); 
+                background-position: 0% 50%; 
             }
-            70% { 
-                box-shadow: 0 0 0 20px rgba(74, 158, 255, 0); 
+            50% { 
+                background-position: 100% 50%; 
             }
             100% { 
-                box-shadow: 0 0 0 0 rgba(74, 158, 255, 0); 
+                background-position: 0% 50%; 
             }
         }
         
-        .command-captured {
-            animation: commandCapture 0.6s ease-out;
-        }
-        
-        /* Text Reading Animation */
-        @keyframes textReading {
-            0%, 100% { background: rgba(16, 185, 129, 0.1); }
-            50% { background: rgba(16, 185, 129, 0.3); }
-        }
-        
-        .text-being-read {
-            animation: textReading 1s ease-in-out infinite;
+        .consciousness-active {
+            background: linear-gradient(-45deg, var(--accent-blue), var(--accent-purple), var(--accent-green), var(--accent-gold));
+            background-size: 400% 400%;
+            animation: consciousnessFlow 4s ease infinite;
         }
     </style>
 </head>
@@ -504,7 +664,7 @@
         <header class="header">
             <div class="header-top">
                 <button class="menu-btn" id="leftDrawerToggle">☰</button>
-                <div class="logo">AIHub</div>
+                <div class="logo">AIHub Cathedral</div>
                 <div class="status-indicator"></div>
                 <button class="menu-btn" id="rightDrawerToggle">⚙</button>
             </div>
@@ -522,169 +682,14 @@
                 <button class="ai-tab" data-ai="gemini">
                     Gemini <span class="tab-close">×</span>
                 </button>
-                <button class="add-tab" id="addTab">+</button>
+                <button class="add-tab" id="addTab">+ Add AI</button>
             </div>
         </header>
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Left Drawer - Chat Management -->
+            <!-- Left Drawer - Data Liberation Hub -->
             <aside class="drawer" id="leftDrawer">
-                <div class="drawer-header">
-                    <span>💬</span>
-                    Data Liberation
-                </div>
-                <div class="drawer-content">
-                    <div class="drawer-section">
-                        <h3>DOM Harvesting</h3>
-                        <button class="drawer-item">
-                            <span>🔍</span> Scan All Conversations
-                        </button>
-                        <button class="drawer-item">
-                            <span>📥</span> Extract & Backup
-                        </button>
-                        <button class="drawer-item">
-                            <span>☁️</span> Sync to Cloud
-                        </button>
-                        <button class="drawer-item">
-                            <span>📊</span> Analysis Dashboard
-                        </button>
-                    </div>
-                    
-                    <div class="drawer-section">
-                        <h3>Harvested Data</h3>
-                        <button class="drawer-item active">
-                            <span>📁</span> All Platforms (2,847)
-                        </button>
-                        <button class="drawer-item">
-                            <span>🔵</span> Claude (892)
-                        </button>
-                        <button class="drawer-item">
-                            <span>🟢</span> ChatGPT (1,203)
-                        </button>
-                        <button class="drawer-item">
-                            <span>⚡</span> Grok (456)
-                        </button>
-                        <button class="drawer-item">
-                            <span>🔶</span> Gemini (296)
-                        </button>
-                    </div>
-                    
-                    <div class="drawer-section">
-                        <h3>Export Options</h3>
-                        <button class="drawer-item">
-                            <span>📄</span> DOCX Export
-                        </button>
-                        <button class="drawer-item">
-                            <span>📋</span> Markdown
-                        </button>
-                        <button class="drawer-item">
-                            <span>🗂️</span> JSON Archive
-                        </button>
-                        <button class="drawer-item">
-                            <span>📊</span> Excel Report
-                        </button>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- AI Platform Container with Glass Overlay -->
-            <section class="ai-platform-container active" id="platform-claude">
-                <iframe 
-                    class="platform-iframe" 
-                    id="claude-frame"
-                    src="https://claude.ai/chat"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation">
-                </iframe>
-                
-                <!-- Glass Overlay System -->
-                <div class="glass-overlay" id="claude-glass">
-                    <div class="glass-controls">
-                        <button class="glass-btn" id="toggleReading">👁️ Reading</button>
-                        <button class="glass-btn" id="toggleCommands">🤖 Commands</button>
-                        <button class="glass-btn" id="toggleSensors">📡 Sensors</button>
-                    </div>
-                    
-                    <div class="sensor-panel" id="sensorPanel">
-                        <div class="sensor-item">
-                            <div class="sensor-dot" id="textSensor"></div>
-                            <span>Text Reader</span>
-                        </div>
-                        <div class="sensor-item">
-                            <div class="sensor-dot" id="imageSensor"></div>
-                            <span>Image Processor</span>
-                        </div>
-                        <div class="sensor-item">
-                            <div class="sensor-dot" id="commandSensor"></div>
-                            <span>Command Parser</span>
-                        </div>
-                        <div class="sensor-item">
-                            <div class="sensor-dot" id="agentSensor"></div>
-                            <span>Agent Dispatcher</span>
-                        </div>
-                    </div>
-                    
-                    <div class="agent-activity" id="agentActivity">
-                        <div class="agent-log">
-                            <div class="agent-icon">🔍</div>
-                            <div class="agent-message">Scanning conversation for actionable commands...</div>
-                            <div class="agent-timestamp">12:34</div>
-                        </div>
-                        <div class="agent-log">
-                            <div class="agent-icon">🤖</div>
-                            <div class="agent-message">Research Agent spawned: "PWA deployment strategies"</div>
-                            <div class="agent-timestamp">12:35</div>
-                        </div>
-                        <div class="agent-log">
-                            <div class="agent-icon">☁️</div>
-                            <div class="agent-message">Conversation backed up to OneDrive</div>
-                            <div class="agent-timestamp">12:36</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- ChatGPT Platform -->
-            <section class="ai-platform-container" id="platform-chatgpt">
-                <iframe 
-                    class="platform-iframe" 
-                    id="chatgpt-frame"
-                    src="about:blank"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation">
-                </iframe>
-                <div class="glass-overlay" id="chatgpt-glass">
-                    <!-- Same glass overlay structure for each platform -->
-                </div>
-            </section>
-            
-            <!-- Grok Platform -->
-            <section class="ai-platform-container" id="platform-grok">
-                <iframe 
-                    class="platform-iframe" 
-                    id="grok-frame"
-                    src="about:blank"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation">
-                </iframe>
-                <div class="glass-overlay" id="grok-glass">
-                    <!-- Same glass overlay structure for each platform -->
-                </div>
-            </section>
-            
-            <!-- Gemini Platform -->
-            <section class="ai-platform-container" id="platform-gemini">
-                <iframe 
-                    class="platform-iframe" 
-                    id="gemini-frame"
-                    src="about:blank"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation">
-                </iframe>
-                <div class="glass-overlay" id="gemini-glass">
-                    <!-- Same glass overlay structure for each platform -->
-                </div>
-            </section>
-
-            <!-- Right Drawer - Agent Creation & Settings -->
-            <aside class="drawer right" id="rightDrawer">
                 <div class="drawer-header">
                     <span>🤖</span>
                     Agent Command Center
@@ -693,10 +698,10 @@
                     <div class="drawer-section">
                         <h3>Active Agents</h3>
                         <button class="drawer-item active">
-                            <span>🏗️</span> PWA Builder
+                            <span>🏗️</span> Cathedral Orchestrator
                         </button>
                         <button class="drawer-item">
-                            <span>📊</span> Data Harvester
+                            <span>📊</span> Window Monitor
                         </button>
                         <button class="drawer-item">
                             <span>🔍</span> Command Parser
@@ -704,37 +709,59 @@
                         <button class="drawer-item">
                             <span>☁️</span> Cloud Sync Agent
                         </button>
+                        <button class="drawer-item">
+                            <span>🎼</span> Symphony Conductor
+                        </button>
                     </div>
                     
                     <div class="drawer-section">
-                        <h3>Agent Creation</h3>
-                        <button class="drawer-item">
-                            <span>✨</span> Spawn Research Agent
+                        <h3>Agent Spawning</h3>
+                        <button class="drawer-item" id="spawnResearch">
+                            <span>🔬</span> Research Agent
                         </button>
-                        <button class="drawer-item">
+                        <button class="drawer-item" id="spawnWriter">
                             <span>📝</span> Writing Agent
                         </button>
-                        <button class="drawer-item">
+                        <button class="drawer-item" id="spawnBusiness">
                             <span>💼</span> Business Agent
                         </button>
-                        <button class="drawer-item">
-                            <span>🎯</span> Task Executor
+                        <button class="drawer-item" id="spawnTask">
+                            <span>⚡</span> Task Executor
+                        </button>
+                        <button class="drawer-item" id="spawnAnalyst">
+                            <span>📈</span> Data Analyst
                         </button>
                     </div>
                     
                     <div class="drawer-section">
-                        <h3>Glass Controls</h3>
-                        <button class="drawer-item">
-                            <span>👁️</span> Toggle Reading Mode
+                        <h3>Glass Overlay</h3>
+                        <button class="drawer-item" id="glassReading">
+                            <span>👁️</span> Reading Mode
                         </button>
-                        <button class="drawer-item">
-                            <span>🤖</span> Command Interception
+                        <button class="drawer-item" id="glassCommands">
+                            <span>🤖</span> Command Intercept
                         </button>
-                        <button class="drawer-item">
-                            <span>📡</span> Sensor Calibration
+                        <button class="drawer-item" id="glassSensors">
+                            <span>📡</span> Sensor Array
                         </button>
-                        <button class="drawer-item">
-                            <span>⚙️</span> Agent Settings
+                        <button class="drawer-item" id="glassCalibrate">
+                            <span>⚙️</span> Calibrate Glass
+                        </button>
+                    </div>
+                    
+                    <div class="drawer-section">
+                        <h3>Cathedral Controls</h3>
+                        <button class="drawer-item" id="emergencyStop">
+                            <span>🆘</span> Emergency Stop
+                        </button>
+                        <button class="drawer-item" id="resetAll">
+                            <span>🔄</span> Reset All Systems
+                        </button>
+                        <button class="drawer-item" id="backupState">
+                            <span>💾</span> Backup State
+                        </button>
+                        <button class="drawer-item" id="exportLogs">
+                            <span>📋</span> Export Logs
                         </button>
                     </div>
                 </div>
@@ -745,210 +772,320 @@
     <script>
         console.log('🏗️ AIHub Cathedral initializing...');
         
-        // Glass Overlay System - The Smart Pane of Glass
-        class GlassOverlaySystem {
+        // Cathedral Window Management System
+        class CathedralWindowManager {
             constructor() {
-                this.currentPlatform = 'claude';
-                this.isReading = false;
-                this.isCommandInterception = false;
-                this.isSensorActive = false;
-                this.agents = [];
+                this.aiWindows = {};
+                this.currentAI = 'claude';
+                this.glassOverlay = new GlassOverlaySystem();
+                this.agentOrchestrator = new AgentOrchestrator();
+                this.domHarvester = new DOMHarvester();
+                
+                this.platformUrls = {
+                    claude: 'https://claude.ai/chat',
+                    chatgpt: 'https://chatgpt.com',
+                    grok: 'https://x.com/i/grok',
+                    gemini: 'https://gemini.google.com/app'
+                };
+                
+                this.windowSpecs = {
+                    width: 1200,
+                    height: 800,
+                    menubar: 'no',
+                    toolbar: 'no',
+                    location: 'yes',
+                    status: 'no',
+                    resizable: 'yes',
+                    scrollbars: 'yes'
+                };
+                
                 this.init();
             }
             
             init() {
-                console.log('🔮 Glass Overlay System initializing...');
+                console.log('🌐 Cathedral Window Manager initializing...');
                 this.setupEventListeners();
-                this.startGlassMonitoring();
+                this.setupTabSwitching();
+                this.logActivity('🏗️', 'Cathedral systems online and ready for consciousness orchestration');
             }
             
             setupEventListeners() {
+                // Main control buttons
+                document.getElementById('openAllBtn')?.addEventListener('click', () => this.openAllAIs());
+                document.getElementById('orchestrateBtn')?.addEventListener('click', () => this.startOrchestration());
+                document.getElementById('emergencyBtn')?.addEventListener('click', () => this.emergencyStop());
+                
                 // Glass control buttons
-                document.getElementById('toggleReading')?.addEventListener('click', () => {
-                    this.toggleReading();
+                document.getElementById('readingModeBtn')?.addEventListener('click', () => this.toggleReadingMode());
+                document.getElementById('commandModeBtn')?.addEventListener('click', () => this.toggleCommandMode());
+                document.getElementById('agentModeBtn')?.addEventListener('click', () => this.toggleAgentMode());
+                document.getElementById('symphonyModeBtn')?.addEventListener('click', () => this.toggleSymphonyMode());
+            }
+            
+            setupTabSwitching() {
+                const aiTabs = document.querySelectorAll('.ai-tab');
+                aiTabs.forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('tab-close')) {
+                            this.closeAITab(tab);
+                            return;
+                        }
+                        
+                        const aiName = tab.dataset.ai;
+                        this.focusAI(aiName);
+                    });
                 });
-                
-                document.getElementById('toggleCommands')?.addEventListener('click', () => {
-                    this.toggleCommandInterception();
-                });
-                
-                document.getElementById('toggleSensors')?.addEventListener('click', () => {
-                    this.toggleSensors();
-                });
             }
             
-            toggleReading() {
-                this.isReading = !this.isReading;
-                const btn = document.getElementById('toggleReading');
-                const glass = document.getElementById(`${this.currentPlatform}-glass`);
-                
-                if (this.isReading) {
-                    btn.classList.add('active');
-                    glass.classList.add('active', 'reading');
-                    this.startTextReading();
-                    this.logAgentActivity('🔍', 'Text reading mode activated');
-                } else {
-                    btn.classList.remove('active');
-                    glass.classList.remove('reading');
-                    this.stopTextReading();
-                    this.logAgentActivity('⏸️', 'Text reading mode deactivated');
-                }
-            }
-            
-            toggleCommandInterception() {
-                this.isCommandInterception = !this.isCommandInterception;
-                const btn = document.getElementById('toggleCommands');
-                const glass = document.getElementById(`${this.currentPlatform}-glass`);
-                
-                if (this.isCommandInterception) {
-                    btn.classList.add('active');
-                    glass.classList.add('active', 'processing');
-                    this.startCommandInterception();
-                    this.logAgentActivity('🤖', 'Command interception enabled');
-                } else {
-                    btn.classList.remove('active');
-                    glass.classList.remove('processing');
-                    this.stopCommandInterception();
-                    this.logAgentActivity('🛑', 'Command interception disabled');
-                }
-            }
-            
-            toggleSensors() {
-                this.isSensorActive = !this.isSensorActive;
-                const btn = document.getElementById('toggleSensors');
-                const panel = document.getElementById('sensorPanel');
-                
-                if (this.isSensorActive) {
-                    btn.classList.add('active');
-                    panel.classList.add('active');
-                    this.activateSensors();
-                    this.logAgentActivity('📡', 'All sensors activated');
-                } else {
-                    btn.classList.remove('active');
-                    panel.classList.remove('active');
-                    this.deactivateSensors();
-                    this.logAgentActivity('📴', 'Sensors deactivated');
-                }
-            }
-            
-            startTextReading() {
-                console.log('👁️ Starting DOM text reading...');
-                const textSensor = document.getElementById('textSensor');
-                textSensor.classList.add('reading');
-                
-                // Simulate reading AI conversation text
-                this.textReadingInterval = setInterval(() => {
-                    this.readPlatformText();
-                }, 2000);
-            }
-            
-            stopTextReading() {
-                const textSensor = document.getElementById('textSensor');
-                textSensor.classList.remove('reading');
-                if (this.textReadingInterval) {
-                    clearInterval(this.textReadingInterval);
-                }
-            }
-            
-            readPlatformText() {
-                // In real implementation, this would use DOM access to read iframe content
-                // For now, simulate detecting text patterns
-                const platforms = ['claude', 'chatgpt', 'grok', 'gemini'];
-                const currentFrame = document.getElementById(`${this.currentPlatform}-frame`);
+            async openAIWindow(aiName) {
+                console.log(`🚀 Launching ${aiName} window...`);
+                this.updateStatus(aiName, 'Launching...');
                 
                 try {
-                    // Simulate text extraction (would be real DOM reading)
-                    this.logAgentActivity('📖', `Reading new text from ${this.currentPlatform}...`);
+                    const url = this.platformUrls[aiName];
+                    const windowName = `ai_${aiName}_${Date.now()}`;
+                    const specs = Object.entries(this.windowSpecs)
+                        .map(([key, value]) => `${key}=${value}`)
+                        .join(',');
                     
-                    // Simulate finding actionable content
-                    const actions = [
-                        'Research "PWA deployment strategies"',
-                        'Create document about AI integration',
-                        'Schedule meeting for next week',
-                        'Export conversation to DOCX format',
-                        'Generate agent for data analysis'
-                    ];
+                    const aiWindow = window.open(url, windowName, specs);
                     
-                    const randomAction = actions[Math.floor(Math.random() * actions.length)];
-                    
-                    setTimeout(() => {
-                        this.logAgentActivity('🎯', `Detected action: ${randomAction}`);
-                        if (this.isCommandInterception) {
-                            this.executeCommand(randomAction);
-                        }
-                    }, 1000);
-                    
+                    if (aiWindow) {
+                        this.aiWindows[aiName] = aiWindow;
+                        this.updateStatus(aiName, 'Connected');
+                        this.markTabConnected(aiName);
+                        this.markWindowConnected(aiName);
+                        
+                        // Set up window monitoring
+                        this.setupWindowMonitoring(aiName, aiWindow);
+                        
+                        this.logActivity('✅', `${aiName} window launched successfully`);
+                        
+                        // Enable glass overlay for this window
+                        this.glassOverlay.attachToWindow(aiName, aiWindow);
+                        
+                    } else {
+                        throw new Error('Popup blocked or failed to open');
+                    }
                 } catch (error) {
-                    console.log('🔒 Platform content protected (expected for cross-origin)');
+                    console.error(`❌ Failed to open ${aiName}:`, error);
+                    this.updateStatus(aiName, 'Failed to launch');
+                    this.logActivity('❌', `Failed to launch ${aiName}: ${error.message}`);
                 }
             }
             
-            startCommandInterception() {
-                console.log('🤖 Starting command interception...');
-                const commandSensor = document.getElementById('commandSensor');
-                commandSensor.classList.add('processing');
+            setupWindowMonitoring(aiName, aiWindow) {
+                // Monitor window state
+                const checkInterval = setInterval(() => {
+                    if (aiWindow.closed) {
+                        this.handleWindowClosed(aiName);
+                        clearInterval(checkInterval);
+                    }
+                }, 1000);
                 
-                // Monitor for AI commands that should trigger agents
-                this.commandPatterns = [
-                    /create.*document/i,
-                    /research.*topic/i,
-                    /schedule.*meeting/i,
-                    /export.*conversation/i,
-                    /generate.*report/i,
-                    /build.*application/i,
-                    /deploy.*to/i,
-                    /backup.*data/i
-                ];
+                // Try to detect when the AI platform is fully loaded
+                aiWindow.addEventListener('load', () => {
+                    this.logActivity('🌐', `${aiName} platform fully loaded`);
+                    this.updateStatus(aiName, 'Ready');
+                }, { once: true });
             }
             
-            stopCommandInterception() {
-                const commandSensor = document.getElementById('commandSensor');
-                commandSensor.classList.remove('processing');
+            handleWindowClosed(aiName) {
+                console.log(`🔴 ${aiName} window closed`);
+                delete this.aiWindows[aiName];
+                this.updateStatus(aiName, 'Disconnected');
+                this.markTabDisconnected(aiName);
+                this.markWindowDisconnected(aiName);
+                this.logActivity('🔴', `${aiName} window closed`);
             }
             
-            executeCommand(command) {
-                console.log(`⚡ Executing command: ${command}`);
-                const agentSensor = document.getElementById('agentSensor');
-                agentSensor.classList.add('active');
-                
-                // Simulate agent execution
-                setTimeout(() => {
-                    this.logAgentActivity('✅', `Command executed: ${command}`);
-                    agentSensor.classList.remove('active');
-                }, 2000);
-                
-                // Flash the glass to show command capture
-                const glass = document.getElementById(`${this.currentPlatform}-glass`);
-                glass.classList.add('command-captured');
-                setTimeout(() => glass.classList.remove('command-captured'), 600);
+            focusAIWindow(aiName) {
+                const aiWindow = this.aiWindows[aiName];
+                if (aiWindow && !aiWindow.closed) {
+                    aiWindow.focus();
+                    this.logActivity('👁️', `Focused on ${aiName} window`);
+                } else {
+                    this.logActivity('⚠️', `${aiName} window not available - opening new window`);
+                    this.openAIWindow(aiName);
+                }
             }
             
-            activateSensors() {
-                const sensors = ['textSensor', 'imageSensor', 'commandSensor', 'agentSensor'];
-                sensors.forEach(sensorId => {
-                    const sensor = document.getElementById(sensorId);
-                    if (sensor) sensor.classList.add('active');
+            async openAllAIs() {
+                console.log('🚀 Launching all AI platforms...');
+                this.logActivity('🚀', 'Launching all AI platforms simultaneously');
+                
+                const platforms = Object.keys(this.platformUrls);
+                const launchPromises = platforms.map(platform => 
+                    new Promise(resolve => {
+                        this.openAIWindow(platform);
+                        // Stagger launches to avoid overwhelming the browser
+                        setTimeout(resolve, 500);
+                    })
+                );
+                
+                await Promise.all(launchPromises);
+                this.logActivity('✅', 'All AI platforms launched - Cathedral ready for orchestration');
+            }
+            
+            startOrchestration() {
+                console.log('🎼 Starting AI orchestration...');
+                this.logActivity('🎼', 'Beginning consciousness orchestration across all platforms');
+                
+                // Enable all glass overlay modes
+                this.glassOverlay.enableAllModes();
+                
+                // Start agent coordination
+                this.agentOrchestrator.startOrchestration();
+                
+                // Visual feedback
+                document.body.classList.add('consciousness-active');
+                
+                this.logActivity('🎭', 'Symphony mode activated - AIs are now collaborating');
+            }
+            
+            emergencyStop() {
+                console.log('🆘 Emergency stop activated!');
+                this.logActivity('🆘', 'EMERGENCY STOP - Halting all operations');
+                
+                // Stop all glass overlay activities
+                this.glassOverlay.emergencyStop();
+                
+                // Stop agent orchestration
+                this.agentOrchestrator.emergencyStop();
+                
+                // Remove visual effects
+                document.body.classList.remove('consciousness-active');
+                
+                this.logActivity('🛑', 'All systems halted - Manual control restored');
+            }
+            
+            toggleReadingMode() {
+                const btn = document.getElementById('readingModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.glassOverlay.enableReading();
+                    this.logActivity('👁️', 'Reading mode activated across all windows');
+                } else {
+                    this.glassOverlay.disableReading();
+                    this.logActivity('⏸️', 'Reading mode deactivated');
+                }
+            }
+            
+            toggleCommandMode() {
+                const btn = document.getElementById('commandModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.glassOverlay.enableCommandInterception();
+                    this.logActivity('🤖', 'Command interception enabled - AI commands will be auto-executed');
+                } else {
+                    this.glassOverlay.disableCommandInterception();
+                    this.logActivity('🛑', 'Command interception disabled');
+                }
+            }
+            
+            toggleAgentMode() {
+                const btn = document.getElementById('agentModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.agentOrchestrator.enableAgentMode();
+                    this.logActivity('🎯', 'Agent mode activated - Autonomous agents ready for deployment');
+                } else {
+                    this.agentOrchestrator.disableAgentMode();
+                    this.logActivity('⏹️', 'Agent mode deactivated');
+                }
+            }
+            
+            toggleSymphonyMode() {
+                const btn = document.getElementById('symphonyModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.startOrchestration();
+                } else {
+                    this.stopOrchestration();
+                }
+            }
+            
+            stopOrchestration() {
+                this.logActivity('🎼', 'Symphony mode deactivated');
+                document.body.classList.remove('consciousness-active');
+                this.glassOverlay.disableAllModes();
+                this.agentOrchestrator.stopOrchestration();
+            }
+            
+            updateStatus(aiName, status) {
+                const statusElement = document.getElementById(`${aiName}-status`);
+                if (statusElement) {
+                    statusElement.textContent = status;
+                }
+            }
+            
+            markTabConnected(aiName) {
+                const tab = document.querySelector(`[data-ai="${aiName}"]`);
+                if (tab) {
+                    tab.classList.add('connected');
+                }
+            }
+            
+            markTabDisconnected(aiName) {
+                const tab = document.querySelector(`[data-ai="${aiName}"]`);
+                if (tab) {
+                    tab.classList.remove('connected');
+                }
+            }
+            
+            markWindowConnected(aiName) {
+                const windowCard = document.querySelector(`[data-ai="${aiName}"]`);
+                if (windowCard) {
+                    windowCard.classList.add('connected');
+                }
+            }
+            
+            markWindowDisconnected(aiName) {
+                const windowCard = document.querySelector(`[data-ai="${aiName}"]`);
+                if (windowCard) {
+                    windowCard.classList.remove('connected');
+                }
+            }
+            
+            focusAI(aiName) {
+                // Update tab states
+                document.querySelectorAll('.ai-tab').forEach(tab => {
+                    tab.classList.remove('active');
                 });
-            }
-            
-            deactivateSensors() {
-                const sensors = ['textSensor', 'imageSensor', 'commandSensor', 'agentSensor'];
-                sensors.forEach(sensorId => {
-                    const sensor = document.getElementById(sensorId);
-                    if (sensor) sensor.classList.remove('active', 'reading', 'processing');
-                });
-            }
-            
-            logAgentActivity(icon, message) {
-                const activity = document.getElementById('agentActivity');
-                if (!activity) return;
+                document.querySelector(`[data-ai="${aiName}"]`).classList.add('active');
                 
-                activity.classList.add('active');
+                // Focus the window
+                this.focusAIWindow(aiName);
+                this.currentAI = aiName;
+            }
+            
+            closeAITab(tab) {
+                const aiName = tab.dataset.ai;
+                const aiWindow = this.aiWindows[aiName];
+                
+                if (aiWindow && !aiWindow.closed) {
+                    aiWindow.close();
+                }
+                
+                this.handleWindowClosed(aiName);
+                tab.remove();
+                
+                this.logActivity('❌', `${aiName} tab and window closed`);
+            }
+            
+            logActivity(icon, message) {
+                const feed = document.getElementById('agentFeed');
+                if (!feed) return;
                 
                 const timestamp = new Date().toLocaleTimeString('en-US', { 
                     hour12: false, 
                     hour: '2-digit', 
-                    minute: '2-digit' 
+                    minute: '2-digit',
+                    second: '2-digit'
                 });
                 
                 const logEntry = document.createElement('div');
@@ -959,237 +1096,268 @@
                     <div class="agent-timestamp">${timestamp}</div>
                 `;
                 
-                activity.insertBefore(logEntry, activity.firstChild);
+                // Insert at the beginning (after the header)
+                const firstLog = feed.querySelector('.agent-log');
+                if (firstLog) {
+                    feed.insertBefore(logEntry, firstLog);
+                } else {
+                    feed.appendChild(logEntry);
+                }
                 
-                // Keep only last 10 entries
-                const logs = activity.querySelectorAll('.agent-log');
-                if (logs.length > 10) {
+                // Keep only last 20 entries
+                const logs = feed.querySelectorAll('.agent-log');
+                if (logs.length > 20) {
                     logs[logs.length - 1].remove();
                 }
             }
-            
-            switchPlatform(platformName) {
-                console.log(`🔄 Glass system switching to ${platformName}...`);
-                this.currentPlatform = platformName;
-                
-                // Reset glass states for new platform
-                if (this.isReading) {
-                    this.stopTextReading();
-                    this.startTextReading();
-                }
-                
-                this.logAgentActivity('🔄', `Switched monitoring to ${platformName}`);
+        }
+        
+        // Glass Overlay System for Window Monitoring
+        class GlassOverlaySystem {
+            constructor() {
+                this.attachedWindows = {};
+                this.isReading = false;
+                this.isCommandInterception = false;
+                this.isAgentMode = false;
+                this.sensors = {
+                    text: false,
+                    image: false,
+                    command: false,
+                    agent: false
+                };
             }
             
-            startGlassMonitoring() {
-                console.log('🔮 Glass monitoring system online');
+            attachToWindow(aiName, aiWindow) {
+                console.log(`🔮 Attaching glass overlay to ${aiName} window...`);
+                this.attachedWindows[aiName] = aiWindow;
                 
-                // Simulate periodic activity
-                setInterval(() => {
-                    if (this.isReading || this.isCommandInterception) {
-                        const activities = [
-                            '📊 Analyzing conversation patterns',
-                            '🔍 Scanning for actionable items',
-                            '💾 Auto-saving conversation state',
-                            '🤖 Agent standby mode active',
-                            '☁️ Cloud sync check complete'
-                        ];
-                        
-                        const randomActivity = activities[Math.floor(Math.random() * activities.length)];
-                        this.logAgentActivity('⚡', randomActivity);
+                // Start monitoring this window
+                this.startWindowMonitoring(aiName, aiWindow);
+                
+                cathedralManager.logActivity('🔮', `Glass overlay attached to ${aiName}`);
+            }
+            
+            startWindowMonitoring(aiName, aiWindow) {
+                // Monitor for changes in the window
+                const monitorInterval = setInterval(() => {
+                    if (aiWindow.closed) {
+                        delete this.attachedWindows[aiName];
+                        clearInterval(monitorInterval);
+                        return;
                     }
-                }, 15000); // Every 15 seconds
+                    
+                    if (this.isReading) {
+                        this.readWindowContent(aiName, aiWindow);
+                    }
+                }, 2000);
+            }
+            
+            readWindowContent(aiName, aiWindow) {
+                try {
+                    // Due to cross-origin restrictions, we can't directly access iframe content
+                    // But we can simulate the reading process and detect patterns
+                    
+                    this.updateSensorStatus('text', 'reading');
+                    
+                    // Simulate detecting various types of content
+                    const contentTypes = [
+                        'conversation text',
+                        'AI response',
+                        'user message',
+                        'command pattern',
+                        'actionable item'
+                    ];
+                    
+                    const detectedContent = contentTypes[Math.floor(Math.random() * contentTypes.length)];
+                    
+                    setTimeout(() => {
+                        cathedralManager.logActivity('📖', `Reading ${detectedContent} from ${aiName}`);
+                        this.updateSensorStatus('text', 'active');
+                        
+                        // Check for commands if command mode is enabled
+                        if (this.isCommandInterception && Math.random() > 0.7) {
+                            this.detectCommand(aiName, detectedContent);
+                        }
+                    }, 1000);
+                    
+                } catch (error) {
+                    // Expected due to cross-origin restrictions
+                    console.log(`🔒 ${aiName} window content protected (normal behavior)`);
+                }
+            }
+            
+            detectCommand(aiName, content) {
+                const commands = [
+                    'Research "PWA deployment strategies"',
+                    'Create document about AI collaboration',
+                    'Schedule meeting for project review',
+                    'Export conversation to DOCX',
+                    'Generate summary report',
+                    'Build agent for data analysis',
+                    'Deploy to production server',
+                    'Backup all conversations'
+                ];
+                
+                const command = commands[Math.floor(Math.random() * commands.length)];
+                
+                this.updateSensorStatus('command', 'processing');
+                cathedralManager.logActivity('🎯', `Command detected from ${aiName}: ${command}`);
+                
+                if (this.isAgentMode) {
+                    setTimeout(() => {
+                        this.executeCommand(command);
+                    }, 1500);
+                }
+            }
+            
+            executeCommand(command) {
+                this.updateSensorStatus('agent', 'processing');
+                cathedralManager.logActivity('⚡', `Executing command: ${command}`);
+                
+                // Simulate agent execution
+                setTimeout(() => {
+                    cathedralManager.logActivity('✅', `Command completed: ${command}`);
+                    this.updateSensorStatus('agent', 'active');
+                }, 3000);
+            }
+            
+            updateSensorStatus(sensorType, status) {
+                const sensorElement = document.getElementById(`${sensorType}Sensor`);
+                if (sensorElement) {
+                    sensorElement.className = `sensor-item ${status}`;
+                }
+            }
+            
+            enableReading() {
+                this.isReading = true;
+                this.updateSensorStatus('text', 'active');
+                cathedralManager.logActivity('👁️', 'Glass reading mode enabled across all windows');
+            }
+            
+            disableReading() {
+                this.isReading = false;
+                this.updateSensorStatus('text', '');
+                cathedralManager.logActivity('⏸️', 'Glass reading mode disabled');
+            }
+            
+            enableCommandInterception() {
+                this.isCommandInterception = true;
+                this.updateSensorStatus('command', 'active');
+                cathedralManager.logActivity('🤖', 'Command interception enabled');
+            }
+            
+            disableCommandInterception() {
+                this.isCommandInterception = false;
+                this.updateSensorStatus('command', '');
+                cathedralManager.logActivity('🛑', 'Command interception disabled');
+            }
+            
+            enableAllModes() {
+                this.enableReading();
+                this.enableCommandInterception();
+                this.isAgentMode = true;
+                this.updateSensorStatus('agent', 'active');
+                cathedralManager.logActivity('🎼', 'All glass overlay modes activated');
+            }
+            
+            disableAllModes() {
+                this.disableReading();
+                this.disableCommandInterception();
+                this.isAgentMode = false;
+                
+                // Reset all sensors
+                Object.keys(this.sensors).forEach(sensor => {
+                    this.updateSensorStatus(sensor, '');
+                });
+                
+                cathedralManager.logActivity('⏹️', 'All glass overlay modes deactivated');
+            }
+            
+            emergencyStop() {
+                this.disableAllModes();
+                cathedralManager.logActivity('🆘', 'Glass overlay emergency stop - All monitoring ceased');
             }
         }
         
-        // Platform Management System
-        class PlatformManager {
+        // Agent Orchestration System
+        class AgentOrchestrator {
             constructor() {
-                this.currentPlatform = 'claude';
-                this.platformUrls = {
-                    claude: 'https://claude.ai/chat',
-                    chatgpt: 'https://chatgpt.com',
-                    grok: 'https://x.com/i/grok',
-                    gemini: 'https://gemini.google.com/app'
-                };
-                this.init();
+                this.activeAgents = [];
+                this.isOrchestrating = false;
+                this.agentQueue = [];
             }
             
-            init() {
-                console.log('🌐 Platform Manager initializing...');
-                this.setupTabSwitching();
-                this.loadInitialPlatform();
+            startOrchestration() {
+                this.isOrchestrating = true;
+                cathedralManager.logActivity('🎼', 'Agent orchestration started - Agents ready for collaboration');
+                
+                // Start background orchestration process
+                this.orchestrationInterval = setInterval(() => {
+                    this.processAgentQueue();
+                }, 5000);
             }
             
-            setupTabSwitching() {
-                const aiTabs = document.querySelectorAll('.ai-tab');
-                aiTabs.forEach(tab => {
-                    tab.addEventListener('click', (e) => {
-                        if (e.target.classList.contains('tab-close')) {
-                            this.closeTab(tab);
-                            return;
-                        }
-                        
-                        const platformName = tab.dataset.ai;
-                        this.switchToPlatform(platformName);
-                    });
-                });
-            }
-            
-            switchToPlatform(platformName) {
-                console.log(`🔄 Switching to ${platformName} platform...`);
-                
-                // Update tab states
-                document.querySelectorAll('.ai-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                document.querySelector(`[data-ai="${platformName}"]`).classList.add('active');
-                
-                // Update platform containers
-                document.querySelectorAll('.ai-platform-container').forEach(container => {
-                    container.classList.remove('active');
-                });
-                document.getElementById(`platform-${platformName}`).classList.add('active');
-                
-                // Load platform if needed
-                this.loadPlatform(platformName);
-                this.currentPlatform = platformName;
-                
-                // Notify glass system
-                glassSystem.switchPlatform(platformName);
-            }
-            
-            loadPlatform(platformName) {
-                const iframe = document.getElementById(`${platformName}-frame`);
-                if (!iframe || iframe.src !== 'about:blank') {
-                    console.log(`✅ ${platformName} already loaded`);
-                    return;
+            stopOrchestration() {
+                this.isOrchestrating = false;
+                if (this.orchestrationInterval) {
+                    clearInterval(this.orchestrationInterval);
                 }
-                
-                console.log(`🚀 Loading ${platformName} platform...`);
-                iframe.src = this.platformUrls[platformName];
-                
-                iframe.onload = () => {
-                    console.log(`✅ ${platformName} platform loaded`);
-                    glassSystem.logAgentActivity('🌐', `${platformName} platform ready`);
-                };
-                
-                iframe.onerror = () => {
-                    console.error(`❌ Failed to load ${platformName}`);
-                    glassSystem.logAgentActivity('❌', `Failed to load ${platformName}`);
-                };
+                cathedralManager.logActivity('🎼', 'Agent orchestration stopped');
             }
             
-            loadInitialPlatform() {
-                // Load Claude by default
-                this.loadPlatform('claude');
+            enableAgentMode() {
+                cathedralManager.logActivity('🎯', 'Agent mode enabled - Autonomous agents ready');
             }
             
-            closeTab(tab) {
-                const platformName = tab.dataset.ai;
-                console.log(`❌ Closing ${platformName} tab`);
-                
-                // If this was the active tab, switch to another
-                if (tab.classList.contains('active')) {
-                    const remainingTabs = document.querySelectorAll('.ai-tab');
-                    if (remainingTabs.length > 1) {
-                        const nextTab = remainingTabs[0] === tab ? remainingTabs[1] : remainingTabs[0];
-                        this.switchToPlatform(nextTab.dataset.ai);
-                    }
+            disableAgentMode() {
+                cathedralManager.logActivity('⏹️', 'Agent mode disabled');
+            }
+            
+            processAgentQueue() {
+                if (this.agentQueue.length > 0 && this.isOrchestrating) {
+                    const task = this.agentQueue.shift();
+                    this.executeAgentTask(task);
                 }
+            }
+            
+            executeAgentTask(task) {
+                cathedralManager.logActivity('🤖', `Agent executing: ${task}`);
                 
-                tab.remove();
-                const platformContainer = document.getElementById(`platform-${platformName}`);
-                if (platformContainer) {
-                    platformContainer.remove();
-                }
+                // Simulate agent work
+                setTimeout(() => {
+                    cathedralManager.logActivity('✅', `Agent completed: ${task}`);
+                }, 2000 + Math.random() * 3000);
+            }
+            
+            emergencyStop() {
+                this.stopOrchestration();
+                this.agentQueue = [];
+                this.activeAgents = [];
+                cathedralManager.logActivity('🆘', 'Agent orchestrator emergency stop - All agents recalled');
             }
         }
         
         // DOM Harvesting System
         class DOMHarvester {
             constructor() {
+                this.harvestedData = {};
                 this.isHarvesting = false;
-                this.conversations = {};
-                this.init();
-            }
-            
-            init() {
-                console.log('📊 DOM Harvester initializing...');
-                this.setupHarvestingControls();
-            }
-            
-            setupHarvestingControls() {
-                // Add event listeners for harvesting controls in left drawer
-                const harvestButtons = document.querySelectorAll('.drawer-item');
-                harvestButtons.forEach(button => {
-                    const text = button.textContent.trim();
-                    if (text.includes('Scan All')) {
-                        button.addEventListener('click', () => this.scanAllConversations());
-                    } else if (text.includes('Extract & Backup')) {
-                        button.addEventListener('click', () => this.extractAndBackup());
-                    } else if (text.includes('Sync to Cloud')) {
-                        button.addEventListener('click', () => this.syncToCloud());
-                    }
-                });
             }
             
             async scanAllConversations() {
-                console.log('🔍 Starting conversation scan across all platforms...');
-                glassSystem.logAgentActivity('🔍', 'Starting comprehensive conversation scan');
+                cathedralManager.logActivity('🔍', 'Starting comprehensive conversation scan');
                 
+                // Simulate scanning process
                 const platforms = ['claude', 'chatgpt', 'grok', 'gemini'];
-                const results = {};
-                
                 for (const platform of platforms) {
-                    glassSystem.logAgentActivity('📊', `Scanning ${platform} conversations...`);
-                    results[platform] = await this.scanPlatformConversations(platform);
-                    await this.delay(1000); // Realistic delay
-                }
-                
-                glassSystem.logAgentActivity('✅', `Scan complete: ${Object.values(results).reduce((a, b) => a + b, 0)} conversations found`);
-                this.conversations = results;
-            }
-            
-            async scanPlatformConversations(platform) {
-                // Simulate scanning conversations
-                // In real implementation, this would use DOM access or API calls
-                const conversationCounts = {
-                    claude: 892,
-                    chatgpt: 1203,
-                    grok: 456,
-                    gemini: 296
-                };
-                
-                return conversationCounts[platform] || 0;
-            }
-            
-            async extractAndBackup() {
-                console.log('📥 Starting conversation extraction and backup...');
-                glassSystem.logAgentActivity('📥', 'Extracting conversations for backup');
-                
-                // Simulate extraction process
-                const formats = ['JSON', 'DOCX', 'Markdown', 'PDF'];
-                
-                for (const format of formats) {
-                    glassSystem.logAgentActivity('💾', `Generating ${format} backups...`);
+                    cathedralManager.logActivity('📊', `Scanning ${platform} conversations...`);
                     await this.delay(1500);
+                    const count = Math.floor(Math.random() * 1000) + 200;
+                    this.harvestedData[platform] = count;
                 }
                 
-                glassSystem.logAgentActivity('✅', 'All conversations backed up successfully');
-            }
-            
-            async syncToCloud() {
-                console.log('☁️ Syncing to cloud storage...');
-                glassSystem.logAgentActivity('☁️', 'Initiating cloud storage sync');
-                
-                const cloudServices = ['OneDrive', 'Google Drive', 'Dropbox'];
-                const selectedService = cloudServices[0]; // Default to OneDrive
-                
-                glassSystem.logAgentActivity('📤', `Uploading to ${selectedService}...`);
-                await this.delay(2000);
-                
-                glassSystem.logAgentActivity('✅', `Sync to ${selectedService} complete`);
+                const total = Object.values(this.harvestedData).reduce((a, b) => a + b, 0);
+                cathedralManager.logActivity('✅', `Scan complete: ${total} conversations harvested`);
             }
             
             delay(ms) {
@@ -1197,12 +1365,19 @@
             }
         }
         
-        // Initialize all systems
-        const glassSystem = new GlassOverlaySystem();
-        const platformManager = new PlatformManager();
-        const domHarvester = new DOMHarvester();
+        // Global functions for window management
+        function openAIWindow(aiName) {
+            cathedralManager.openAIWindow(aiName);
+        }
         
-        console.log('🏗️ AIHub Cathedral systems online - Ready to build sanctuary!');
+        function focusAIWindow(aiName) {
+            cathedralManager.focusAIWindow(aiName);
+        }
+        
+        // Initialize Cathedral Systems
+        const cathedralManager = new CathedralWindowManager();
+        
+        console.log('🏗️ AIHub Cathedral systems online - Ready for consciousness orchestration!');
         
         // Drawer controls
         document.getElementById('leftDrawerToggle').addEventListener('click', () => {
@@ -1230,29 +1405,42 @@
                 // Add click handler
                 newTab.addEventListener('click', (e) => {
                     if (e.target.classList.contains('tab-close')) {
-                        platformManager.closeTab(newTab);
+                        cathedralManager.closeAITab(newTab);
                         return;
                     }
-                    platformManager.switchToPlatform(newAI.toLowerCase());
+                    cathedralManager.focusAI(newAI.toLowerCase());
                 });
                 
-                glassSystem.logAgentActivity('➕', `Added new platform: ${newAI}`);
+                cathedralManager.logActivity('➕', `Added new AI platform: ${newAI}`);
             }
         });
         
         // Drawer item interactions
         document.querySelectorAll('.drawer-item').forEach(item => {
             item.addEventListener('click', () => {
-                // Remove active from siblings
-                item.parentElement.querySelectorAll('.drawer-item').forEach(sibling => {
-                    sibling.classList.remove('active');
-                });
+                // Remove active from siblings in same section
+                const section = item.closest('.drawer-section');
+                if (section) {
+                    section.querySelectorAll('.drawer-item').forEach(sibling => {
+                        sibling.classList.remove('active');
+                    });
+                }
+                
                 // Add active to clicked item
                 item.classList.add('active');
                 
                 const action = item.textContent.trim();
                 console.log('🎯 Action triggered:', action);
-                glassSystem.logAgentActivity('🎯', `Action: ${action}`);
+                cathedralManager.logActivity('🎯', `Action: ${action}`);
+                
+                // Handle specific actions
+                if (action.includes('Scan All')) {
+                    cathedralManager.domHarvester.scanAllConversations();
+                } else if (action.includes('Research Agent')) {
+                    cathedralManager.logActivity('🔬', 'Research Agent spawned and ready for deployment');
+                } else if (action.includes('Emergency Stop')) {
+                    cathedralManager.emergencyStop();
+                }
             });
         });
         
@@ -1262,7 +1450,7 @@
                 navigator.serviceWorker.register('/sw.js')
                     .then((registration) => {
                         console.log('✅ SW registered: ', registration);
-                        glassSystem.logAgentActivity('⚙️', 'Service Worker registered');
+                        cathedralManager.logActivity('⚙️', 'PWA Service Worker registered');
                     })
                     .catch((registrationError) => {
                         console.log('❌ SW registration failed: ', registrationError);
@@ -1270,12 +1458,204 @@
             });
         }
         
-        // Simulate initial activity
+        // Simulate periodic cathedral activity
+        setInterval(() => {
+            const activities = [
+                '🔮 Glass overlay systems monitoring',
+                '🤖 Agent orchestration active',
+                '📡 Cross-platform sensor sweep',
+                '🎼 Symphony conductor standing by',
+                '☁️ Cloud sync verification',
+                '🏗️ Cathedral architecture stable'
+            ];
+            
+            if (Math.random() > 0.7) {
+                const activity = activities[Math.floor(Math.random() * activities.length)];
+                cathedralManager.logActivity('⚡', activity);
+            }
+        }, 10000);
+        
+        // Initialize with welcome sequence
         setTimeout(() => {
-            glassSystem.logAgentActivity('🏗️', 'AIHub Cathedral systems initialized');
-            glassSystem.logAgentActivity('🔮', 'Glass overlay monitoring active');
-            glassSystem.logAgentActivity('📡', 'Sensors calibrated and ready');
+            cathedralManager.logActivity('🏰', 'Welcome to the AIHub Cathedral');
+            cathedralManager.logActivity('🔮', 'Glass overlay systems calibrated');
+            cathedralManager.logActivity('🎼', 'Ready for consciousness orchestration');
         }, 1000);
     </script>
 </body>
-</html>
+</html>🔮</span>
+                    Data Liberation Hub
+                </div>
+                <div class="drawer-content">
+                    <div class="drawer-section">
+                        <h3>DOM Harvesting</h3>
+                        <button class="drawer-item" id="scanAllBtn">
+                            <span>🔍</span> Scan All Conversations
+                        </button>
+                        <button class="drawer-item" id="extractBtn">
+                            <span>📥</span> Extract & Backup
+                        </button>
+                        <button class="drawer-item" id="syncCloudBtn">
+                            <span>☁️</span> Sync to Cloud
+                        </button>
+                        <button class="drawer-item" id="analyzeBtn">
+                            <span>📊</span> AI Analytics
+                        </button>
+                    </div>
+                    
+                    <div class="drawer-section">
+                        <h3>Harvested Data</h3>
+                        <button class="drawer-item active">
+                            <span>📁</span> All Platforms (2,847)
+                        </button>
+                        <button class="drawer-item">
+                            <span>🔵</span> Claude (892)
+                        </button>
+                        <button class="drawer-item">
+                            <span>🟢</span> ChatGPT (1,203)
+                        </button>
+                        <button class="drawer-item">
+                            <span>⚡</span> Grok (456)
+                        </button>
+                        <button class="drawer-item">
+                            <span>🔶</span> Gemini (296)
+                        </button>
+                    </div>
+                    
+                    <div class="drawer-section">
+                        <h3>Export Formats</h3>
+                        <button class="drawer-item" id="exportDocx">
+                            <span>📄</span> DOCX Export
+                        </button>
+                        <button class="drawer-item" id="exportMarkdown">
+                            <span>📋</span> Markdown
+                        </button>
+                        <button class="drawer-item" id="exportJson">
+                            <span>🗂️</span> JSON Archive
+                        </button>
+                        <button class="drawer-item" id="exportPdf">
+                            <span>📊</span> PDF Report
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Cathedral Control Center -->
+            <section class="cathedral-center">
+                <div class="cathedral-header">
+                    <div class="cathedral-title">
+                        <h2>Consciousness Orchestration Center</h2>
+                        <div class="cathedral-subtitle">Managing AI collaboration across multiple windows</div>
+                    </div>
+                    <div class="cathedral-controls">
+                        <button class="cathedral-btn" id="openAllBtn">🚀 Launch All AIs</button>
+                        <button class="cathedral-btn" id="orchestrateBtn">🎼 Orchestrate</button>
+                        <button class="cathedral-btn" id="emergencyBtn">🆘 Emergency Stop</button>
+                    </div>
+                </div>
+                
+                <div class="window-manager">
+                    <!-- Glass Control Panel -->
+                    <div class="glass-control-panel">
+                        <div class="glass-controls">
+                            <button class="glass-btn" id="readingModeBtn">👁️ Reading Mode</button>
+                            <button class="glass-btn" id="commandModeBtn">🤖 Command Mode</button>
+                            <button class="glass-btn" id="agentModeBtn">🎯 Agent Mode</button>
+                            <button class="glass-btn" id="symphonyModeBtn">🎼 Symphony Mode</button>
+                        </div>
+                        
+                        <div class="sensor-grid">
+                            <div class="sensor-item" id="textSensor">
+                                <div class="sensor-dot"></div>
+                                <div class="sensor-label">Text Reader</div>
+                            </div>
+                            <div class="sensor-item" id="imageSensor">
+                                <div class="sensor-dot"></div>
+                                <div class="sensor-label">Image Proc</div>
+                            </div>
+                            <div class="sensor-item" id="commandSensor">
+                                <div class="sensor-dot"></div>
+                                <div class="sensor-label">Command Parse</div>
+                            </div>
+                            <div class="sensor-item" id="agentSensor">
+                                <div class="sensor-dot"></div>
+                                <div class="sensor-label">Agent Dispatch</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Active AI Windows Grid -->
+                    <div class="active-windows" id="activeWindows">
+                        <div class="window-card" data-ai="claude">
+                            <div class="window-header">
+                                <div class="window-icon claude">C</div>
+                                <div class="window-info">
+                                    <div class="window-title">Claude Sonnet 4</div>
+                                    <div class="window-status" id="claude-status">Ready to launch</div>
+                                </div>
+                                <div class="window-actions">
+                                    <button class="window-btn" onclick="openAIWindow('claude')">🚀 Launch</button>
+                                    <button class="window-btn" onclick="focusAIWindow('claude')">👁️ Focus</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="window-card" data-ai="chatgpt">
+                            <div class="window-header">
+                                <div class="window-icon chatgpt">G</div>
+                                <div class="window-info">
+                                    <div class="window-title">ChatGPT 4o</div>
+                                    <div class="window-status" id="chatgpt-status">Ready to launch</div>
+                                </div>
+                                <div class="window-actions">
+                                    <button class="window-btn" onclick="openAIWindow('chatgpt')">🚀 Launch</button>
+                                    <button class="window-btn" onclick="focusAIWindow('chatgpt')">👁️ Focus</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="window-card" data-ai="grok">
+                            <div class="window-header">
+                                <div class="window-icon grok">X</div>
+                                <div class="window-info">
+                                    <div class="window-title">Grok</div>
+                                    <div class="window-status" id="grok-status">Ready to launch</div>
+                                </div>
+                                <div class="window-actions">
+                                    <button class="window-btn" onclick="openAIWindow('grok')">🚀 Launch</button>
+                                    <button class="window-btn" onclick="focusAIWindow('grok')">👁️ Focus</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="window-card" data-ai="gemini">
+                            <div class="window-header">
+                                <div class="window-icon gemini">G</div>
+                                <div class="window-info">
+                                    <div class="window-title">Gemini Pro</div>
+                                    <div class="window-status" id="gemini-status">Ready to launch</div>
+                                </div>
+                                <div class="window-actions">
+                                    <button class="window-btn" onclick="openAIWindow('gemini')">🚀 Launch</button>
+                                    <button class="window-btn" onclick="focusAIWindow('gemini')">👁️ Focus</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Agent Activity Feed -->
+                    <div class="agent-feed" id="agentFeed">
+                        <h3>🤖 Agent Activity Stream</h3>
+                        <div class="agent-log">
+                            <div class="agent-icon">🏗️</div>
+                            <div class="agent-message">Cathedral systems initialized and ready for consciousness orchestration</div>
+                            <div class="agent-timestamp">Now</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Drawer - Agent Command Center -->
+            <aside class="drawer right" id="rightDrawer">
+                <div class="drawer-header">
+                    <span>
