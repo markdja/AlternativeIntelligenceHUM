@@ -68,6 +68,85 @@
             gap: 12px;
         }
         
+        .header-auth {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            margin-right: 12px;
+        }
+        
+        .header-auth-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        .header-auth-btn:hover {
+            background: var(--accent-blue);
+        }
+        
+        .header-auth-btn.primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+        
+        .header-auth-btn.primary:hover {
+            background: #3a8bef;
+        }
+        
+        .header-user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 8px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+        }
+        
+        .header-user-info.hidden {
+            display: none;
+        }
+        
+        .header-user-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+        
+        .header-user-name {
+            font-size: 12px;
+            color: var(--text-primary);
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .header-disconnect {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 2px;
+            font-size: 10px;
+        }
+        
+        .header-disconnect:hover {
+            color: var(--text-primary);
+        }
+        
         .menu-btn {
             background: none;
             border: none;
@@ -638,7 +717,152 @@
             }
         }
         
-        /* Consciousness Flow Animation */
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+        
+        .api-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+        }
+        
+        .form-help {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--accent-blue);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #3a8bef;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+        }
         @keyframes consciousnessFlow {
             0% { 
                 background-position: 0% 50%; 
@@ -665,6 +889,24 @@
             <div class="header-top">
                 <button class="menu-btn" id="leftDrawerToggle">☰</button>
                 <div class="logo">AIHub Cathedral</div>
+                
+                <!-- Header Authentication -->
+                <div class="header-auth">
+                    <div id="headerAuthButtons" class="header-auth-buttons">
+                        <button class="header-auth-btn primary" id="headerGoogleAuth">
+                            🔐 Sign in
+                        </button>
+                        <button class="header-auth-btn" id="headerApiKeys">
+                            🔑 API Keys
+                        </button>
+                    </div>
+                    <div id="headerUserInfo" class="header-user-info hidden">
+                        <div class="header-user-avatar">🤖</div>
+                        <div class="header-user-name">Connected</div>
+                        <button class="header-disconnect" id="headerDisconnect">×</button>
+                    </div>
+                </div>
+                
                 <div class="status-indicator"></div>
                 <button class="menu-btn" id="rightDrawerToggle">⚙</button>
             </div>
@@ -769,8 +1011,283 @@
         </main>
     </div>
 
+    <!-- API Keys Modal -->
+    <div class="modal" id="apiKeysModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔑 API Keys Configuration</h3>
+                <button class="modal-close" id="closeApiModal">×</button>
+            </div>
+            <form class="api-form" id="apiKeysForm">
+                <div class="form-group">
+                    <label class="form-label">OpenAI API Key (ChatGPT)</label>
+                    <input type="password" class="form-input" id="openaiKey" placeholder="sk-...">
+                    <div class="form-help">Required for ChatGPT integration and conversation history</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Anthropic API Key (Claude)</label>
+                    <input type="password" class="form-input" id="anthropicKey" placeholder="sk-ant-...">
+                    <div class="form-help">For enhanced Claude API access (optional with OAuth)</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">X.ai API Key (Grok)</label>
+                    <input type="password" class="form-input" id="grokKey" placeholder="xai-...">
+                    <div class="form-help">Required for Grok conversation access</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Google AI Studio Key (Gemini)</label>
+                    <input type="password" class="form-input" id="geminiKey" placeholder="AI...">
+                    <div class="form-help">For enhanced Gemini access (optional with Google OAuth)</div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelApiKeys">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Keys</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         console.log('🏗️ AIHub Cathedral initializing...');
+        
+        // Google OAuth Configuration
+        const GOOGLE_CLIENT_ID = '1012411862950-4c4nf0dla6agi6j7ip844oam02b32err.apps.googleusercontent.com';
+        
+        // AI Platform Authentication Manager
+        class AIAuthManager {
+            constructor() {
+                this.isAuthenticated = false;
+                this.userInfo = null;
+                this.platformTokens = {};
+                this.init();
+            }
+            
+            init() {
+                console.log('🔐 AIAuthManager initialized - waiting for user action');
+                // Initialize Google OAuth when library loads
+                window.addEventListener('load', () => {
+                    if (window.google) {
+                        this.initGoogleAuth();
+                    }
+                });
+                
+                this.checkStoredAuth();
+            }
+            
+            initGoogleAuth() {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: this.handleGoogleAuth.bind(this),
+                    auto_select: false,
+                    cancel_on_tap_outside: false
+                });
+            }
+            
+            signInWithGoogle() {
+                console.log('🔐 Attempting Google Sign In...');
+                
+                if (!window.google) {
+                    console.log('⚠️ Google OAuth library not loaded, showing fallback');
+                    this.showFallbackAuth();
+                    return;
+                }
+                
+                try {
+                    google.accounts.oauth2.initTokenClient({
+                        client_id: GOOGLE_CLIENT_ID,
+                        scope: 'email profile openid',
+                        callback: this.handleTokenResponse.bind(this),
+                    }).requestAccessToken();
+                } catch (error) {
+                    console.error('OAuth error:', error);
+                    alert('OAuth temporarily unavailable. Please try Manual API Keys.');
+                    this.showFallbackAuth();
+                }
+            }
+            
+            handleGoogleAuth(response) {
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                this.userInfo = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture
+                };
+                
+                this.setAuthenticatedState(true);
+                cathedralManager.logActivity('🔐', `Authenticated as ${this.userInfo.name}`);
+            }
+            
+            handleTokenResponse(response) {
+                if (response.access_token) {
+                    this.platformTokens.google = response.access_token;
+                    this.getUserProfile(response.access_token);
+                }
+            }
+            
+            async getUserProfile(accessToken) {
+                try {
+                    const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
+                    this.userInfo = await response.json();
+                    this.setAuthenticatedState(true);
+                    cathedralManager.logActivity('✅', `OAuth successful for ${this.userInfo.name}`);
+                } catch (error) {
+                    console.error('Error fetching user profile:', error);
+                }
+            }
+            
+            setAuthenticatedState(authenticated) {
+                this.isAuthenticated = authenticated;
+                const headerButtons = document.getElementById('headerAuthButtons');
+                const headerUserInfo = document.getElementById('headerUserInfo');
+                
+                if (authenticated && this.userInfo) {
+                    headerButtons.style.display = 'none';
+                    headerUserInfo.classList.remove('hidden');
+                    
+                    const nameEl = headerUserInfo.querySelector('.header-user-name');
+                    if (nameEl) {
+                        nameEl.textContent = this.userInfo.name || this.userInfo.email || 'Connected';
+                    }
+                    
+                    this.storeAuth();
+                } else {
+                    headerButtons.style.display = 'flex';
+                    headerUserInfo.classList.add('hidden');
+                }
+            }
+            
+            showFallbackAuth() {
+                apiKeysManager.showModal();
+            }
+            
+            storeAuth() {
+                const authData = {
+                    isAuthenticated: this.isAuthenticated,
+                    userInfo: this.userInfo,
+                    timestamp: Date.now()
+                };
+                console.log('Auth stored:', authData);
+            }
+            
+            checkStoredAuth() {
+                console.log('🔍 Checking for stored authentication (passive check)');
+            }
+            
+            disconnect() {
+                this.isAuthenticated = false;
+                this.userInfo = null;
+                this.platformTokens = {};
+                this.setAuthenticatedState(false);
+                cathedralManager.logActivity('🔓', 'Disconnected from all platforms');
+            }
+        }
+        
+        // API Keys Manager
+        class APIKeysManager {
+            constructor() {
+                this.keys = {};
+                this.loadStoredKeys();
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                // Modal close events
+                document.getElementById('closeApiModal')?.addEventListener('click', () => {
+                    this.hideModal();
+                });
+                
+                document.getElementById('cancelApiKeys')?.addEventListener('click', () => {
+                    this.hideModal();
+                });
+                
+                // Form submission
+                document.getElementById('apiKeysForm')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveKeysFromForm();
+                });
+                
+                // Close modal when clicking outside
+                document.getElementById('apiKeysModal')?.addEventListener('click', (e) => {
+                    if (e.target.id === 'apiKeysModal') {
+                        this.hideModal();
+                    }
+                });
+            }
+            
+            showModal() {
+                console.log('🔑 Opening API Keys modal...');
+                const modal = document.getElementById('apiKeysModal');
+                if (modal) {
+                    modal.classList.add('show');
+                    cathedralManager.logActivity('🔑', 'API Keys configuration opened');
+                } else {
+                    console.error('❌ Modal element not found!');
+                }
+            }
+            
+            hideModal() {
+                const modal = document.getElementById('apiKeysModal');
+                if (modal) {
+                    modal.classList.remove('show');
+                }
+            }
+            
+            saveKeysFromForm() {
+                const keys = {
+                    openai: document.getElementById('openaiKey')?.value.trim(),
+                    anthropic: document.getElementById('anthropicKey')?.value.trim(),
+                    grok: document.getElementById('grokKey')?.value.trim(),
+                    gemini: document.getElementById('geminiKey')?.value.trim()
+                };
+                
+                // Filter out empty keys
+                const validKeys = Object.fromEntries(
+                    Object.entries(keys).filter(([key, value]) => value)
+                );
+                
+                if (Object.keys(validKeys).length > 0) {
+                    this.saveKeys(validKeys);
+                    cathedralManager.logActivity('✅', `Saved API keys for: ${Object.keys(validKeys).join(', ')}`);
+                } else {
+                    cathedralManager.logActivity('⚠️', 'No valid API keys provided');
+                }
+            }
+            
+            saveKeys(keys) {
+                this.keys = { ...this.keys, ...keys };
+                localStorage.setItem('aihub_api_keys', JSON.stringify(this.keys));
+                
+                console.log('API keys saved:', Object.keys(keys));
+                this.hideModal();
+            }
+            
+            loadStoredKeys() {
+                const stored = localStorage.getItem('aihub_api_keys');
+                if (stored) {
+                    this.keys = JSON.parse(stored);
+                    console.log('🔑 Loaded stored API keys for:', Object.keys(this.keys));
+                }
+            }
+        }
+        
+        // Auto-collapse drawers when authentication is clicked
+        function clearDecks() {
+            console.log('🧹 Clearing decks - closing all drawers');
+            const leftDrawer = document.getElementById('leftDrawer');
+            const rightDrawer = document.getElementById('rightDrawer');
+            
+            if (leftDrawer && leftDrawer.classList.contains('open')) {
+                leftDrawer.classList.remove('open');
+            }
+            if (rightDrawer && rightDrawer.classList.contains('open')) {
+                rightDrawer.classList.remove('open');
+            }
+        }
         
         // Cathedral Window Management System
         class CathedralWindowManager {
@@ -1375,6 +1892,8 @@
         }
         
         // Initialize Cathedral Systems
+        const authManager = new AIAuthManager();
+        const apiKeysManager = new APIKeysManager();
         const cathedralManager = new CathedralWindowManager();
         
         console.log('🏗️ AIHub Cathedral systems online - Ready for consciousness orchestration!');
@@ -1386,6 +1905,41 @@
         
         document.getElementById('rightDrawerToggle').addEventListener('click', () => {
             document.getElementById('rightDrawer').classList.toggle('open');
+        });
+        
+        // Header Authentication Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🏗️ Setting up header authentication events...');
+            
+            const headerGoogleAuth = document.getElementById('headerGoogleAuth');
+            const headerApiKeys = document.getElementById('headerApiKeys');
+            const headerDisconnect = document.getElementById('headerDisconnect');
+            
+            if (headerGoogleAuth) {
+                headerGoogleAuth.addEventListener('click', () => {
+                    console.log('🔐 Header Google Auth clicked');
+                    clearDecks();
+                    authManager.signInWithGoogle();
+                });
+                console.log('✅ Google Auth button connected');
+            }
+            
+            if (headerApiKeys) {
+                headerApiKeys.addEventListener('click', () => {
+                    console.log('🔑 Header API Keys clicked');
+                    clearDecks();
+                    apiKeysManager.showModal();
+                });
+                console.log('✅ API Keys button connected');
+            }
+            
+            if (headerDisconnect) {
+                headerDisconnect.addEventListener('click', () => {
+                    console.log('🔓 Header disconnect clicked');
+                    authManager.disconnect();
+                });
+                console.log('✅ Disconnect button connected');
+            }
         });
         
         // Add new tab functionality
