@@ -1075,11 +1075,154 @@
         </div>
     </div>
 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         console.log('🏗️ AIHub Cathedral initializing...');
         
+        // Google OAuth Configuration
+        const GOOGLE_CLIENT_ID = '1012411862950-4c4nf0dla6agi6j7ip844oam02b32err.apps.googleusercontent.com';
+        let googleAuthInitialized = false;
+        
         // Simple working implementation
         let currentPlatform = 'claude';
+        let userAuthenticated = false;
+        
+        // Platform URLs
+        const platformUrls = {
+            claude: 'https://claude.ai/chat',
+            chatgpt: 'https://chatgpt.com',
+            grok: 'https://x.com/i/grok',
+            gemini: 'https://gemini.google.com/app'
+        };
+        
+        // Initialize Google OAuth when library loads
+        function initGoogleAuth() {
+            if (window.google && !googleAuthInitialized) {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: GOOGLE_CLIENT_ID,
+                        callback: handleGoogleResponse,
+                        auto_select: false,
+                        cancel_on_tap_outside: false
+                    });
+                    googleAuthInitialized = true;
+                    console.log('✅ Google OAuth initialized');
+                } catch (error) {
+                    console.error('❌ Google OAuth init failed:', error);
+                }
+            }
+        }
+        
+        // Handle Google OAuth response
+        function handleGoogleResponse(response) {
+            try {
+                // Decode the JWT token
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                console.log('✅ Google Auth successful:', payload.name);
+                
+                // Update UI to show authenticated state
+                setAuthenticatedState(true, {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture
+                });
+                
+            } catch (error) {
+                console.error('❌ Failed to process Google response:', error);
+                alert('Authentication failed. Please try again.');
+            }
+        }
+        
+        // Set authenticated state in UI
+        function setAuthenticatedState(authenticated, userInfo = null) {
+            userAuthenticated = authenticated;
+            
+            const headerButtons = document.getElementById('headerAuthButtons');
+            const headerUserInfo = document.getElementById('headerUserInfo');
+            
+            if (authenticated && userInfo) {
+                headerButtons.style.display = 'none';
+                headerUserInfo.classList.remove('hidden');
+                
+                const nameEl = headerUserInfo.querySelector('.header-user-name');
+                if (nameEl) {
+                    nameEl.textContent = userInfo.name || userInfo.email || 'Connected';
+                }
+                
+                console.log('🔐 User authenticated as:', userInfo.name);
+            } else {
+                headerButtons.style.display = 'flex';
+                headerUserInfo.classList.add('hidden');
+                console.log('🔓 User signed out');
+            }
+        }
+        
+        // Trigger Google Sign In
+        function signInWithGoogle() {
+            console.log('🔐 Attempting Google Sign In...');
+            
+            if (!window.google || !googleAuthInitialized) {
+                console.log('⚠️ Google OAuth not ready, showing fallback');
+                showAPIKeysModal();
+                return;
+            }
+            
+            try {
+                // Use the newer OAuth2 flow for better compatibility
+                google.accounts.oauth2.initTokenClient({
+                    client_id: GOOGLE_CLIENT_ID,
+                    scope: 'email profile openid',
+                    callback: handleTokenResponse,
+                }).requestAccessToken();
+                
+            } catch (error) {
+                console.error('❌ OAuth error:', error);
+                alert('OAuth is temporarily unavailable. Please use the API Keys option instead.');
+                showAPIKeysModal();
+            }
+        }
+        
+        // Handle token response
+        async function handleTokenResponse(response) {
+            if (response.access_token) {
+                try {
+                    // Get user info from Google
+                    const userResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                        headers: {
+                            'Authorization': `Bearer ${response.access_token}`
+                        }
+                    });
+                    
+                    const userInfo = await userResponse.json();
+                    console.log('✅ OAuth successful for:', userInfo.name);
+                    
+                    setAuthenticatedState(true, userInfo);
+                    
+                } catch (error) {
+                    console.error('❌ Failed to get user info:', error);
+                    alert('Authentication failed. Please try again.');
+                }
+            }
+        }
+        
+        // Show API Keys modal as fallback
+        function showAPIKeysModal() {
+            document.getElementById('apiKeysModal').classList.add('show');
+        }
+        
+        // Disconnect user
+        function disconnectUser() {
+            setAuthenticatedState(false);
+            
+            // Clear any stored tokens
+            if (window.google && googleAuthInitialized) {
+                try {
+                    google.accounts.id.disableAutoSelect();
+                } catch (error) {
+                    console.log('Google disconnect not available');
+                }
+            }
+        }
         
         // Platform URLs
         const platformUrls = {
@@ -1213,20 +1356,30 @@
         }
         
         function setupAuth() {
+            // Initialize Google OAuth when available
+            if (window.google) {
+                initGoogleAuth();
+            } else {
+                // Wait for Google library to load
+                window.addEventListener('load', () => {
+                    setTimeout(initGoogleAuth, 1000);
+                });
+            }
+            
             // Header auth buttons
             document.getElementById('headerGoogleAuth')?.addEventListener('click', () => {
                 console.log('🔐 Google Auth clicked');
-                alert('OAuth integration ready - would connect to Google here');
+                signInWithGoogle();
             });
             
             document.getElementById('headerApiKeys')?.addEventListener('click', () => {
                 console.log('🔑 API Keys clicked');
-                document.getElementById('apiKeysModal').classList.add('show');
+                showAPIKeysModal();
             });
             
             document.getElementById('headerDisconnect')?.addEventListener('click', () => {
                 console.log('🔓 Disconnect clicked');
-                // Reset auth state
+                disconnectUser();
             });
             
             // Modal close
@@ -1238,12 +1391,47 @@
                 document.getElementById('apiKeysModal').classList.remove('show');
             });
             
+            // Close modal when clicking outside
+            document.getElementById('apiKeysModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'apiKeysModal') {
+                    document.getElementById('apiKeysModal').classList.remove('show');
+                }
+            });
+            
             // Form submission
             document.getElementById('apiKeysForm')?.addEventListener('submit', (e) => {
                 e.preventDefault();
                 console.log('💾 Saving API keys...');
+                
+                // Get form values
+                const keys = {
+                    openai: document.getElementById('openaiKey').value.trim(),
+                    anthropic: document.getElementById('anthropicKey').value.trim(),
+                    grok: document.getElementById('grokKey').value.trim(),
+                    gemini: document.getElementById('geminiKey').value.trim()
+                };
+                
+                // Filter out empty keys
+                const validKeys = Object.fromEntries(
+                    Object.entries(keys).filter(([key, value]) => value)
+                );
+                
+                if (Object.keys(validKeys).length > 0) {
+                    // Store keys (in real app, encrypt these)
+                    localStorage.setItem('aihub_api_keys', JSON.stringify(validKeys));
+                    
+                    // Show success
+                    alert(`API keys saved for: ${Object.keys(validKeys).join(', ')}`);
+                    
+                    // Mark as authenticated with API keys
+                    setAuthenticatedState(true, { name: 'API User', email: 'Using API Keys' });
+                    
+                    console.log('✅ API keys saved:', Object.keys(validKeys));
+                } else {
+                    alert('Please enter at least one valid API key');
+                }
+                
                 document.getElementById('apiKeysModal').classList.remove('show');
-                alert('API keys saved successfully!');
             });
         }
         
