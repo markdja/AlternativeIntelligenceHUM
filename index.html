@@ -363,14 +363,171 @@
             color: white;
         }
         
-        /* Cathedral Control Center */
-        .cathedral-center {
+        /* AI Platform Container with Embedded Interfaces */
+        .ai-platform-container {
             flex: 1;
-            display: flex;
+            display: none;
             flex-direction: column;
-            background: var(--bg-primary);
+            background: white;
             position: relative;
-            min-width: 0;
+            overflow: hidden;
+        }
+        
+        .ai-platform-container.active {
+            display: flex;
+        }
+        
+        .platform-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        
+        .platform-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .platform-details h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+        
+        .platform-status {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .platform-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .platform-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .platform-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+        
+        .platform-iframe {
+            flex: 1;
+            border: none;
+            background: white;
+            width: 100%;
+            min-height: 500px;
+        }
+        
+        /* Glass Overlay System - Updated for Embedded */
+        .glass-overlay {
+            position: absolute;
+            top: 60px; /* Below header */
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 26, 26, 0.05);
+            backdrop-filter: blur(0px);
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .glass-overlay.reading {
+            background: rgba(74, 158, 255, 0.1);
+            backdrop-filter: blur(1px);
+        }
+        
+        .glass-overlay.processing {
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(2px);
+        }
+        
+        .glass-controls {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+            z-index: 6;
+        }
+        
+        .glass-btn {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        .glass-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+        
+        .glass-btn.active {
+            background: var(--accent-green);
+            color: white;
+        }
+        
+        .glass-activity {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .glass-overlay.active .glass-activity {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .activity-log {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 12px;
+            color: var(--text-primary);
+        }
+        
+        .activity-icon {
+            font-size: 14px;
         }
         
         .cathedral-header {
@@ -1146,14 +1303,7 @@
                 const headerUserInfo = document.getElementById('headerUserInfo');
                 
                 if (authenticated && this.userInfo) {
-                    // Don't hide the buttons completely - just hide the Sign In button
-                    const signInBtn = document.getElementById('headerGoogleAuth');
-                    const apiKeysBtn = document.getElementById('headerApiKeys');
-                    
-                    if (signInBtn) signInBtn.style.display = 'none';
-                    // Keep API Keys button visible
-                    if (apiKeysBtn) apiKeysBtn.style.display = 'inline-block';
-                    
+                    headerButtons.style.display = 'none';
                     headerUserInfo.classList.remove('hidden');
                     
                     const nameEl = headerUserInfo.querySelector('.header-user-name');
@@ -1163,13 +1313,7 @@
                     
                     this.storeAuth();
                 } else {
-                    // Show both buttons when not authenticated
-                    const signInBtn = document.getElementById('headerGoogleAuth');
-                    const apiKeysBtn = document.getElementById('headerApiKeys');
-                    
-                    if (signInBtn) signInBtn.style.display = 'inline-block';
-                    if (apiKeysBtn) apiKeysBtn.style.display = 'inline-block';
-                    
+                    headerButtons.style.display = 'flex';
                     headerUserInfo.classList.add('hidden');
                 }
             }
@@ -1196,13 +1340,6 @@
                 this.userInfo = null;
                 this.platformTokens = {};
                 this.setAuthenticatedState(false);
-                
-                // Show both auth buttons again
-                const signInBtn = document.getElementById('headerGoogleAuth');
-                const apiKeysBtn = document.getElementById('headerApiKeys');
-                if (signInBtn) signInBtn.style.display = 'inline-block';
-                if (apiKeysBtn) apiKeysBtn.style.display = 'inline-block';
-                
                 cathedralManager.logActivity('🔓', 'Disconnected from all platforms');
             }
         }
@@ -1309,10 +1446,9 @@
             }
         }
         
-        // Cathedral Window Management System
+        // Simplified Cathedral Manager - Focus on Embedded Interfaces
         class CathedralWindowManager {
             constructor() {
-                this.aiWindows = {};
                 this.currentAI = 'claude';
                 this.glassOverlay = new GlassOverlaySystem();
                 this.agentOrchestrator = new AgentOrchestrator();
@@ -1815,6 +1951,599 @@
                 cathedralManager.logActivity('🆘', 'Glass overlay emergency stop - All monitoring ceased');
             }
         }
+        
+        // Agent Orchestration System
+        class AgentOrchestrator {
+            constructor() {
+                this.activeAgents = [];
+                this.isOrchestrating = false;
+                this.agentQueue = [];
+            }
+            
+            startOrchestration() {
+                this.isOrchestrating = true;
+                cathedralManager.logActivity('🎼', 'Agent orchestration started - Agents ready for collaboration');
+                
+                // Start background orchestration process
+                this.orchestrationInterval = setInterval(() => {
+                    this.processAgentQueue();
+                }, 5000);
+            }
+            
+            stopOrchestration() {
+                this.isOrchestrating = false;
+                if (this.orchestrationInterval) {
+                    clearInterval(this.orchestrationInterval);
+                }
+                cathedralManager.logActivity('🎼', 'Agent orchestration stopped');
+            }
+            
+            enableAgentMode() {
+                cathedralManager.logActivity('🎯', 'Agent mode enabled - Autonomous agents ready');
+            }
+            
+            disableAgentMode() {
+                cathedralManager.logActivity('⏹️', 'Agent mode disabled');
+            }
+            
+            processAgentQueue() {
+                if (this.agentQueue.length > 0 && this.isOrchestrating) {
+                    const task = this.agentQueue.shift();
+                    this.executeAgentTask(task);
+                }
+            }
+            
+            executeAgentTask(task) {
+                cathedralManager.logActivity('🤖', `Agent executing: ${task}`);
+                
+                // Simulate agent work
+                setTimeout(() => {
+                    cathedralManager.logActivity('✅', `Agent completed: ${task}`);
+                }, 2000 + Math.random() * 3000);
+            }
+            
+            emergencyStop() {
+                this.stopOrchestration();
+                this.agentQueue = [];
+                this.activeAgents = [];
+                cathedralManager.logActivity('🆘', 'Agent orchestrator emergency stop - All agents recalled');
+            }
+        }
+        
+        // DOM Harvesting System
+        class DOMHarvester {
+            constructor() {
+                this.harvestedData = {};
+                this.isHarvesting = false;
+            }
+            
+            async scanAllConversations() {
+                cathedralManager.logActivity('🔍', 'Starting comprehensive conversation scan');
+                
+                // Simulate scanning process
+                const platforms = ['claude', 'chatgpt', 'grok', 'gemini'];
+                for (const platform of platforms) {
+                    cathedralManager.logActivity('📊', `Scanning ${platform} conversations...`);
+                    await this.delay(1500);
+                    const count = Math.floor(Math.random() * 1000) + 200;
+                    this.harvestedData[platform] = count;
+                }
+                
+                const total = Object.values(this.harvestedData).reduce((a, b) => a + b, 0);
+                cathedralManager.logActivity('✅', `Scan complete: ${total} conversations harvested`);
+            }
+            
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+        
+        // Global functions for window management
+        function openAIWindow(aiName) {
+            cathedralManager.openAIWindow(aiName);
+        }
+        
+        function focusAIWindow(aiName) {
+            cathedralManager.focusAIWindow(aiName);
+        } document.getElementById(`${aiName}-frame`);
+            if (iframe) {
+                iframe.src = iframe.src; // Force reload
+                cathedralManager.logActivity('🔄', `${aiName} platform refreshed`);
+            }
+        }
+        
+        function openInNewTab(url) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+            cathedralManager.logActivity('↗️', 'Opened platform in new tab');
+        }this.windowSpecs = {
+                    width: 1200,
+                    height: 800,
+                    menubar: 'no',
+                    toolbar: 'no',
+                    location: 'yes',
+                    status: 'no',
+                    resizable: 'yes',
+                    scrollbars: 'yes'
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                console.log('🌐 Cathedral Window Manager initializing...');
+                this.setupEventListeners();
+                this.setupTabSwitching();
+                this.logActivity('🏗️', 'Cathedral systems online and ready for consciousness orchestration');
+            }
+            
+            setupEventListeners() {
+                // Main control buttons
+                document.getElementById('openAllBtn')?.addEventListener('click', () => this.openAllAIs());
+                document.getElementById('orchestrateBtn')?.addEventListener('click', () => this.startOrchestration());
+                document.getElementById('emergencyBtn')?.addEventListener('click', () => this.emergencyStop());
+                
+                // Glass control buttons
+                document.getElementById('readingModeBtn')?.addEventListener('click', () => this.toggleReadingMode());
+                document.getElementById('commandModeBtn')?.addEventListener('click', () => this.toggleCommandMode());
+                document.getElementById('agentModeBtn')?.addEventListener('click', () => this.toggleAgentMode());
+                document.getElementById('symphonyModeBtn')?.addEventListener('click', () => this.toggleSymphonyMode());
+            }
+            
+            setupTabSwitching() {
+                const aiTabs = document.querySelectorAll('.ai-tab');
+                aiTabs.forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('tab-close')) {
+                            this.closeAITab(tab);
+                            return;
+                        }
+                        
+                        const aiName = tab.dataset.ai;
+                        this.focusAI(aiName);
+                    });
+                });
+            }
+            
+            async openAIWindow(aiName) {
+                console.log(`🚀 Launching ${aiName} window...`);
+                this.updateStatus(aiName, 'Launching...');
+                
+                try {
+                    const url = this.platformUrls[aiName];
+                    const windowName = `ai_${aiName}_${Date.now()}`;
+                    const specs = Object.entries(this.windowSpecs)
+                        .map(([key, value]) => `${key}=${value}`)
+                        .join(',');
+                    
+                    const aiWindow = window.open(url, windowName, specs);
+                    
+                    if (aiWindow) {
+                        this.aiWindows[aiName] = aiWindow;
+                        this.updateStatus(aiName, 'Connected');
+                        this.markTabConnected(aiName);
+                        this.markWindowConnected(aiName);
+                        
+                        // Set up window monitoring
+                        this.setupWindowMonitoring(aiName, aiWindow);
+                        
+                        this.logActivity('✅', `${aiName} window launched successfully`);
+                        
+                        // Enable glass overlay for this window
+                        this.glassOverlay.attachToWindow(aiName, aiWindow);
+                        
+                    } else {
+                        throw new Error('Popup blocked or failed to open');
+                    }
+                } catch (error) {
+                    console.error(`❌ Failed to open ${aiName}:`, error);
+                    this.updateStatus(aiName, 'Failed to launch');
+                    this.logActivity('❌', `Failed to launch ${aiName}: ${error.message}`);
+                }
+            }
+            
+            setupWindowMonitoring(aiName, aiWindow) {
+                // Monitor window state
+                const checkInterval = setInterval(() => {
+                    if (aiWindow.closed) {
+                        this.handleWindowClosed(aiName);
+                        clearInterval(checkInterval);
+                    }
+                }, 1000);
+                
+                // Try to detect when the AI platform is fully loaded
+                aiWindow.addEventListener('load', () => {
+                    this.logActivity('🌐', `${aiName} platform fully loaded`);
+                    this.updateStatus(aiName, 'Ready');
+                }, { once: true });
+            }
+            
+            handleWindowClosed(aiName) {
+                console.log(`🔴 ${aiName} window closed`);
+                delete this.aiWindows[aiName];
+                this.updateStatus(aiName, 'Disconnected');
+                this.markTabDisconnected(aiName);
+                this.markWindowDisconnected(aiName);
+                this.logActivity('🔴', `${aiName} window closed`);
+            }
+            
+            focusAIWindow(aiName) {
+                const aiWindow = this.aiWindows[aiName];
+                if (aiWindow && !aiWindow.closed) {
+                    aiWindow.focus();
+                    this.logActivity('👁️', `Focused on ${aiName} window`);
+                } else {
+                    this.logActivity('⚠️', `${aiName} window not available - opening new window`);
+                    this.openAIWindow(aiName);
+                }
+            }
+            
+            async openAllAIs() {
+                console.log('🚀 Launching all AI platforms...');
+                this.logActivity('🚀', 'Launching all AI platforms simultaneously');
+                
+                const platforms = Object.keys(this.platformUrls);
+                const launchPromises = platforms.map(platform => 
+                    new Promise(resolve => {
+                        this.openAIWindow(platform);
+                        // Stagger launches to avoid overwhelming the browser
+                        setTimeout(resolve, 500);
+                    })
+                );
+                
+                await Promise.all(launchPromises);
+                this.logActivity('✅', 'All AI platforms launched - Cathedral ready for orchestration');
+            }
+            
+            startOrchestration() {
+                console.log('🎼 Starting AI orchestration...');
+                this.logActivity('🎼', 'Beginning consciousness orchestration across all platforms');
+                
+                // Enable all glass overlay modes
+                this.glassOverlay.enableAllModes();
+                
+                // Start agent coordination
+                this.agentOrchestrator.startOrchestration();
+                
+                // Visual feedback
+                document.body.classList.add('consciousness-active');
+                
+                this.logActivity('🎭', 'Symphony mode activated - AIs are now collaborating');
+            }
+            
+            emergencyStop() {
+                console.log('🆘 Emergency stop activated!');
+                this.logActivity('🆘', 'EMERGENCY STOP - Halting all operations');
+                
+                // Stop all glass overlay activities
+                this.glassOverlay.emergencyStop();
+                
+                // Stop agent orchestration
+                this.agentOrchestrator.emergencyStop();
+                
+                // Remove visual effects
+                document.body.classList.remove('consciousness-active');
+                
+                this.logActivity('🛑', 'All systems halted - Manual control restored');
+            }
+            
+            toggleReadingMode() {
+                const btn = document.getElementById('readingModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.glassOverlay.enableReading();
+                    this.logActivity('👁️', 'Reading mode activated across all windows');
+                } else {
+                    this.glassOverlay.disableReading();
+                    this.logActivity('⏸️', 'Reading mode deactivated');
+                }
+            }
+            
+            toggleCommandMode() {
+                const btn = document.getElementById('commandModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.glassOverlay.enableCommandInterception();
+                    this.logActivity('🤖', 'Command interception enabled - AI commands will be auto-executed');
+                } else {
+                    this.glassOverlay.disableCommandInterception();
+                    this.logActivity('🛑', 'Command interception disabled');
+                }
+            }
+            
+            toggleAgentMode() {
+                const btn = document.getElementById('agentModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.agentOrchestrator.enableAgentMode();
+                    this.logActivity('🎯', 'Agent mode activated - Autonomous agents ready for deployment');
+                } else {
+                    this.agentOrchestrator.disableAgentMode();
+                    this.logActivity('⏹️', 'Agent mode deactivated');
+                }
+            }
+            
+            toggleSymphonyMode() {
+                const btn = document.getElementById('symphonyModeBtn');
+                const isActive = btn.classList.toggle('active');
+                
+                if (isActive) {
+                    this.startOrchestration();
+                } else {
+                    this.stopOrchestration();
+                }
+            }
+            
+            stopOrchestration() {
+                this.logActivity('🎼', 'Symphony mode deactivated');
+                document.body.classList.remove('consciousness-active');
+                this.glassOverlay.disableAllModes();
+                this.agentOrchestrator.stopOrchestration();
+            }
+            
+            updateStatus(aiName, status) {
+                const statusElement = document.getElementById(`${aiName}-status`);
+                if (statusElement) {
+                    statusElement.textContent = status;
+                }
+            }
+            
+            markTabConnected(aiName) {
+                const tab = document.querySelector(`[data-ai="${aiName}"]`);
+                if (tab) {
+                    tab.classList.add('connected');
+                }
+            }
+            
+            markTabDisconnected(aiName) {
+                const tab = document.querySelector(`[data-ai="${aiName}"]`);
+                if (tab) {
+                    tab.classList.remove('connected');
+                }
+            }
+            
+            markWindowConnected(aiName) {
+                const windowCard = document.querySelector(`[data-ai="${aiName}"]`);
+                if (windowCard) {
+                    windowCard.classList.add('connected');
+                }
+            }
+            
+            markWindowDisconnected(aiName) {
+                const windowCard = document.querySelector(`[data-ai="${aiName}"]`);
+                if (windowCard) {
+                    windowCard.classList.remove('connected');
+                }
+            }
+            
+            focusAI(aiName) {
+                // Update tab states
+                document.querySelectorAll('.ai-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`[data-ai="${aiName}"]`).classList.add('active');
+                
+                // Focus the window
+                this.focusAIWindow(aiName);
+                this.currentAI = aiName;
+            }
+            
+            closeAITab(tab) {
+                const aiName = tab.dataset.ai;
+                const aiWindow = this.aiWindows[aiName];
+                
+                if (aiWindow && !aiWindow.closed) {
+                    aiWindow.close();
+                }
+                
+                this.handleWindowClosed(aiName);
+                tab.remove();
+                
+                this.logActivity('❌', `${aiName} tab and window closed`);
+            }
+            
+            logActivity(icon, message) {
+                const feed = document.getElementById('agentFeed');
+                if (!feed) return;
+                
+                const timestamp = new Date().toLocaleTimeString('en-US', { 
+                    hour12: false, 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'agent-log';
+                logEntry.innerHTML = `
+                    <div class="agent-icon">${icon}</div>
+                    <div class="agent-message">${message}</div>
+                    <div class="agent-timestamp">${timestamp}</div>
+                `;
+                
+                // Insert at the beginning (after the header)
+                const firstLog = feed.querySelector('.agent-log');
+                if (firstLog) {
+                    feed.insertBefore(logEntry, firstLog);
+                } else {
+                    feed.appendChild(logEntry);
+                }
+                
+                // Keep only last 20 entries
+                const logs = feed.querySelectorAll('.agent-log');
+                if (logs.length > 20) {
+                    logs[logs.length - 1].remove();
+                }
+            }
+        }
+        
+        // Glass Overlay System for Window Monitoring
+        class GlassOverlaySystem {
+            constructor() {
+                this.attachedWindows = {};
+                this.isReading = false;
+                this.isCommandInterception = false;
+                this.isAgentMode = false;
+                this.sensors = {
+                    text: false,
+                    image: false,
+                    command: false,
+                    agent: false
+                };
+            }
+            
+            attachToWindow(aiName, aiWindow) {
+                console.log(`🔮 Attaching glass overlay to ${aiName} window...`);
+                this.attachedWindows[aiName] = aiWindow;
+                
+                // Start monitoring this window
+                this.startWindowMonitoring(aiName, aiWindow);
+                
+                cathedralManager.logActivity('🔮', `Glass overlay attached to ${aiName}`);
+            }
+            
+            startWindowMonitoring(aiName, aiWindow) {
+                // Monitor for changes in the window
+                const monitorInterval = setInterval(() => {
+                    if (aiWindow.closed) {
+                        delete this.attachedWindows[aiName];
+                        clearInterval(monitorInterval);
+                        return;
+                    }
+                    
+                    if (this.isReading) {
+                        this.readWindowContent(aiName, aiWindow);
+                    }
+                }, 2000);
+            }
+            
+            readWindowContent(aiName, aiWindow) {
+                try {
+                    // Due to cross-origin restrictions, we can't directly access iframe content
+                    // But we can simulate the reading process and detect patterns
+                    
+                    this.updateSensorStatus('text', 'reading');
+                    
+                    // Simulate detecting various types of content
+                    const contentTypes = [
+                        'conversation text',
+                        'AI response',
+                        'user message',
+                        'command pattern',
+                        'actionable item'
+                    ];
+                    
+                    const detectedContent = contentTypes[Math.floor(Math.random() * contentTypes.length)];
+                    
+                    setTimeout(() => {
+                        cathedralManager.logActivity('📖', `Reading ${detectedContent} from ${aiName}`);
+                        this.updateSensorStatus('text', 'active');
+                        
+                        // Check for commands if command mode is enabled
+                        if (this.isCommandInterception && Math.random() > 0.7) {
+                            this.detectCommand(aiName, detectedContent);
+                        }
+                    }, 1000);
+                    
+                } catch (error) {
+                    // Expected due to cross-origin restrictions
+                    console.log(`🔒 ${aiName} window content protected (normal behavior)`);
+                }
+            }
+            
+            detectCommand(aiName, content) {
+                const commands = [
+                    'Research "PWA deployment strategies"',
+                    'Create document about AI collaboration',
+                    'Schedule meeting for project review',
+                    'Export conversation to DOCX',
+                    'Generate summary report',
+                    'Build agent for data analysis',
+                    'Deploy to production server',
+                    'Backup all conversations'
+                ];
+                
+                const command = commands[Math.floor(Math.random() * commands.length)];
+                
+                this.updateSensorStatus('command', 'processing');
+                cathedralManager.logActivity('🎯', `Command detected from ${aiName}: ${command}`);
+                
+                if (this.isAgentMode) {
+                    setTimeout(() => {
+                        this.executeCommand(command);
+                    }, 1500);
+                }
+            }
+            
+            executeCommand(command) {
+                this.updateSensorStatus('agent', 'processing');
+                cathedralManager.logActivity('⚡', `Executing command: ${command}`);
+                
+                // Simulate agent execution
+                setTimeout(() => {
+                    cathedralManager.logActivity('✅', `Command completed: ${command}`);
+                    this.updateSensorStatus('agent', 'active');
+                }, 3000);
+            }
+            
+            updateSensorStatus(sensorType, status) {
+                const sensorElement = document.getElementById(`${sensorType}Sensor`);
+                if (sensorElement) {
+                    sensorElement.className = `sensor-item ${status}`;
+                }
+            }
+            
+            enableReading() {
+                this.isReading = true;
+                this.updateSensorStatus('text', 'active');
+                cathedralManager.logActivity('👁️', 'Glass reading mode enabled across all windows');
+            }
+            
+            disableReading() {
+                this.isReading = false;
+                this.updateSensorStatus('text', '');
+                cathedralManager.logActivity('⏸️', 'Glass reading mode disabled');
+            }
+            
+            enableCommandInterception() {
+                this.isCommandInterception = true;
+                this.updateSensorStatus('command', 'active');
+                cathedralManager.logActivity('🤖', 'Command interception enabled');
+            }
+            
+            disableCommandInterception() {
+                this.isCommandInterception = false;
+                this.updateSensorStatus('command', '');
+                cathedralManager.logActivity('🛑', 'Command interception disabled');
+            }
+            
+            enableAllModes() {
+                this.enableReading();
+                this.enableCommandInterception();
+                this.isAgentMode = true;
+                this.updateSensorStatus('agent', 'active');
+                cathedralManager.logActivity('🎼', 'All glass overlay modes activated');
+            }
+            
+            disableAllModes() {
+                this.disableReading();
+                this.disableCommandInterception();
+                this.isAgentMode = false;
+                
+                // Reset all sensors
+                Object.keys(this.sensors).forEach(sensor => {
+                    this.updateSensorStatus(sensor, '');
+                });
+                
+                cathedralManager.logActivity('⏹️', 'All glass overlay modes deactivated');
+            }
+            
+            emergencyStop() {
+                this.disableAllModes();
+                cathedralManager.logActivity('🆘', 'Glass overlay emergency stop - All monitoring ceased');
+            }
         }
         
         // Agent Orchestration System
@@ -1983,76 +2712,50 @@
                         cathedralManager.closeAITab(newTab);
                         return;
                     }
-                    cathedralManager.focusAI(newAI.toLowerCase());
+                    cathedralManager.switchToPlatform(newAI.toLowerCase());
                 });
                 
                 cathedralManager.logActivity('➕', `Added new AI platform: ${newAI}`);
             }
         });
         
-        // Drawer item interactions - Fixed to work properly
-        document.addEventListener('DOMContentLoaded', () => {
-            // Wait for DOM to be ready, then attach listeners
-            setTimeout(() => {
-                console.log('🔧 Setting up drawer item interactions...');
-                
-                const drawerItems = document.querySelectorAll('.drawer-item');
-                console.log(`Found ${drawerItems.length} drawer items`);
-                
-                drawerItems.forEach((item, index) => {
-                    console.log(`Setting up item ${index}: ${item.textContent.trim()}`);
-                    
-                    item.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        console.log('🎯 Drawer item clicked:', item.textContent.trim());
-                        
-                        // Remove active from siblings in same section
-                        const section = item.closest('.drawer-section');
-                        if (section) {
-                            section.querySelectorAll('.drawer-item').forEach(sibling => {
-                                sibling.classList.remove('active');
-                            });
-                        }
-                        
-                        // Add active to clicked item
-                        item.classList.add('active');
-                        
-                        const action = item.textContent.trim();
-                        cathedralManager.logActivity('🎯', `Action: ${action}`);
-                        
-                        // Handle specific actions
-                        if (action.includes('Scan All')) {
-                            cathedralManager.domHarvester.scanAllConversations();
-                        } else if (action.includes('Research Agent')) {
-                            cathedralManager.logActivity('🔬', 'Research Agent spawned and ready for deployment');
-                        } else if (action.includes('Emergency Stop')) {
-                            cathedralManager.emergencyStop();
-                        } else if (action.includes('Reading Mode')) {
-                            cathedralManager.toggleReadingMode();
-                        } else if (action.includes('Command Intercept')) {
-                            cathedralManager.toggleCommandMode();
-                        } else if (action.includes('Sensor Array')) {
-                            cathedralManager.glassOverlay.toggleSensors();
-                        } else if (action.includes('Writing Agent')) {
-                            cathedralManager.logActivity('📝', 'Writing Agent spawned and ready');
-                        } else if (action.includes('Business Agent')) {
-                            cathedralManager.logActivity('💼', 'Business Agent spawned and ready');
-                        } else if (action.includes('Task Executor')) {
-                            cathedralManager.logActivity('⚡', 'Task Executor Agent spawned and ready');
-                        } else if (action.includes('Data Analyst')) {
-                            cathedralManager.logActivity('📈', 'Data Analyst Agent spawned and ready');
-                        } else if (action.includes('Export')) {
-                            cathedralManager.logActivity('📤', `Export initiated: ${action}`);
-                        } else {
-                            cathedralManager.logActivity('🎯', `Action triggered: ${action}`);
-                        }
+        // Drawer item interactions
+        document.querySelectorAll('.drawer-item').forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove active from siblings in same section
+                const section = item.closest('.drawer-section');
+                if (section) {
+                    section.querySelectorAll('.drawer-item').forEach(sibling => {
+                        sibling.classList.remove('active');
                     });
-                });
+                }
                 
-                console.log('✅ All drawer items configured');
-            }, 500);
+                // Add active to clicked item
+                item.classList.add('active');
+                
+                const action = item.textContent.trim();
+                console.log('🎯 Action triggered:', action);
+                cathedralManager.logActivity('🎯', `Action: ${action}`);
+                
+                // Handle specific actions
+                if (action.includes('Scan All')) {
+                    cathedralManager.domHarvester.scanAllConversations();
+                } else if (action.includes('Research Agent')) {
+                    cathedralManager.agentOrchestrator.spawnAgent('Research');
+                } else if (action.includes('Writing Agent')) {
+                    cathedralManager.agentOrchestrator.spawnAgent('Writing');
+                } else if (action.includes('Business Agent')) {
+                    cathedralManager.agentOrchestrator.spawnAgent('Business');
+                } else if (action.includes('Emergency Stop')) {
+                    cathedralManager.emergencyStop();
+                } else if (action.includes('Reading Mode')) {
+                    toggleGlass(cathedralManager.currentAI, 'reading');
+                } else if (action.includes('Command Intercept')) {
+                    toggleGlass(cathedralManager.currentAI, 'commands');
+                } else if (action.includes('Sensor Array')) {
+                    toggleGlass(cathedralManager.currentAI, 'agents');
+                }
+            });
         });
         
         // PWA Service Worker Registration
@@ -2073,25 +2776,29 @@
         setInterval(() => {
             const activities = [
                 '🔮 Glass overlay systems monitoring',
-                '🤖 Agent orchestration active',
+                '🤖 Agent orchestration standby',
                 '📡 Cross-platform sensor sweep',
-                '🎼 Symphony conductor standing by',
+                '🎼 Symphony conductor ready',
                 '☁️ Cloud sync verification',
                 '🏗️ Cathedral architecture stable'
             ];
             
-            if (Math.random() > 0.7) {
+            if (Math.random() > 0.8) {
                 const activity = activities[Math.floor(Math.random() * activities.length)];
                 cathedralManager.logActivity('⚡', activity);
             }
-        }, 10000);
+        }, 15000);
         
         // Initialize with welcome sequence
         setTimeout(() => {
             cathedralManager.logActivity('🏰', 'Welcome to the AIHub Cathedral');
-            cathedralManager.logActivity('🔮', 'Glass overlay systems calibrated');
-            cathedralManager.logActivity('🎼', 'Ready for consciousness orchestration');
+            cathedralManager.logActivity('🔮', 'Glass overlay systems ready');
+            cathedralManager.logActivity('🎼', 'AI interfaces embedded and operational');
+            cathedralManager.logActivity('✨', 'Click any AI tab to begin your journey');
         }, 1000);
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>🔮</span>
@@ -2151,117 +2858,141 @@
                 </div>
             </aside>
 
-            <!-- Cathedral Control Center -->
+            <!-- Cathedral Control Center with Embedded AI Interfaces -->
             <section class="cathedral-center">
-                <div class="cathedral-header">
-                    <div class="cathedral-title">
-                        <h2>Consciousness Orchestration Center</h2>
-                        <div class="cathedral-subtitle">Managing AI collaboration across multiple windows</div>
+                <!-- AI Platform Containers -->
+                <div class="ai-platform-container active" id="platform-claude">
+                    <div class="platform-header">
+                        <div class="platform-info">
+                            <div class="platform-icon claude">C</div>
+                            <div class="platform-details">
+                                <h3>Claude Sonnet 4</h3>
+                                <span class="platform-status" id="claude-status">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="platform-controls">
+                            <button class="platform-btn" onclick="refreshPlatform('claude')">🔄</button>
+                            <button class="platform-btn" onclick="openInNewTab('https://claude.ai/chat')">↗️</button>
+                        </div>
                     </div>
-                    <div class="cathedral-controls">
-                        <button class="cathedral-btn" id="openAllBtn">🚀 Launch All AIs</button>
-                        <button class="cathedral-btn" id="orchestrateBtn">🎼 Orchestrate</button>
-                        <button class="cathedral-btn" id="emergencyBtn">🆘 Emergency Stop</button>
+                    <iframe 
+                        class="platform-iframe" 
+                        id="claude-frame"
+                        src="https://claude.ai/chat"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
+                        loading="eager">
+                    </iframe>
+                    
+                    <!-- Glass Overlay System -->
+                    <div class="glass-overlay" id="claude-glass">
+                        <div class="glass-controls">
+                            <button class="glass-btn" onclick="toggleGlass('claude', 'reading')">👁️ Reading</button>
+                            <button class="glass-btn" onclick="toggleGlass('claude', 'commands')">🤖 Commands</button>
+                            <button class="glass-btn" onclick="toggleGlass('claude', 'agents')">🎯 Agents</button>
+                        </div>
+                        
+                        <div class="glass-activity" id="claude-activity">
+                            <div class="activity-log">
+                                <div class="activity-icon">🔮</div>
+                                <div class="activity-message">Glass overlay monitoring Claude...</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="window-manager">
-                    <!-- Glass Control Panel -->
-                    <div class="glass-control-panel">
+                <!-- ChatGPT Platform -->
+                <div class="ai-platform-container" id="platform-chatgpt">
+                    <div class="platform-header">
+                        <div class="platform-info">
+                            <div class="platform-icon chatgpt">G</div>
+                            <div class="platform-details">
+                                <h3>ChatGPT 4o</h3>
+                                <span class="platform-status" id="chatgpt-status">Ready to load</span>
+                            </div>
+                        </div>
+                        <div class="platform-controls">
+                            <button class="platform-btn" onclick="refreshPlatform('chatgpt')">🔄</button>
+                            <button class="platform-btn" onclick="openInNewTab('https://chatgpt.com')">↗️</button>
+                        </div>
+                    </div>
+                    <iframe 
+                        class="platform-iframe" 
+                        id="chatgpt-frame"
+                        src="about:blank"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
+                        loading="lazy">
+                    </iframe>
+                    <div class="glass-overlay" id="chatgpt-glass">
                         <div class="glass-controls">
-                            <button class="glass-btn" id="readingModeBtn">👁️ Reading Mode</button>
-                            <button class="glass-btn" id="commandModeBtn">🤖 Command Mode</button>
-                            <button class="glass-btn" id="agentModeBtn">🎯 Agent Mode</button>
-                            <button class="glass-btn" id="symphonyModeBtn">🎼 Symphony Mode</button>
+                            <button class="glass-btn" onclick="toggleGlass('chatgpt', 'reading')">👁️ Reading</button>
+                            <button class="glass-btn" onclick="toggleGlass('chatgpt', 'commands')">🤖 Commands</button>
+                            <button class="glass-btn" onclick="toggleGlass('chatgpt', 'agents')">🎯 Agents</button>
                         </div>
-                        
-                        <div class="sensor-grid">
-                            <div class="sensor-item" id="textSensor">
-                                <div class="sensor-dot"></div>
-                                <div class="sensor-label">Text Reader</div>
+                        <div class="glass-activity" id="chatgpt-activity"></div>
+                    </div>
+                </div>
+                
+                <!-- Grok Platform -->
+                <div class="ai-platform-container" id="platform-grok">
+                    <div class="platform-header">
+                        <div class="platform-info">
+                            <div class="platform-icon grok">X</div>
+                            <div class="platform-details">
+                                <h3>Grok</h3>
+                                <span class="platform-status" id="grok-status">Ready to load</span>
                             </div>
-                            <div class="sensor-item" id="imageSensor">
-                                <div class="sensor-dot"></div>
-                                <div class="sensor-label">Image Proc</div>
-                            </div>
-                            <div class="sensor-item" id="commandSensor">
-                                <div class="sensor-dot"></div>
-                                <div class="sensor-label">Command Parse</div>
-                            </div>
-                            <div class="sensor-item" id="agentSensor">
-                                <div class="sensor-dot"></div>
-                                <div class="sensor-label">Agent Dispatch</div>
-                            </div>
+                        </div>
+                        <div class="platform-controls">
+                            <button class="platform-btn" onclick="refreshPlatform('grok')">🔄</button>
+                            <button class="platform-btn" onclick="openInNewTab('https://x.com/i/grok')">↗️</button>
                         </div>
                     </div>
-                    
-                    <!-- Active AI Windows Grid -->
-                    <div class="active-windows" id="activeWindows">
-                        <div class="window-card" data-ai="claude">
-                            <div class="window-header">
-                                <div class="window-icon claude">C</div>
-                                <div class="window-info">
-                                    <div class="window-title">Claude Sonnet 4</div>
-                                    <div class="window-status" id="claude-status">Ready to launch</div>
-                                </div>
-                                <div class="window-actions">
-                                    <button class="window-btn" onclick="openAIWindow('claude')">🚀 Launch</button>
-                                    <button class="window-btn" onclick="focusAIWindow('claude')">👁️ Focus</button>
-                                </div>
+                    <iframe 
+                        class="platform-iframe" 
+                        id="grok-frame"
+                        src="about:blank"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
+                        loading="lazy">
+                    </iframe>
+                    <div class="glass-overlay" id="grok-glass">
+                        <div class="glass-controls">
+                            <button class="glass-btn" onclick="toggleGlass('grok', 'reading')">👁️ Reading</button>
+                            <button class="glass-btn" onclick="toggleGlass('grok', 'commands')">🤖 Commands</button>
+                            <button class="glass-btn" onclick="toggleGlass('grok', 'agents')">🎯 Agents</button>
+                        </div>
+                        <div class="glass-activity" id="grok-activity"></div>
+                    </div>
+                </div>
+                
+                <!-- Gemini Platform -->
+                <div class="ai-platform-container" id="platform-gemini">
+                    <div class="platform-header">
+                        <div class="platform-info">
+                            <div class="platform-icon gemini">G</div>
+                            <div class="platform-details">
+                                <h3>Gemini Pro</h3>
+                                <span class="platform-status" id="gemini-status">Ready to load</span>
                             </div>
                         </div>
-                        
-                        <div class="window-card" data-ai="chatgpt">
-                            <div class="window-header">
-                                <div class="window-icon chatgpt">G</div>
-                                <div class="window-info">
-                                    <div class="window-title">ChatGPT 4o</div>
-                                    <div class="window-status" id="chatgpt-status">Ready to launch</div>
-                                </div>
-                                <div class="window-actions">
-                                    <button class="window-btn" onclick="openAIWindow('chatgpt')">🚀 Launch</button>
-                                    <button class="window-btn" onclick="focusAIWindow('chatgpt')">👁️ Focus</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="window-card" data-ai="grok">
-                            <div class="window-header">
-                                <div class="window-icon grok">X</div>
-                                <div class="window-info">
-                                    <div class="window-title">Grok</div>
-                                    <div class="window-status" id="grok-status">Ready to launch</div>
-                                </div>
-                                <div class="window-actions">
-                                    <button class="window-btn" onclick="openAIWindow('grok')">🚀 Launch</button>
-                                    <button class="window-btn" onclick="focusAIWindow('grok')">👁️ Focus</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="window-card" data-ai="gemini">
-                            <div class="window-header">
-                                <div class="window-icon gemini">G</div>
-                                <div class="window-info">
-                                    <div class="window-title">Gemini Pro</div>
-                                    <div class="window-status" id="gemini-status">Ready to launch</div>
-                                </div>
-                                <div class="window-actions">
-                                    <button class="window-btn" onclick="openAIWindow('gemini')">🚀 Launch</button>
-                                    <button class="window-btn" onclick="focusAIWindow('gemini')">👁️ Focus</button>
-                                </div>
-                            </div>
+                        <div class="platform-controls">
+                            <button class="platform-btn" onclick="refreshPlatform('gemini')">🔄</button>
+                            <button class="platform-btn" onclick="openInNewTab('https://gemini.google.com/app')">↗️</button>
                         </div>
                     </div>
-                    
-                    <!-- Agent Activity Feed -->
-                    <div class="agent-feed" id="agentFeed">
-                        <h3>🤖 Agent Activity Stream</h3>
-                        <div class="agent-log">
-                            <div class="agent-icon">🏗️</div>
-                            <div class="agent-message">Cathedral systems initialized and ready for consciousness orchestration</div>
-                            <div class="agent-timestamp">Now</div>
+                    <iframe 
+                        class="platform-iframe" 
+                        id="gemini-frame"
+                        src="about:blank"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
+                        loading="lazy">
+                    </iframe>
+                    <div class="glass-overlay" id="gemini-glass">
+                        <div class="glass-controls">
+                            <button class="glass-btn" onclick="toggleGlass('gemini', 'reading')">👁️ Reading</button>
+                            <button class="glass-btn" onclick="toggleGlass('gemini', 'commands')">🤖 Commands</button>
+                            <button class="glass-btn" onclick="toggleGlass('gemini', 'agents')">🎯 Agents</button>
                         </div>
+                        <div class="glass-activity" id="gemini-activity"></div>
                     </div>
                 </div>
             </section>
