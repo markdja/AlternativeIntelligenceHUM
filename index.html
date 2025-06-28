@@ -245,7 +245,7 @@
             overflow: hidden;
         }
         
-        /* Drawers */
+        /* Drawers - Start Collapsed */
         .drawer {
             background: var(--bg-secondary);
             border-right: 1px solid var(--border-color);
@@ -253,20 +253,18 @@
             transition: transform 0.3s ease;
             overflow-y: auto;
             z-index: 900;
+            transform: translateX(-100%); /* Start collapsed */
         }
         
         .drawer.right {
             border-right: none;
             border-left: 1px solid var(--border-color);
             order: 3;
+            transform: translateX(100%); /* Start collapsed */
         }
         
-        .drawer.collapsed {
-            transform: translateX(-100%);
-        }
-        
-        .drawer.right.collapsed {
-            transform: translateX(100%);
+        .drawer.open {
+            transform: translateX(0); /* Open state */
         }
         
         .drawer-header {
@@ -321,12 +319,14 @@
             color: white;
         }
         
-        /* Chat Interface */
+        /* Chat Interface - Lock in place */
         .chat-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             background: var(--bg-primary);
+            min-width: 0; /* Prevent flex shrinking issues */
+            position: relative; /* Lock position */
         }
         
         .chat-header {
@@ -1670,15 +1670,15 @@
         
         // Auto-collapse drawers when authentication is clicked
         function clearDecks() {
-            console.log('🧹 Clearing decks - collapsing all drawers');
+            console.log('🧹 Clearing decks - closing all drawers');
             const leftDrawer = document.getElementById('leftDrawer');
             const rightDrawer = document.getElementById('rightDrawer');
             
-            if (leftDrawer && !leftDrawer.classList.contains('collapsed')) {
-                leftDrawer.classList.add('collapsed');
+            if (leftDrawer && leftDrawer.classList.contains('open')) {
+                leftDrawer.classList.remove('open');
             }
-            if (rightDrawer && !rightDrawer.classList.contains('collapsed')) {
-                rightDrawer.classList.add('collapsed');
+            if (rightDrawer && rightDrawer.classList.contains('open')) {
+                rightDrawer.classList.remove('open');
             }
         }
         
@@ -1746,11 +1746,11 @@
         const rightDrawer = document.getElementById('rightDrawer');
 
         leftDrawerToggle.addEventListener('click', () => {
-            leftDrawer.classList.toggle('collapsed');
+            leftDrawer.classList.toggle('open');
         });
 
         rightDrawerToggle.addEventListener('click', () => {
-            rightDrawer.classList.toggle('collapsed');
+            rightDrawer.classList.toggle('open');
         });
 
         // AI Tab switching
