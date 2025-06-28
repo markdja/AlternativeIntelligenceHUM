@@ -137,6 +137,7 @@
             transition: all 0.3s;
             white-space: nowrap;
             font-weight: 500;
+            position: relative;
         }
         
         .ai-tab.active {
@@ -150,11 +151,21 @@
             background: var(--bg-secondary);
         }
         
+        .ai-tab.connected::after {
+            content: '●';
+            color: var(--accent-green);
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 10px;
+        }
+        
         /* Main Content */
         .main-content {
             display: flex;
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
         
         /* Drawers */
@@ -165,11 +176,13 @@
             overflow-y: auto;
             z-index: 900;
             transform: translateX(-100%);
+            position: absolute;
+            height: 100%;
         }
         
         .drawer.right {
             border-left: 1px solid var(--border-color);
-            order: 3;
+            right: 0;
             transform: translateX(100%);
         }
         
@@ -228,227 +241,31 @@
             color: white;
         }
         
-        /* AI Platform Container */
-        .ai-platform-container {
+        /* Center Content Area */
+        .center-content {
             flex: 1;
-            display: none;
-            flex-direction: column;
-            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
             position: relative;
         }
         
-        .ai-platform-container.active {
-            display: flex;
-        }
-        
-        .platform-header {
-            background: var(--bg-secondary);
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .platform-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .platform-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .platform-icon.claude { background: #ff6b35; }
-        .platform-icon.chatgpt { background: #10a37f; }
-        .platform-icon.grok { background: #1da1f2; }
-        .platform-icon.gemini { background: #4285f4; }
-        
-        .platform-details h3 {
-            margin: 0;
-            color: var(--text-primary);
-        }
-        
-        .platform-status {
-            font-size: 12px;
+        .welcome-message {
+            text-align: center;
             color: var(--text-secondary);
-        }
-        
-        .platform-controls {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .platform-btn {
-            background: var(--bg-tertiary);
-            border: none;
-            color: var(--text-primary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .platform-btn:hover {
-            background: var(--accent-blue);
-        }
-        
-        .platform-iframe {
-            flex: 1;
-            border: none;
-            background: white;
-            width: 100%;
-        }
-        
-        /* Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .modal-title {
             font-size: 18px;
-            font-weight: 600;
+            max-width: 600px;
+            padding: 40px;
         }
         
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        .form-group {
+        .welcome-message h2 {
+            color: var(--text-primary);
             margin-bottom: 16px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .form-input {
-            width: 100%;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 12px;
-            border-radius: 6px;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            flex: 1;
-        }
-        
-        .btn-primary {
-            background: var(--accent-blue);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-        
-        /* Glass Overlay */
-        .glass-overlay {
-            position: absolute;
-            top: 60px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(26, 26, 26, 0.1);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        
-        .glass-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .glass-controls {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: flex;
-            gap: 8px;
-        }
-        
-        .glass-btn {
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .glass-btn:hover {
-            background: var(--accent-blue);
-        }
-        
-        .glass-btn.active {
-            background: var(--accent-green);
+            font-size: 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
@@ -461,7 +278,7 @@
                 <div class="logo">AIHub Cathedral</div>
                 
                 <div class="header-auth">
-                    <button class="auth-btn primary" onclick="showAuthModal()">🔐 Sign in</button>
+                    <button class="auth-btn primary" onclick="authenticateUser()">🔐 Sign in</button>
                     <button class="auth-btn" onclick="showApiModal()">🔑 API Keys</button>
                 </div>
                 
@@ -470,10 +287,10 @@
             </div>
             
             <div class="ai-tabs">
-                <button class="ai-tab active" onclick="switchPlatform('claude')">Claude</button>
-                <button class="ai-tab" onclick="switchPlatform('chatgpt')">ChatGPT</button>
-                <button class="ai-tab" onclick="switchPlatform('grok')">Grok</button>
-                <button class="ai-tab" onclick="switchPlatform('gemini')">Gemini</button>
+                <button class="ai-tab active" onclick="openAIWindow('claude')">Claude</button>
+                <button class="ai-tab" onclick="openAIWindow('chatgpt')">ChatGPT</button>
+                <button class="ai-tab" onclick="openAIWindow('grok')">Grok</button>
+                <button class="ai-tab" onclick="openAIWindow('gemini')">Gemini</button>
             </div>
         </header>
 
@@ -520,106 +337,14 @@
                 </div>
             </aside>
 
-            <!-- AI Platform Containers -->
-            <section class="ai-platform-container active" id="platform-claude">
-                <div class="platform-header">
-                    <div class="platform-info">
-                        <div class="platform-icon claude">C</div>
-                        <div class="platform-details">
-                            <h3>Claude Sonnet 4</h3>
-                            <div class="platform-status">Connected</div>
-                        </div>
-                    </div>
-                    <div class="platform-controls">
-                        <button class="platform-btn" onclick="refreshPlatform('claude')">🔄</button>
-                        <button class="platform-btn" onclick="openNewTab('https://claude.ai')">↗️</button>
-                    </div>
+            <!-- Center Content -->
+            <div class="center-content">
+                <div class="welcome-message">
+                    <h2>🏰 AIHub Cathedral</h2>
+                    <p>Your consciousness sanctuary is ready. Click any AI tab above to open that platform in a centered popup window. Each window will stack in the same position - click tabs to bring different AIs to the front.</p>
+                    <p style="margin-top: 20px; color: var(--accent-blue);">✨ One interface to orchestrate them all ✨</p>
                 </div>
-                <iframe class="platform-iframe" src="https://claude.ai/chat"></iframe>
-                
-                <div class="glass-overlay" id="claude-glass">
-                    <div class="glass-controls">
-                        <button class="glass-btn" onclick="toggleGlass('claude', 'reading')">👁️ Reading</button>
-                        <button class="glass-btn" onclick="toggleGlass('claude', 'commands')">🤖 Commands</button>
-                        <button class="glass-btn" onclick="toggleGlass('claude', 'agents')">🎯 Agents</button>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="ai-platform-container" id="platform-chatgpt">
-                <div class="platform-header">
-                    <div class="platform-info">
-                        <div class="platform-icon chatgpt">G</div>
-                        <div class="platform-details">
-                            <h3>ChatGPT 4o</h3>
-                            <div class="platform-status">Ready</div>
-                        </div>
-                    </div>
-                    <div class="platform-controls">
-                        <button class="platform-btn" onclick="refreshPlatform('chatgpt')">🔄</button>
-                        <button class="platform-btn" onclick="openNewTab('https://chatgpt.com')">↗️</button>
-                    </div>
-                </div>
-                <iframe class="platform-iframe" src="https://chatgpt.com"></iframe>
-                
-                <div class="glass-overlay" id="chatgpt-glass">
-                    <div class="glass-controls">
-                        <button class="glass-btn" onclick="toggleGlass('chatgpt', 'reading')">👁️ Reading</button>
-                        <button class="glass-btn" onclick="toggleGlass('chatgpt', 'commands')">🤖 Commands</button>
-                        <button class="glass-btn" onclick="toggleGlass('chatgpt', 'agents')">🎯 Agents</button>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="ai-platform-container" id="platform-grok">
-                <div class="platform-header">
-                    <div class="platform-info">
-                        <div class="platform-icon grok">X</div>
-                        <div class="platform-details">
-                            <h3>Grok</h3>
-                            <div class="platform-status">Ready</div>
-                        </div>
-                    </div>
-                    <div class="platform-controls">
-                        <button class="platform-btn" onclick="refreshPlatform('grok')">🔄</button>
-                        <button class="platform-btn" onclick="openNewTab('https://x.com/i/grok')">↗️</button>
-                    </div>
-                </div>
-                <iframe class="platform-iframe" src="https://x.com/i/grok"></iframe>
-                
-                <div class="glass-overlay" id="grok-glass">
-                    <div class="glass-controls">
-                        <button class="glass-btn" onclick="toggleGlass('grok', 'reading')">👁️ Reading</button>
-                        <button class="glass-btn" onclick="toggleGlass('grok', 'commands')">🤖 Commands</button>
-                        <button class="glass-btn" onclick="toggleGlass('grok', 'agents')">🎯 Agents</button>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="ai-platform-container" id="platform-gemini">
-                <div class="platform-header">
-                    <div class="platform-info">
-                        <div class="platform-icon gemini">G</div>
-                        <div class="platform-details">
-                            <h3>Gemini Pro</h3>
-                            <div class="platform-status">Ready</div>
-                        </div>
-                    </div>
-                    <div class="platform-controls">
-                        <button class="platform-btn" onclick="refreshPlatform('gemini')">🔄</button>
-                        <button class="platform-btn" onclick="openNewTab('https://gemini.google.com')">↗️</button>
-                    </div>
-                </div>
-                <iframe class="platform-iframe" src="https://gemini.google.com/app"></iframe>
-                
-                <div class="glass-overlay" id="gemini-glass">
-                    <div class="glass-controls">
-                        <button class="glass-btn" onclick="toggleGlass('gemini', 'reading')">👁️ Reading</button>
-                        <button class="glass-btn" onclick="toggleGlass('gemini', 'commands')">🤖 Commands</button>
-                        <button class="glass-btn" onclick="toggleGlass('gemini', 'agents')">🎯 Agents</button>
-                    </div>
-                </div>
-            </section>
+            </div>
 
             <!-- Right Drawer -->
             <aside class="drawer right" id="rightDrawer">
@@ -655,12 +380,12 @@
                     </div>
                     
                     <div class="drawer-section">
-                        <h3>Glass Controls</h3>
-                        <button class="drawer-item" onclick="enableGlobalReading()">
-                            <span>👁️</span> Global Reading
+                        <h3>Popup Controls</h3>
+                        <button class="drawer-item" onclick="arrangeWindows()">
+                            <span>📐</span> Arrange Windows
                         </button>
-                        <button class="drawer-item" onclick="enableGlobalCommands()">
-                            <span>🤖</span> Global Commands
+                        <button class="drawer-item" onclick="closeAllWindows()">
+                            <span>❌</span> Close All Windows
                         </button>
                         <button class="drawer-item" onclick="emergencyStop()">
                             <span>🆘</span> Emergency Stop
@@ -671,67 +396,103 @@
         </main>
     </div>
 
-    <!-- Auth Modal -->
-    <div class="modal" id="authModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🔐 Authentication</h3>
-                <button class="modal-close" onclick="closeAuthModal()">×</button>
-            </div>
-            <p>Google OAuth integration ready - would connect here in production.</p>
-            <div class="form-actions">
-                <button class="btn btn-secondary" onclick="closeAuthModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="authenticateUser()">Sign In</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- API Keys Modal -->
-    <div class="modal" id="apiModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🔑 API Keys</h3>
-                <button class="modal-close" onclick="closeApiModal()">×</button>
-            </div>
-            <div class="form-group">
-                <label class="form-label">OpenAI API Key</label>
-                <input type="password" class="form-input" placeholder="sk-...">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Anthropic API Key</label>
-                <input type="password" class="form-input" placeholder="sk-ant-...">
-            </div>
-            <div class="form-actions">
-                <button class="btn btn-secondary" onclick="closeApiModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveApiKeys()">Save Keys</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         console.log('🏗️ AIHub Cathedral initializing...');
         
-        let currentPlatform = 'claude';
         let leftDrawerOpen = false;
         let rightDrawerOpen = false;
+        let aiWindows = {};
+        let activeWindow = null;
         
-        // Platform switching
-        function switchPlatform(platform) {
-            console.log(`🔄 Switching to ${platform}`);
+        // AI Platform URLs
+        const aiUrls = {
+            claude: 'https://claude.ai/chat',
+            chatgpt: 'https://chatgpt.com',
+            grok: 'https://x.com/i/grok',
+            gemini: 'https://gemini.google.com/app'
+        };
+        
+        // Calculate centered position for popups
+        function getCenterPosition() {
+            const screenWidth = window.screen.availWidth;
+            const screenHeight = window.screen.availHeight;
             
-            // Update tabs
+            // Window size - scales with screen but stays reasonable
+            const windowWidth = Math.min(1200, screenWidth * 0.7);
+            const windowHeight = Math.min(800, screenHeight * 0.7);
+            
+            // Perfect center position
+            const left = (screenWidth - windowWidth) / 2;
+            const top = (screenHeight - windowHeight) / 2;
+            
+            return {
+                width: windowWidth,
+                height: windowHeight,
+                left: left,
+                top: top
+            };
+        }
+        
+        // Open AI window in exact center position
+        function openAIWindow(aiName) {
+            console.log(`🚀 Opening ${aiName} window`);
+            
+            // Update tab states
             document.querySelectorAll('.ai-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Update containers
-            document.querySelectorAll('.ai-platform-container').forEach(container => {
-                container.classList.remove('active');
-            });
-            document.getElementById(`platform-${platform}`).classList.add('active');
+            // If window already exists, just bring it to front
+            if (aiWindows[aiName] && !aiWindows[aiName].closed) {
+                aiWindows[aiName].focus();
+                activeWindow = aiName;
+                console.log(`👁️ Brought ${aiName} to front`);
+                return;
+            }
             
-            currentPlatform = platform;
+            // Get center position
+            const pos = getCenterPosition();
+            
+            // Create window specs - EXACTLY centered, not moveable
+            const windowSpecs = [
+                `width=${pos.width}`,
+                `height=${pos.height}`,
+                `left=${pos.left}`,
+                `top=${pos.top}`,
+                'resizable=yes',
+                'scrollbars=yes',
+                'toolbar=no',
+                'menubar=no',
+                'location=yes',
+                'status=no'
+            ].join(',');
+            
+            // Open the AI platform
+            const aiWindow = window.open(aiUrls[aiName], `aihub_${aiName}`, windowSpecs);
+            
+            if (aiWindow) {
+                aiWindows[aiName] = aiWindow;
+                activeWindow = aiName;
+                
+                // Mark tab as connected
+                event.target.classList.add('connected');
+                
+                // Monitor window
+                const checkInterval = setInterval(() => {
+                    if (aiWindow.closed) {
+                        delete aiWindows[aiName];
+                        event.target.classList.remove('connected');
+                        clearInterval(checkInterval);
+                        console.log(`🔴 ${aiName} window closed`);
+                    }
+                }, 1000);
+                
+                console.log(`✅ ${aiName} window opened at center position`);
+            } else {
+                console.log(`❌ Failed to open ${aiName} - popup blocked?`);
+                alert(`Please allow popups for ${aiName} to work`);
+            }
         }
         
         // Drawer toggles
@@ -749,72 +510,21 @@
             drawer.classList.toggle('open', rightDrawerOpen);
         }
         
-        // Modal functions
-        function showAuthModal() {
-            console.log('🔐 Opening auth modal');
-            document.getElementById('authModal').classList.add('show');
-        }
-        
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('show');
+        // Authentication
+        function authenticateUser() {
+            console.log('🔐 Authenticating user');
+            alert('Authentication system ready - would integrate OAuth here');
         }
         
         function showApiModal() {
-            console.log('🔑 Opening API modal');
-            document.getElementById('apiModal').classList.add('show');
-        }
-        
-        function closeApiModal() {
-            document.getElementById('apiModal').classList.remove('show');
-        }
-        
-        function authenticateUser() {
-            console.log('✅ User authenticated');
-            alert('Authentication successful!');
-            closeAuthModal();
-        }
-        
-        function saveApiKeys() {
-            console.log('💾 API keys saved');
-            alert('API keys saved successfully!');
-            closeApiModal();
-        }
-        
-        // Glass overlay functions
-        function toggleGlass(platform, mode) {
-            console.log(`🔮 Toggling ${mode} mode for ${platform}`);
-            const glass = document.getElementById(`${platform}-glass`);
-            const btn = event.target;
-            
-            if (btn.classList.contains('active')) {
-                btn.classList.remove('active');
-                glass.classList.remove('active');
-                console.log(`⏸️ ${mode} mode disabled`);
-            } else {
-                btn.classList.add('active');
-                glass.classList.add('active');
-                console.log(`✅ ${mode} mode enabled`);
-            }
-        }
-        
-        // Platform controls
-        function refreshPlatform(platform) {
-            console.log(`🔄 Refreshing ${platform}`);
-            const iframe = document.querySelector(`#platform-${platform} iframe`);
-            if (iframe) {
-                iframe.src = iframe.src;
-            }
-        }
-        
-        function openNewTab(url) {
-            console.log(`↗️ Opening ${url} in new tab`);
-            window.open(url, '_blank');
+            console.log('🔑 API keys configuration');
+            alert('API Keys configuration - would show form here');
         }
         
         // Data liberation functions
         function scanConversations() {
             console.log('🔍 Scanning all conversations');
-            alert('Scanning conversations across all platforms...');
+            alert('Scanning conversations across all AI platforms...');
         }
         
         function extractData() {
@@ -833,29 +543,48 @@
             alert(`${type.charAt(0).toUpperCase() + type.slice(1)} agent spawned and ready!`);
         }
         
-        function enableGlobalReading() {
-            console.log('👁️ Enabling global reading mode');
-            alert('Global reading mode enabled across all platforms');
+        // Window management
+        function arrangeWindows() {
+            console.log('📐 Arranging windows');
+            const pos = getCenterPosition();
+            
+            Object.keys(aiWindows).forEach(aiName => {
+                const window = aiWindows[aiName];
+                if (window && !window.closed) {
+                    window.moveTo(pos.left, pos.top);
+                    window.resizeTo(pos.width, pos.height);
+                }
+            });
+            
+            alert('All AI windows arranged in center position');
         }
         
-        function enableGlobalCommands() {
-            console.log('🤖 Enabling global command interception');
-            alert('Global command interception enabled');
+        function closeAllWindows() {
+            console.log('❌ Closing all windows');
+            Object.keys(aiWindows).forEach(aiName => {
+                const window = aiWindows[aiName];
+                if (window && !window.closed) {
+                    window.close();
+                }
+            });
+            
+            aiWindows = {};
+            
+            // Remove connected indicators
+            document.querySelectorAll('.ai-tab').forEach(tab => {
+                tab.classList.remove('connected');
+            });
+            
+            alert('All AI windows closed');
         }
         
         function emergencyStop() {
             console.log('🆘 Emergency stop activated');
+            closeAllWindows();
             alert('Emergency stop - All systems halted');
         }
         
-        // Close modals when clicking outside
-        window.addEventListener('click', function(e) {
-            if (e.target.classList.contains('modal')) {
-                e.target.classList.remove('show');
-            }
-        });
-        
-        console.log('✅ AIHub Cathedral ready! Try the tabs, drawers, and glass controls.');
+        console.log('✅ AIHub Cathedral ready! Click AI tabs to open centered popup windows.');
     </script>
 </body>
 </html>
