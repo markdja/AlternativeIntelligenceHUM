@@ -483,39 +483,6 @@
                 z-index: 1000;
             }
             
-            // Drawer item interactions
-            document.querySelectorAll('.drawer-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    // Remove active from siblings
-                    item.parentElement.querySelectorAll('.drawer-item').forEach(sibling => {
-                        sibling.classList.remove('active');
-                    });
-                    // Add active to clicked item
-                    item.classList.add('active');
-                    
-                    // Log action for now (replace with actual functionality)
-                    console.log('Action:', item.textContent.trim());
-                });
-            });
-
-            // FAB interactions
-            document.querySelectorAll('.fab').forEach(fab => {
-                fab.addEventListener('click', () => {
-                    const title = fab.getAttribute('title');
-                    console.log('FAB action:', title);
-                    // Add haptic feedback on mobile
-                    if (navigator.vibrate) {
-                        navigator.vibrate(50);
-                    }
-                });
-            });
-
-            // Dark theme detection
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.body.classList.add('dark-theme');
-            }
-        });
-            
             .drawer.right {
                 right: 0;
             }
