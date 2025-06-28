@@ -1668,8 +1668,19 @@
             }
         }
         
-        // Initialize Inline API Manager
-        const inlineAPIManager = new InlineAPIManager();
+        // Auto-collapse drawers when authentication is clicked
+        function clearDecks() {
+            console.log('🧹 Clearing decks - collapsing all drawers');
+            const leftDrawer = document.getElementById('leftDrawer');
+            const rightDrawer = document.getElementById('rightDrawer');
+            
+            if (leftDrawer && !leftDrawer.classList.contains('collapsed')) {
+                leftDrawer.classList.add('collapsed');
+            }
+            if (rightDrawer && !rightDrawer.classList.contains('collapsed')) {
+                rightDrawer.classList.add('collapsed');
+            }
+        }
         
         // Manual API Keys Manager
         class APIKeysManager {
