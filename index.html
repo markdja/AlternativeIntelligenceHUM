@@ -521,7 +521,7 @@
             border-radius: 4px;
         }
         
-        .platform-indicator.pending {
+        .platform-indicator.ready {
             background: var(--bg-secondary);
             color: var(--text-secondary);
         }
@@ -1030,6 +1030,7 @@
             }
             
             init() {
+                console.log('🏗️ AIAuthManager initialized - waiting for user action');
                 // Initialize Google OAuth when library loads
                 window.addEventListener('load', () => {
                     if (window.google) {
@@ -1037,8 +1038,20 @@
                     }
                 });
                 
-                // Check for stored authentication
+                // Check for stored authentication but don't auto-authenticate
                 this.checkStoredAuth();
+                
+                // Set initial platform states to "ready" instead of trying to authenticate
+                this.setInitialPlatformStates();
+            }
+            
+            setInitialPlatformStates() {
+                const platforms = ['claude', 'chatgpt', 'gemini'];
+                platforms.forEach(platform => {
+                    this.updatePlatformStatus(platform, 'ready');
+                });
+                // Grok always requires manual API key
+                this.updatePlatformStatus('grok', 'manual');
             }
             
             initGoogleAuth() {
@@ -1197,6 +1210,9 @@
                     platformEl.className = `platform-indicator ${status}`;
                     
                     switch (status) {
+                        case 'ready':
+                            platformEl.textContent = '○';
+                            break;
                         case 'pending':
                             platformEl.textContent = '⏳';
                             break;
@@ -1230,9 +1246,10 @@
             }
             
             checkStoredAuth() {
-                // Check for existing authentication
-                // In a real app, validate stored tokens
-                console.log('Checking stored authentication...');
+                // Check for existing authentication but don't auto-connect
+                console.log('🔍 Checking for stored authentication (passive check)');
+                // In a real app, you'd check for valid stored tokens
+                // but NOT automatically use them until user initiates sign-in
             }
             
             disconnect() {
@@ -1296,8 +1313,9 @@
             }
             
             loadStoredKeys() {
-                // Load encrypted API keys from secure storage
-                console.log('Loading stored API keys...');
+                // Load encrypted API keys from secure storage (passive check only)
+                console.log('🔍 Checking for stored API keys (passive check)');
+                // Don't automatically authenticate - wait for user action
             }
         }
         
