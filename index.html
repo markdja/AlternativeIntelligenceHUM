@@ -1049,17 +1049,25 @@
             }
             
             signInWithGoogle() {
+                console.log('🔐 Attempting Google Sign In...');
+                
                 if (!window.google) {
-                    console.error('Google OAuth not loaded');
+                    console.log('⚠️ Google OAuth library not loaded, showing fallback');
                     this.showFallbackAuth();
                     return;
                 }
                 
-                google.accounts.oauth2.initTokenClient({
-                    client_id: GOOGLE_CLIENT_ID,
-                    scope: 'email profile openid',
-                    callback: this.handleTokenResponse.bind(this),
-                }).requestAccessToken();
+                try {
+                    google.accounts.oauth2.initTokenClient({
+                        client_id: GOOGLE_CLIENT_ID,
+                        scope: 'email profile openid',
+                        callback: this.handleTokenResponse.bind(this),
+                    }).requestAccessToken();
+                } catch (error) {
+                    console.error('OAuth error:', error);
+                    alert('OAuth temporarily unavailable. Please try Manual API Keys.');
+                    this.showFallbackAuth();
+                }
             }
             
             handleGoogleAuth(response) {
