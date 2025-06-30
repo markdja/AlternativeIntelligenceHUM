@@ -587,6 +587,31 @@
     </header>
 
     <div class="main-container" id="mainContainer">
+        <!-- Side Menu Tabs - Left -->
+        <div class="side-menu-tabs left">
+            <button class="side-tab data-lib active" onclick="showLeftMenu('data')" title="Data Liberation">
+                📊
+            </button>
+            <button class="side-tab conversation" onclick="showLeftMenu('conversation')" title="Conversations">
+                💬
+            </button>
+            <button class="side-tab export" onclick="showLeftMenu('export')" title="Export Tools">
+                📤
+            </button>
+        </div>
+
+        <!-- Side Menu Tabs - Right -->
+        <div class="side-menu-tabs right">
+            <button class="side-tab agents active" onclick="showRightMenu('agents')" title="AI Agents">
+                🤖
+            </button>
+            <button class="side-tab glass" onclick="showRightMenu('glass')" title="Glass Overlay">
+                👁️
+            </button>
+            <button class="side-tab emergency" onclick="showRightMenu('emergency')" title="Emergency Controls">
+                🚨
+            </button>
+        </div>
         <!-- Left Drawer - Data Liberation Hub -->
         <div class="drawer left-drawer" id="leftDrawer">
             <div class="drawer-header">
@@ -676,10 +701,22 @@
         </div>
 
         <div class="ai-tabs">
-            <button class="ai-tab active" onclick="switchTab('claude')">Claude</button>
-            <button class="ai-tab" onclick="switchTab('chatgpt')">ChatGPT</button>
-            <button class="ai-tab" onclick="switchTab('grok')">Grok</button>
-            <button class="ai-tab" onclick="switchTab('gemini')">Gemini</button>
+            <button class="ai-tab active" onclick="switchTab('claude')" data-ai="claude">
+                Claude
+                <div class="ai-status-light ready" id="claude-tab-status"></div>
+            </button>
+            <button class="ai-tab" onclick="switchTab('chatgpt')" data-ai="chatgpt">
+                ChatGPT
+                <div class="ai-status-light ready" id="chatgpt-tab-status"></div>
+            </button>
+            <button class="ai-tab" onclick="switchTab('grok')" data-ai="grok">
+                Grok
+                <div class="ai-status-light ready" id="grok-tab-status"></div>
+            </button>
+            <button class="ai-tab" onclick="switchTab('gemini')" data-ai="gemini">
+                Gemini
+                <div class="ai-status-light ready" id="gemini-tab-status"></div>
+            </button>
         </div>
         
         <div class="chat-area">
@@ -980,25 +1017,195 @@
         }
 
         function updatePlatformStatus(platform, status, message) {
+            // Update OAuth modal status
             const statusElement = document.getElementById(`${platform}-auth-status`);
-            if (!statusElement) return;
+            if (statusElement) {
+                const statusMap = {
+                    'ready': { class: 'status-ready', text: '○', color: '#666' },
+                    'pending': { class: 'status-pending', text: '◐', color: '#fbbf24' },
+                    'connected': { class: 'status-connected', text: '●', color: '#10b981' },
+                    'error': { class: 'status-error', text: '◕', color: '#ef4444' }
+                };
+                
+                const statusInfo = statusMap[status] || statusMap['ready'];
+                statusElement.className = `platform-status ${statusInfo.class}`;
+                statusElement.textContent = statusInfo.text;
+                statusElement.title = message;
+                statusElement.style.color = statusInfo.color;
+                
+                if (status === 'connected') {
+                    statusElement.style.animation = 'sparkle 1s ease-in-out infinite';
+                }
+            }
+
+            // Update AI tab status light
+            const tabStatus = document.getElementById(`${platform}-tab-status`);
+            if (tabStatus) {
+                tabStatus.className = `ai-status-light ${status}`;
+                tabStatus.title = message;
+            }
+        }
+
+        function showLeftMenu(menuType) {
+            console.log(`📊 Switching to ${menuType} menu`);
             
-            const statusMap = {
-                'ready': { class: 'status-ready', text: '○', color: '#666' },
-                'pending': { class: 'status-pending', text: '◐', color: '#fbbf24' },
-                'connected': { class: 'status-connected', text: '●', color: '#10b981' },
-                'error': { class: 'status-error', text: '◕', color: '#ef4444' }
+            // Update active tab
+            document.querySelectorAll('.side-menu-tabs.left .side-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update drawer content based on menu type
+            const drawer = document.getElementById('leftDrawer');
+            const header = drawer.querySelector('.drawer-header');
+            const content = drawer.querySelector('.drawer-content');
+            
+            const menuConfigs = {
+                data: {
+                    icon: '📊',
+                    title: 'Data Liberation Hub',
+                    content: drawer.querySelector('.drawer-content').innerHTML // Keep current content
+                },
+                conversation: {
+                    icon: '💬',
+                    title: 'Conversation Manager',
+                    content: `
+                        <div class="drawer-section">
+                            <h4>Active Conversations</h4>
+                            <button class="drawer-item" onclick="alert('Show active chats')">
+                                <span>💭</span> View Active Chats
+                            </button>
+                            <button class="drawer-item" onclick="alert('Search conversations')">
+                                <span>🔍</span> Search Conversations
+                            </button>
+                        </div>
+                        <div class="drawer-section">
+                            <h4>Conversation History</h4>
+                            <button class="drawer-item" onclick="alert('Browse history')">
+                                <span>📚</span> Browse History
+                            </button>
+                            <button class="drawer-item" onclick="alert('Filter by AI')">
+                                <span>🤖</span> Filter by AI
+                            </button>
+                        </div>
+                    `
+                },
+                export: {
+                    icon: '📤',
+                    title: 'Export & Share Tools',
+                    content: `
+                        <div class="drawer-section">
+                            <h4>Export Formats</h4>
+                            <button class="drawer-item" onclick="alert('Export as PDF')">
+                                <span>📄</span> Export as PDF
+                            </button>
+                            <button class="drawer-item" onclick="alert('Export as Markdown')">
+                                <span>📝</span> Export as Markdown
+                            </button>
+                            <button class="drawer-item" onclick="alert('Export as JSON')">
+                                <span>💾</span> Export as JSON
+                            </button>
+                        </div>
+                        <div class="drawer-section">
+                            <h4>Sharing</h4>
+                            <button class="drawer-item" onclick="alert('Generate share link')">
+                                <span>🔗</span> Generate Share Link
+                            </button>
+                            <button class="drawer-item" onclick="alert('Email conversation')">
+                                <span>📧</span> Email Conversation
+                            </button>
+                        </div>
+                    `
+                }
             };
             
-            const statusInfo = statusMap[status] || statusMap['ready'];
-            statusElement.className = `platform-status ${statusInfo.class}`;
-            statusElement.textContent = statusInfo.text;
-            statusElement.title = message;
-            statusElement.style.color = statusInfo.color;
+            const config = menuConfigs[menuType];
+            if (config && menuType !== 'data') { // Don't change data menu - it's already set up
+                header.innerHTML = `<span>${config.icon}</span> ${config.title}`;
+                content.innerHTML = config.content;
+            }
+        }
+
+        function showRightMenu(menuType) {
+            console.log(`🤖 Switching to ${menuType} menu`);
             
-            // Add sparkle animation for connected status
-            if (status === 'connected') {
-                statusElement.style.animation = 'sparkle 1s ease-in-out infinite';
+            // Update active tab
+            document.querySelectorAll('.side-menu-tabs.right .side-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update drawer content based on menu type
+            const drawer = document.getElementById('rightDrawer');
+            const header = drawer.querySelector('.drawer-header');
+            const content = drawer.querySelector('.drawer-content');
+            
+            const menuConfigs = {
+                agents: {
+                    icon: '🤖',
+                    title: 'Agent Command Center',
+                    content: drawer.querySelector('.drawer-content').innerHTML // Keep current content
+                },
+                glass: {
+                    icon: '👁️',
+                    title: 'Glass Overlay Controls',
+                    content: `
+                        <div class="drawer-section">
+                            <h4>Overlay Modes</h4>
+                            <button class="drawer-item" onclick="alert('Reading overlay')">
+                                <span>👁️</span> Reading Overlay
+                            </button>
+                            <button class="drawer-item" onclick="alert('Analysis overlay')">
+                                <span>🔬</span> Analysis Overlay
+                            </button>
+                            <button class="drawer-item" onclick="alert('Translation overlay')">
+                                <span>🌐</span> Translation Overlay
+                            </button>
+                        </div>
+                        <div class="drawer-section">
+                            <h4>Visual Settings</h4>
+                            <button class="drawer-item" onclick="alert('Adjust opacity')">
+                                <span>🎛️</span> Adjust Opacity
+                            </button>
+                            <button class="drawer-item" onclick="alert('Change position')">
+                                <span>📍</span> Change Position
+                            </button>
+                        </div>
+                    `
+                },
+                emergency: {
+                    icon: '🚨',
+                    title: 'Emergency Controls',
+                    content: `
+                        <div class="drawer-section">
+                            <h4>System Controls</h4>
+                            <button class="drawer-item danger" onclick="alert('Emergency stop all')">
+                                <span>🛑</span> Emergency Stop All
+                            </button>
+                            <button class="drawer-item" onclick="alert('Restart system')">
+                                <span>🔄</span> Restart System
+                            </button>
+                            <button class="drawer-item" onclick="alert('Safe mode')">
+                                <span>🛡️</span> Enter Safe Mode
+                            </button>
+                        </div>
+                        <div class="drawer-section">
+                            <h4>Data Protection</h4>
+                            <button class="drawer-item" onclick="alert('Backup now')">
+                                <span>💾</span> Emergency Backup
+                            </button>
+                            <button class="drawer-item" onclick="alert('Clear cache')">
+                                <span>🗑️</span> Clear All Cache
+                            </button>
+                        </div>
+                    `
+                }
+            };
+            
+            const config = menuConfigs[menuType];
+            if (config && menuType !== 'agents') { // Don't change agents menu - it's already set up
+                header.innerHTML = `<span>${config.icon}</span> ${config.title}`;
+                content.innerHTML = config.content;
             }
         }
 
