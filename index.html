@@ -618,10 +618,101 @@
             <button class="auth-btn secondary" onclick="showApiKeysModal()">
                 🔑 API Keys
             </button>
+            <button class="menu-btn" onclick="toggleRightDrawer()" id="rightDrawerToggle" title="Agent Controls">
+                ⚙️
+            </button>
         </div>
     </header>
 
     <div class="main-container">
+        <!-- Left Drawer -->
+        <div class="drawer left-drawer" id="leftDrawer">
+            <div class="drawer-header">
+                <span>📊</span> Data Liberation Hub
+            </div>
+            <div class="drawer-content">
+                <div class="drawer-section">
+                    <h4>Conversation Harvesting</h4>
+                    <button class="drawer-item" onclick="harvestConversations()">
+                        <span>🔄</span> Harvest All Conversations
+                    </button>
+                    <button class="drawer-item" onclick="exportConversations()">
+                        <span>📤</span> Export Conversations
+                    </button>
+                    <button class="drawer-item" onclick="viewHarvestedData()">
+                        <span>👁️</span> View Harvested Data
+                    </button>
+                </div>
+                
+                <div class="drawer-section">
+                    <h4>Data Liberation</h4>
+                    <button class="drawer-item" onclick="liberateFromChatGPT()">
+                        <span>💬</span> Liberate ChatGPT Data
+                    </button>
+                    <button class="drawer-item" onclick="liberateFromClaude()">
+                        <span>🤖</span> Liberate Claude Data
+                    </button>
+                    <button class="drawer-item" onclick="liberateFromAll()">
+                        <span>🌐</span> Liberate All Platform Data
+                    </button>
+                </div>
+                
+                <div class="drawer-section">
+                    <h4>Cloud Backup</h4>
+                    <button class="drawer-item" onclick="syncToCloud()">
+                        <span>☁️</span> Sync to Cloud Storage
+                    </button>
+                    <button class="drawer-item" onclick="scheduleBackups()">
+                        <span>⏰</span> Schedule Auto-Backups
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Drawer -->
+        <div class="drawer right-drawer" id="rightDrawer">
+            <div class="drawer-header">
+                <span>🤖</span> Agent Command Center
+            </div>
+            <div class="drawer-content">
+                <div class="drawer-section">
+                    <h4>Agent Spawning</h4>
+                    <button class="drawer-item" onclick="spawnResearchAgent()">
+                        <span>🔍</span> Spawn Research Agent
+                    </button>
+                    <button class="drawer-item" onclick="spawnWritingAgent()">
+                        <span>✍️</span> Spawn Writing Agent
+                    </button>
+                    <button class="drawer-item" onclick="spawnAnalysisAgent()">
+                        <span>📊</span> Spawn Analysis Agent
+                    </button>
+                </div>
+                
+                <div class="drawer-section">
+                    <h4>Glass Overlay Controls</h4>
+                    <button class="drawer-item" onclick="toggleReading()">
+                        <span>👁️</span> Toggle Reading Mode
+                    </button>
+                    <button class="drawer-item" onclick="toggleCommands()">
+                        <span>🤖</span> Toggle Command Mode
+                    </button>
+                    <button class="drawer-item" onclick="toggleSensors()">
+                        <span>📡</span> Toggle Sensor Array
+                    </button>
+                </div>
+                
+                <div class="drawer-section">
+                    <h4>Emergency Controls</h4>
+                    <button class="drawer-item danger" onclick="emergencyStop()">
+                        <span>🛑</span> Emergency Stop All
+                    </button>
+                    <button class="drawer-item" onclick="resetSystems()">
+                        <span>🔄</span> Reset All Systems
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="ai-tabs">
             <button class="ai-tab active" onclick="switchTab('claude')">Claude</button>
             <button class="ai-tab" onclick="switchTab('chatgpt')">ChatGPT</button>
@@ -1327,7 +1418,54 @@
 
         function toggleLeftDrawer() {
             console.log('☰ Left drawer toggle');
+            const drawer = document.getElementById('leftDrawer');
+            drawer.classList.toggle('open');
         }
+
+        function toggleRightDrawer() {
+            console.log('⚙️ Right drawer toggle');
+            const drawer = document.getElementById('rightDrawer');
+            drawer.classList.toggle('open');
+        }
+
+        // Drawer item functions
+        function harvestConversations() {
+            addSparkleEffect(event.target);
+            console.log('🔄 Harvesting conversations...');
+            alert('🔄 Starting conversation harvest from all platforms!');
+        }
+
+        function spawnResearchAgent() {
+            addSparkleEffect(event.target);
+            console.log('🔍 Spawning research agent...');
+            alert('🔍 Research agent spawned and ready for deployment!');
+        }
+
+        function toggleReading() {
+            addSparkleEffect(event.target);
+            console.log('👁️ Toggling reading mode...');
+            alert('👁️ Glass overlay reading mode activated!');
+        }
+
+        function emergencyStop() {
+            addSparkleEffect(event.target);
+            console.log('🛑 Emergency stop activated!');
+            alert('🛑 Emergency stop - all agents halted!');
+        }
+
+        // Placeholder functions for other drawer items
+        function exportConversations() { addSparkleEffect(event.target); alert('📤 Export functionality coming soon!'); }
+        function viewHarvestedData() { addSparkleEffect(event.target); alert('👁️ Data viewer opening...'); }
+        function liberateFromChatGPT() { addSparkleEffect(event.target); alert('💬 ChatGPT data liberation starting...'); }
+        function liberateFromClaude() { addSparkleEffect(event.target); alert('🤖 Claude data liberation starting...'); }
+        function liberateFromAll() { addSparkleEffect(event.target); alert('🌐 Full platform liberation initiated!'); }
+        function syncToCloud() { addSparkleEffect(event.target); alert('☁️ Cloud sync starting...'); }
+        function scheduleBackups() { addSparkleEffect(event.target); alert('⏰ Backup scheduler opening...'); }
+        function spawnWritingAgent() { addSparkleEffect(event.target); alert('✍️ Writing agent spawned!'); }
+        function spawnAnalysisAgent() { addSparkleEffect(event.target); alert('📊 Analysis agent spawned!'); }
+        function toggleCommands() { addSparkleEffect(event.target); alert('🤖 Command mode toggled!'); }
+        function toggleSensors() { addSparkleEffect(event.target); alert('📡 Sensor array toggled!'); }
+        function resetSystems() { addSparkleEffect(event.target); alert('🔄 All systems reset!'); }
 
         // Close modal when clicking outside
         document.addEventListener('click', function(event) {
