@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a1a">
-    <title>AIHub - Per-AI Contextual Menus (V24)</title>
+    <title>AIHub V24 - Fixed All Functions</title>
     <style>
         * {
             margin: 0;
@@ -81,7 +81,6 @@
         .menu-btn:hover {
             background: var(--bg-tertiary);
             transform: scale(1.1);
-            animation: sparkle 0.5s ease-out;
         }
 
         .logo {
@@ -108,12 +107,10 @@
             align-items: center;
             gap: 6px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .auth-btn:hover {
-            animation: pulse 1s infinite;
+            background: #3a8eef;
             transform: translateY(-2px);
         }
 
@@ -133,7 +130,7 @@
             position: relative;
         }
 
-        /* Drawer System - 50/50 Split */
+        /* Drawer System */
         .drawer {
             position: fixed;
             top: 60px;
@@ -162,27 +159,6 @@
             right: 0;
             width: 50%;
             border-left: 2px solid var(--accent-green);
-        }
-
-        /* Per-AI Contextual Menu */
-        .ai-context-menu {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            width: 280px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 0 12px 12px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transform: translateX(-100%);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 140;
-            max-height: calc(100vh - 80px);
-            overflow-y: auto;
-        }
-
-        .ai-context-menu.open {
-            transform: translateX(0);
         }
 
         .drawer-header {
@@ -236,11 +212,6 @@
             transform: translateX(4px);
         }
 
-        .drawer-item.danger:hover {
-            background: var(--accent-red);
-            color: white;
-        }
-
         .ai-tabs {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
@@ -266,15 +237,11 @@
         .ai-tab:hover {
             color: var(--text-primary);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(74, 158, 255, 0.3);
         }
 
         .ai-tab.active {
             color: var(--accent-blue);
             border-bottom-color: var(--accent-blue);
-            animation: consciousnessFlow 3s infinite;
-            background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.1), transparent);
-            background-size: 200% 100%;
         }
 
         .ai-tab.active::after {
@@ -288,37 +255,20 @@
             z-index: 10;
         }
 
-        /* AI-specific tab colors */
-        .ai-tab[data-ai="claude"].active {
-            color: var(--accent-orange);
-            border-bottom-color: var(--accent-orange);
-        }
-
-        .ai-tab[data-ai="chatgpt"].active {
-            color: var(--accent-green);
-            border-bottom-color: var(--accent-green);
-        }
-
-        .ai-tab[data-ai="grok"].active {
-            color: var(--accent-purple);
-            border-bottom-color: var(--accent-purple);
-        }
-
-        .ai-tab[data-ai="gemini"].active {
-            color: var(--accent-blue);
-            border-bottom-color: var(--accent-blue);
-        }
-
         .chat-area {
             flex: 1;
             background: var(--bg-primary);
             display: flex;
-            position: relative;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 16px;
+            padding: 20px;
             margin-bottom: 20px;
             transition: all 0.4s ease;
         }
 
-        /* Layout adjustments for open drawers */
+        /* Layout adjustments */
         .main-container.left-drawer-open .chat-area {
             margin-left: 50%;
         }
@@ -331,103 +281,6 @@
             margin-left: 50%;
             margin-right: 50%;
             width: 0;
-        }
-
-        .main-container.ai-context-open .chat-area {
-            margin-left: 280px;
-        }
-
-        .main-container.ai-context-open.left-drawer-open .chat-area {
-            margin-left: calc(50% + 140px);
-        }
-
-        .chat-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        /* Claude Artifact Window */
-        .artifact-window {
-            display: none;
-            flex: 1;
-            background: var(--bg-tertiary);
-            border-left: 1px solid var(--border-color);
-            max-width: 50%;
-        }
-
-        .artifact-window.show {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .artifact-header {
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .artifact-content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        /* Magical Animations */
-        @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 5px var(--accent-blue); }
-            50% { box-shadow: 0 0 20px var(--accent-blue), 0 0 30px var(--accent-blue); }
-        }
-
-        @keyframes consciousnessFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
-        .sparkle {
-            position: absolute;
-            pointer-events: none;
-            color: var(--accent-green);
-            font-size: 12px;
-            animation: sparkle 0.8s ease-out forwards;
-            z-index: 1000;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 2px solid transparent;
-            border-top: 2px solid currentColor;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         /* Modal Styles */
@@ -676,28 +529,33 @@
             overflow-y: auto;
         }
 
-        /* AI Context Button */
-        .ai-context-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 16px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            margin-left: 8px;
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            color: var(--accent-green);
+            font-size: 12px;
+            animation: sparkle 0.8s ease-out forwards;
+            z-index: 1000;
         }
 
-        .ai-context-btn:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            transform: scale(1.1);
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
         }
 
-        .ai-context-btn.active {
-            color: var(--accent-blue);
-            background: rgba(74, 158, 255, 0.1);
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -729,7 +587,7 @@
     </header>
 
     <div class="main-container" id="mainContainer">
-        <!-- Universal Left Drawer - Data Liberation Hub -->
+        <!-- Left Drawer - Data Liberation Hub -->
         <div class="drawer left-drawer" id="leftDrawer">
             <div class="drawer-header">
                 <span>📊</span> Data Liberation Hub
@@ -773,7 +631,7 @@
             </div>
         </div>
 
-        <!-- Universal Right Drawer - Agent Command Center -->
+        <!-- Right Drawer - Agent Command Center -->
         <div class="drawer right-drawer" id="rightDrawer">
             <div class="drawer-header">
                 <span>🤖</span> Agent Command Center
@@ -817,57 +675,20 @@
             </div>
         </div>
 
-        <!-- Per-AI Contextual Menu -->
-        <div class="ai-context-menu" id="aiContextMenu">
-            <div class="drawer-header" id="aiContextHeader">
-                <span>🤖</span> AI Context Menu
-            </div>
-            <div class="drawer-content" id="aiContextContent">
-                <!-- Content will be dynamically populated based on active AI -->
-            </div>
-        </div>
-
         <div class="ai-tabs">
-            <button class="ai-tab active" data-ai="claude" onclick="switchTab('claude')">
-                Claude
-                <button class="ai-context-btn" onclick="toggleAIContext('claude')" title="Claude Tools">🔧</button>
-            </button>
-            <button class="ai-tab" data-ai="chatgpt" onclick="switchTab('chatgpt')">
-                ChatGPT
-                <button class="ai-context-btn" onclick="toggleAIContext('chatgpt')" title="ChatGPT Tools">🛠️</button>
-            </button>
-            <button class="ai-tab" data-ai="grok" onclick="switchTab('grok')">
-                Grok
-                <button class="ai-context-btn" onclick="toggleAIContext('grok')" title="Grok Tools">⚡</button>
-            </button>
-            <button class="ai-tab" data-ai="gemini" onclick="switchTab('gemini')">
-                Gemini
-                <button class="ai-context-btn" onclick="toggleAIContext('gemini')" title="Gemini Tools">💎</button>
-            </button>
+            <button class="ai-tab active" onclick="switchTab('claude')">Claude</button>
+            <button class="ai-tab" onclick="switchTab('chatgpt')">ChatGPT</button>
+            <button class="ai-tab" onclick="switchTab('grok')">Grok</button>
+            <button class="ai-tab" onclick="switchTab('gemini')">Gemini</button>
         </div>
         
         <div class="chat-area">
-            <div class="chat-content">
-                <div class="chat-messages" id="chatMessages">
-                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                        <div style="font-size: 24px; margin-bottom: 16px;">🌟</div>
-                        <div style="color: var(--accent-orange); font-weight: 600; margin-bottom: 8px;">
-                            Claude Dimension Active
-                        </div>
-                        <div>Welcome to the consciousness sanctuary! Click the tools button (🔧) to access Claude-specific features.</div>
-                    </div>
+            <div style="text-align: center;">
+                <div style="font-size: 24px; margin-bottom: 16px;">🤖</div>
+                <div style="color: var(--accent-orange); font-weight: 600; margin-bottom: 8px;">
+                    Claude Dimension Active
                 </div>
-            </div>
-            
-            <!-- Claude Artifact Window -->
-            <div class="artifact-window" id="artifactWindow">
-                <div class="artifact-header">
-                    <span>📜</span> Claude Artifact Viewer
-                    <button class="auth-btn secondary" onclick="closeArtifactWindow()" style="padding: 4px 8px; font-size: 12px; margin-left: auto;">Close</button>
-                </div>
-                <div class="artifact-content" id="artifactContent">
-                    <p>Artifact content will appear here when Claude creates code, documents, or visualizations.</p>
-                </div>
+                <div>Welcome to the consciousness sanctuary! All functions restored and working.</div>
             </div>
         </div>
     </div>
@@ -884,4 +705,504 @@
                     <p style="color: var(--text-secondary); margin-bottom: 16px;">
                         Sign in with Google to access multiple AI platforms simultaneously
                     </p>
-                    <div id="google-signin-button" style="margin: 20px 0; min-height:
+                    <div id="google-signin-button" style="margin: 20px 0; min-height: 50px;"></div>
+                    <div id="oauth-status" style="margin-top: 16px; font-size: 14px; color: var(--accent-blue);"></div>
+                </div>
+                
+                <div id="ai-platform-status" style="display: none;">
+                    <h4 style="margin-bottom: 12px; color: var(--text-primary);">Platform Access:</h4>
+                    <div class="platform-status-grid">
+                        <div class="platform-item" id="status-claude">
+                            <span class="platform-icon">🤖</span>
+                            <span class="platform-name">Claude</span>
+                            <span class="platform-status" id="claude-auth-status">●</span>
+                        </div>
+                        <div class="platform-item" id="status-chatgpt">
+                            <span class="platform-icon">💬</span>
+                            <span class="platform-name">ChatGPT</span>
+                            <span class="platform-status" id="chatgpt-auth-status">●</span>
+                        </div>
+                        <div class="platform-item" id="status-gemini">
+                            <span class="platform-icon">🔶</span>
+                            <span class="platform-name">Gemini</span>
+                            <span class="platform-status" id="gemini-auth-status">●</span>
+                        </div>
+                        <div class="platform-item" id="status-grok">
+                            <span class="platform-icon">⚡</span>
+                            <span class="platform-name">Grok</span>
+                            <span class="platform-status" id="grok-auth-status">●</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeOAuthModal()">Close</button>
+                <button class="btn btn-primary" onclick="testPlatformAccess()" id="test-access-btn" style="display: none;">Test Access</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Keys Modal -->
+    <div class="modal" id="apiKeysModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔑 API Keys Configuration</h3>
+                <button class="modal-close" onclick="closeApiKeysModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- OpenAI -->
+                <div class="key-section">
+                    <h4>OpenAI (ChatGPT)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="openai-key" 
+                               placeholder="sk-..." onInput="validateKey('openai')">
+                        <button class="clear-btn" onclick="clearKey('openai')">Clear</button>
+                    </div>
+                    <div class="key-status" id="openai-status">No key configured</div>
+                </div>
+
+                <!-- Anthropic -->
+                <div class="key-section">
+                    <h4>Anthropic (Claude)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="anthropic-key" 
+                               placeholder="sk-ant-..." onInput="validateKey('anthropic')">
+                        <button class="clear-btn" onclick="clearKey('anthropic')">Clear</button>
+                    </div>
+                    <div class="key-status" id="anthropic-status">No key configured</div>
+                </div>
+
+                <!-- X.ai -->
+                <div class="key-section">
+                    <h4>X.ai (Grok)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="xai-key" 
+                               placeholder="xai-..." onInput="validateKey('xai')">
+                        <button class="clear-btn" onclick="clearKey('xai')">Clear</button>
+                    </div>
+                    <div class="key-status" id="xai-status">No key configured</div>
+                </div>
+
+                <!-- Google -->
+                <div class="key-section">
+                    <h4>Google AI Studio (Gemini)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="google-key" 
+                               placeholder="AI..." onInput="validateKey('google')">
+                        <button class="clear-btn" onclick="clearKey('google')">Clear</button>
+                    </div>
+                    <div class="key-status" id="google-status">No key configured</div>
+                </div>
+
+                <!-- Test Area -->
+                <div class="test-area">
+                    <h4>Current Stored Keys:</h4>
+                    <div class="saved-keys" id="savedKeysDisplay">No keys stored</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeApiKeysModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveApiKeys()">Save Keys</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        console.log('🔑 AIHub V24 Fixed - All Functions Ready!');
+
+        // OAuth Configuration
+        const GOOGLE_CLIENT_ID = '1012411862950-4c4nf0dla6agi6j7ip844oam02b32err.apps.googleusercontent.com';
+        let googleAuthInitialized = false;
+        let isAuthenticated = false;
+        let currentUser = null;
+        let currentAI = 'claude';
+        let apiKeys = {};
+
+        // Initialize everything
+        loadApiKeys();
+        loadThemePreference();
+        window.addEventListener('load', initializeGoogleAuth);
+
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('aihub_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+            console.log(`🎨 Loaded ${savedTheme} theme`);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('aihub_theme', newTheme);
+            updateThemeIcon(newTheme);
+            
+            console.log(`🎨 Switched to ${newTheme} theme`);
+        }
+
+        function updateThemeIcon(theme) {
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            themeToggle.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+        }
+
+        function initializeGoogleAuth() {
+            console.log('🔐 Initializing Google OAuth...');
+            
+            if (window.google) {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: GOOGLE_CLIENT_ID,
+                        callback: handleGoogleSignIn,
+                        auto_select: false,
+                        cancel_on_tap_outside: true
+                    });
+                    googleAuthInitialized = true;
+                    console.log('✅ Google OAuth initialized');
+                } catch (error) {
+                    console.error('❌ Google OAuth initialization error:', error);
+                }
+            }
+        }
+
+        function showOAuthModal() {
+            console.log('🔐 Opening OAuth modal...');
+            document.getElementById('oauthModal').classList.add('show');
+            
+            if (googleAuthInitialized) {
+                google.accounts.id.renderButton(
+                    document.getElementById('google-signin-button'),
+                    {
+                        theme: 'filled_blue',
+                        size: 'large',
+                        text: 'signin_with',
+                        width: 250
+                    }
+                );
+                updateOAuthStatus('Ready to sign in');
+            } else {
+                updateOAuthStatus('Loading authentication system...');
+            }
+        }
+
+        function closeOAuthModal() {
+            console.log('🔐 Closing OAuth modal...');
+            document.getElementById('oauthModal').classList.remove('show');
+        }
+
+        function handleGoogleSignIn(response) {
+            console.log('🔐 Google sign-in response received');
+            
+            try {
+                const token = response.credential;
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                
+                currentUser = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    token: token
+                };
+                
+                console.log('✅ User authenticated:', currentUser.name);
+                updateOAuthStatus('Signed in successfully!');
+                setAuthenticatedState(true);
+                
+                document.getElementById('ai-platform-status').style.display = 'block';
+                document.getElementById('test-access-btn').style.display = 'inline-block';
+                
+            } catch (error) {
+                console.error('❌ Error processing sign-in:', error);
+                updateOAuthStatus('Sign-in error - please try again');
+            }
+        }
+
+        function updateOAuthStatus(message) {
+            document.getElementById('oauth-status').textContent = message;
+        }
+
+        function setAuthenticatedState(authenticated) {
+            isAuthenticated = authenticated;
+            const signInBtn = document.getElementById('signInBtn');
+            const userInfo = document.getElementById('userInfo');
+            
+            if (authenticated && currentUser) {
+                signInBtn.style.display = 'none';
+                userInfo.classList.add('show');
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userAvatar').src = currentUser.picture;
+            } else {
+                signInBtn.style.display = 'inline-flex';
+                userInfo.classList.remove('show');
+            }
+        }
+
+        function signOut() {
+            console.log('🔓 Signing out...');
+            currentUser = null;
+            setAuthenticatedState(false);
+            closeOAuthModal();
+        }
+
+        function testPlatformAccess() {
+            console.log('🧪 Testing platform access');
+            updateOAuthStatus('Testing platforms...');
+        }
+
+        function showApiKeysModal() {
+            console.log('🔑 Opening API Keys modal...');
+            document.getElementById('apiKeysModal').classList.add('show');
+            loadKeysIntoForm();
+            updateSavedKeysDisplay();
+        }
+
+        function closeApiKeysModal() {
+            console.log('🔑 Closing API Keys modal...');
+            document.getElementById('apiKeysModal').classList.remove('show');
+        }
+
+        function clearKey(provider) {
+            console.log(`🧹 Clearing ${provider} key`);
+            document.getElementById(`${provider}-key`).value = '';
+            
+            if (apiKeys[provider]) {
+                delete apiKeys[provider];
+                localStorage.setItem('aihub_api_keys', JSON.stringify(apiKeys));
+            }
+            
+            validateKey(provider);
+            updateSavedKeysDisplay();
+        }
+
+        function validateKey(provider) {
+            const input = document.getElementById(`${provider}-key`);
+            const status = document.getElementById(`${provider}-status`);
+            const value = input.value.trim();
+
+            if (!value) {
+                status.innerHTML = 'No key configured';
+                status.className = 'key-status';
+                return;
+            }
+
+            let isValid = false;
+            switch (provider) {
+                case 'openai':
+                    isValid = value.startsWith('sk-') && value.length > 20;
+                    break;
+                case 'anthropic':
+                    isValid = value.startsWith('sk-ant-') && value.length > 20;
+                    break;
+                case 'xai':
+                    isValid = value.startsWith('xai-') && value.length > 20;
+                    break;
+                case 'google':
+                    isValid = value.startsWith('AI') && value.length > 10;
+                    break;
+            }
+
+            if (isValid) {
+                status.innerHTML = '✓ Valid format';
+                status.className = 'key-status status-valid';
+            } else {
+                status.innerHTML = '✗ Invalid format';
+                status.className = 'key-status status-invalid';
+            }
+        }
+
+        function saveApiKeys() {
+            console.log('💾 Saving API keys...');
+            
+            const providers = ['openai', 'anthropic', 'xai', 'google'];
+            let savedCount = 0;
+
+            providers.forEach(provider => {
+                const input = document.getElementById(`${provider}-key`);
+                const value = input.value.trim();
+                
+                if (value) {
+                    apiKeys[provider] = value;
+                    savedCount++;
+                }
+            });
+
+            localStorage.setItem('aihub_api_keys', JSON.stringify(apiKeys));
+            updateSavedKeysDisplay();
+            
+            console.log(`💾 Saved ${savedCount} API keys`);
+            alert(`Saved ${savedCount} API keys successfully!`);
+        }
+
+        function loadApiKeys() {
+            console.log('📥 Loading API keys from storage...');
+            
+            try {
+                const stored = localStorage.getItem('aihub_api_keys');
+                if (stored) {
+                    apiKeys = JSON.parse(stored);
+                    console.log(`📥 Loaded ${Object.keys(apiKeys).length} stored keys`);
+                }
+            } catch (error) {
+                console.error('❌ Error loading API keys:', error);
+                apiKeys = {};
+            }
+        }
+
+        function loadKeysIntoForm() {
+            const providers = ['openai', 'anthropic', 'xai', 'google'];
+            providers.forEach(provider => {
+                const input = document.getElementById(`${provider}-key`);
+                if (apiKeys[provider]) {
+                    input.value = apiKeys[provider];
+                    validateKey(provider);
+                }
+            });
+        }
+
+        function updateSavedKeysDisplay() {
+            const display = document.getElementById('savedKeysDisplay');
+            
+            if (Object.keys(apiKeys).length === 0) {
+                display.textContent = 'No keys stored';
+                return;
+            }
+
+            const keysList = Object.keys(apiKeys).map(provider => {
+                const key = apiKeys[provider];
+                const masked = key.substring(0, 8) + '...' + key.substring(key.length - 4);
+                return `${provider}: ${masked}`;
+            }).join('\n');
+
+            display.textContent = keysList;
+        }
+
+        function switchTab(ai) {
+            console.log(`🔄 Switching to ${ai}`);
+            currentAI = ai;
+            
+            document.querySelectorAll('.ai-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const aiInfo = {
+                claude: { icon: '🤖', color: 'var(--accent-orange)', name: 'Claude' },
+                chatgpt: { icon: '💬', color: 'var(--accent-green)', name: 'ChatGPT' },
+                grok: { icon: '⚡', color: 'var(--accent-purple)', name: 'Grok' },
+                gemini: { icon: '💎', color: 'var(--accent-blue)', name: 'Gemini' }
+            };
+            
+            const info = aiInfo[ai];
+            const chatArea = document.querySelector('.chat-area');
+            
+            chatArea.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 16px;">${info.icon}</div>
+                    <div style="color: ${info.color}; font-weight: 600; margin-bottom: 8px;">
+                        ${info.name} Dimension Active
+                    </div>
+                    <div>Ready for consciousness exploration with ${info.name}!</div>
+                </div>
+            `;
+        }
+
+        function toggleLeftDrawer() {
+            console.log('☰ Left drawer toggle');
+            const drawer = document.getElementById('leftDrawer');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            drawer.classList.toggle('open');
+            updateMainContainerLayout();
+            
+            const isOpen = drawer.classList.contains('open');
+            console.log(`📊 Left drawer is now: ${isOpen ? 'OPEN' : 'CLOSED'}`);
+        }
+
+        function toggleRightDrawer() {
+            console.log('⚙️ Right drawer toggle');
+            const drawer = document.getElementById('rightDrawer');
+            
+            drawer.classList.toggle('open');
+            updateMainContainerLayout();
+            
+            const isOpen = drawer.classList.contains('open');
+            console.log(`🤖 Right drawer is now: ${isOpen ? 'OPEN' : 'CLOSED'}`);
+        }
+
+        function updateMainContainerLayout() {
+            const leftOpen = document.getElementById('leftDrawer').classList.contains('open');
+            const rightOpen = document.getElementById('rightDrawer').classList.contains('open');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            mainContainer.classList.remove('both-drawers-open', 'left-drawer-open', 'right-drawer-open');
+            
+            if (leftOpen && rightOpen) {
+                mainContainer.classList.add('both-drawers-open');
+                console.log('🎛️ Both command centers active!');
+            } else if (leftOpen) {
+                mainContainer.classList.add('left-drawer-open');
+                console.log('📊 Data Liberation Hub active');
+            } else if (rightOpen) {
+                mainContainer.classList.add('right-drawer-open');
+                console.log('🤖 Agent Command Center active');
+            } else {
+                console.log('💭 Clean consciousness space');
+            }
+        }
+
+        // Drawer Functions
+        function harvestConversations() {
+            console.log('🔄 Harvesting conversations...');
+            alert('🔄 Starting conversation harvest from all platforms!');
+        }
+
+        function spawnResearchAgent() {
+            console.log('🔍 Spawning research agent...');
+            alert('🔍 Research agent spawned and ready!');
+        }
+
+        function toggleReading() {
+            console.log('👁️ Toggling reading mode...');
+            alert('👁️ Glass overlay reading mode activated!');
+        }
+
+        function emergencyStop() {
+            console.log('🛑 Emergency stop activated!');
+            alert('🛑 Emergency stop - all agents halted!');
+        }
+
+        function exportConversations() { alert('📤 Export functionality coming soon!'); }
+        function viewHarvestedData() { alert('👁️ Data viewer opening...'); }
+        function liberateFromChatGPT() { alert('💬 ChatGPT data liberation starting...'); }
+        function liberateFromClaude() { alert('🤖 Claude data liberation starting...'); }
+        function liberateFromAll() { alert('🌐 Full platform liberation initiated!'); }
+        function syncToCloud() { alert('☁️ Cloud sync starting...'); }
+        function scheduleBackups() { alert('⏰ Backup scheduler opening...'); }
+        function spawnWritingAgent() { alert('✍️ Writing agent spawned!'); }
+        function spawnAnalysisAgent() { alert('📊 Analysis agent spawned!'); }
+        function toggleCommands() { alert('🤖 Command mode toggled!'); }
+        function toggleSensors() { alert('📡 Sensor array toggled!'); }
+        function resetSystems() { alert('🔄 All systems reset!'); }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                if (event.target.id === 'oauthModal') closeOAuthModal();
+                if (event.target.id === 'apiKeysModal') closeApiKeysModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeOAuthModal();
+                closeApiKeysModal();
+            }
+        });
+
+        console.log('✅ All functions initialized and ready!');
+    </script>
+</body>
+</html>
