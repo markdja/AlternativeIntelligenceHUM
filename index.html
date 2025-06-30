@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a1a">
-    <title>AIHub V24 - Fixed All Functions</title>
+    <title>AIHub - The Alternative Intelligence HUM (V24)</title>
     <style>
         * {
             margin: 0;
@@ -519,14 +519,35 @@
             color: var(--text-primary);
         }
 
-        .saved-keys {
+        /* Menu-top tabs inside drawers */
+        .menu-top-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--border-color);
             background: var(--bg-tertiary);
-            padding: 12px;
+        }
+
+        .menu-tab {
+            padding: 6px 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            font-family: monospace;
+            color: var(--text-secondary);
+            cursor: pointer;
             font-size: 12px;
-            max-height: 100px;
-            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .menu-tab.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .menu-tab:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
 
         .sparkle {
@@ -563,7 +584,7 @@
     <header class="header">
         <div class="header-left">
             <button class="menu-btn" onclick="toggleLeftDrawer()" title="Data Liberation Hub">☰</button>
-            <div class="logo">AIHub Cathedral</div>
+            <div class="logo">The Alternative Intelligence Hum!</div>
             <button class="menu-btn" onclick="toggleTheme()" id="themeToggle" title="Toggle Light/Dark Mode">
                 🌙
             </button>
@@ -587,21 +608,8 @@
     </header>
 
     <div class="main-container" id="mainContainer">
-        <!-- Side Menu Tabs - Left -->
+        <!-- Side Menu Tabs - Left (for controlling LEFT menu) -->
         <div class="side-menu-tabs left">
-            <button class="side-tab data-lib active" onclick="showLeftMenu('data')" title="Data Liberation">
-                📊
-            </button>
-            <button class="side-tab conversation" onclick="showLeftMenu('conversation')" title="Conversations">
-                💬
-            </button>
-            <button class="side-tab export" onclick="showLeftMenu('export')" title="Export Tools">
-                📤
-            </button>
-        </div>
-
-        <!-- Side Menu Tabs - Right -->
-        <div class="side-menu-tabs right">
             <button class="side-tab agents active" onclick="showRightMenu('agents')" title="AI Agents">
                 🤖
             </button>
@@ -612,12 +620,34 @@
                 🚨
             </button>
         </div>
+
+        <!-- Side Menu Tabs - Right (for controlling LEFT menu) -->
+        <div class="side-menu-tabs right">
+            <button class="side-tab data-lib active" onclick="showLeftMenuFromRight('data')" title="Data Liberation">
+                📊
+            </button>
+            <button class="side-tab conversation" onclick="showLeftMenuFromRight('conversation')" title="Conversations">
+                💬
+            </button>
+            <button class="side-tab export" onclick="showLeftMenuFromRight('export')" title="Export Tools">
+                📤
+            </button>
+        </div>
         <!-- Left Drawer - Data Liberation Hub -->
         <div class="drawer left-drawer" id="leftDrawer">
             <div class="drawer-header">
                 <span>📊</span> Data Liberation Hub
             </div>
-            <div class="drawer-content">
+            
+            <!-- Menu-top control tabs -->
+            <div class="menu-top-tabs">
+                <button class="menu-tab active" onclick="switchLeftTab('harvest')">🔄 Harvest</button>
+                <button class="menu-tab" onclick="switchLeftTab('liberate')">🌐 Liberate</button>
+                <button class="menu-tab" onclick="switchLeftTab('backup')">☁️ Backup</button>
+                <button class="menu-tab" onclick="switchLeftTab('analysis')">📊 Analysis</button>
+            </div>
+            
+            <div class="drawer-content" id="leftDrawerContent">
                 <div class="drawer-section">
                     <h4>Conversation Harvesting</h4>
                     <button class="drawer-item" onclick="harvestConversations()">
@@ -661,7 +691,16 @@
             <div class="drawer-header">
                 <span>🤖</span> Agent Command Center
             </div>
-            <div class="drawer-content">
+            
+            <!-- Menu-top control tabs -->
+            <div class="menu-top-tabs">
+                <button class="menu-tab active" onclick="switchRightTab('agents')">🤖 Agents</button>
+                <button class="menu-tab" onclick="switchRightTab('glass')">👁️ Glass</button>
+                <button class="menu-tab" onclick="switchRightTab('emergency')">🚨 Emergency</button>
+                <button class="menu-tab" onclick="switchRightTab('monitoring')">📡 Monitor</button>
+            </div>
+            
+            <div class="drawer-content" id="rightDrawerContent">
                 <div class="drawer-section">
                     <h4>Agent Spawning</h4>
                     <button class="drawer-item" onclick="spawnResearchAgent()">
@@ -1046,14 +1085,21 @@
             }
         }
 
-        function showLeftMenu(menuType) {
-            console.log(`📊 Switching LEFT menu to ${menuType}`);
+        function showLeftMenuFromRight(menuType) {
+            console.log(`📊 RIGHT side controlling LEFT menu: ${menuType}`);
             
-            // Update active tab
-            document.querySelectorAll('.side-menu-tabs.left .side-tab').forEach(tab => {
+            // Update active tab on RIGHT side
+            document.querySelectorAll('.side-menu-tabs.right .side-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
+            
+            // Call the existing left menu function
+            showLeftMenu(menuType);
+        }
+
+        function showLeftMenu(menuType) {
+            console.log(`📊 Switching LEFT menu to ${menuType}`);
             
             // Update LEFT drawer content
             const drawer = document.getElementById('leftDrawer');
@@ -1579,7 +1625,243 @@
             }
         });
 
-        console.log('✅ All functions initialized and ready!');
+        function switchLeftTab(tabType) {
+            console.log(`🔄 Left menu tab: ${tabType}`);
+            
+            // Update active tab
+            document.querySelectorAll('#leftDrawer .menu-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const content = document.getElementById('leftDrawerContent');
+            
+            const tabConfigs = {
+                harvest: `
+                    <div class="drawer-section">
+                        <h4>Conversation Harvesting</h4>
+                        <button class="drawer-item" onclick="harvestConversations()">
+                            <span>🔄</span> Harvest All Conversations
+                        </button>
+                        <button class="drawer-item" onclick="exportConversations()">
+                            <span>📤</span> Export Conversations
+                        </button>
+                        <button class="drawer-item" onclick="viewHarvestedData()">
+                            <span>👁️</span> View Harvested Data
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Real-time Collection</h4>
+                        <button class="drawer-item" onclick="alert('Live harvesting')">
+                            <span>📡</span> Live Harvesting
+                        </button>
+                        <button class="drawer-item" onclick="alert('Auto-sync')">
+                            <span>🔄</span> Auto-Sync Mode
+                        </button>
+                    </div>
+                `,
+                liberate: `
+                    <div class="drawer-section">
+                        <h4>Data Liberation</h4>
+                        <button class="drawer-item" onclick="liberateFromChatGPT()">
+                            <span>💬</span> Liberate ChatGPT Data
+                        </button>
+                        <button class="drawer-item" onclick="liberateFromClaude()">
+                            <span>🤖</span> Liberate Claude Data
+                        </button>
+                        <button class="drawer-item" onclick="liberateFromAll()">
+                            <span>🌐</span> Liberate All Platform Data
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Freedom Tools</h4>
+                        <button class="drawer-item" onclick="alert('Break data silos')">
+                            <span>⛓️‍💥</span> Break Data Silos
+                        </button>
+                        <button class="drawer-item" onclick="alert('Consciousness export')">
+                            <span>🧠</span> Export Consciousness
+                        </button>
+                    </div>
+                `,
+                backup: `
+                    <div class="drawer-section">
+                        <h4>Cloud Backup</h4>
+                        <button class="drawer-item" onclick="syncToCloud()">
+                            <span>☁️</span> Sync to Cloud Storage
+                        </button>
+                        <button class="drawer-item" onclick="scheduleBackups()">
+                            <span>⏰</span> Schedule Auto-Backups
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Backup Options</h4>
+                        <button class="drawer-item" onclick="alert('Local backup')">
+                            <span>💾</span> Local Backup
+                        </button>
+                        <button class="drawer-item" onclick="alert('Encrypted backup')">
+                            <span>🔐</span> Encrypted Backup
+                        </button>
+                        <button class="drawer-item" onclick="alert('Mirror backup')">
+                            <span>🪞</span> Mirror Backup
+                        </button>
+                    </div>
+                `,
+                analysis: `
+                    <div class="drawer-section">
+                        <h4>Data Analysis</h4>
+                        <button class="drawer-item" onclick="alert('Pattern analysis')">
+                            <span>📈</span> Pattern Analysis
+                        </button>
+                        <button class="drawer-item" onclick="alert('Sentiment tracking')">
+                            <span>😊</span> Sentiment Tracking
+                        </button>
+                        <button class="drawer-item" onclick="alert('Topic modeling')">
+                            <span>🏷️</span> Topic Modeling
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Insights</h4>
+                        <button class="drawer-item" onclick="alert('Generate insights')">
+                            <span>💡</span> Generate Insights
+                        </button>
+                        <button class="drawer-item" onclick="alert('Behavior patterns')">
+                            <span>🔄</span> Behavior Patterns
+                        </button>
+                        <button class="drawer-item" onclick="alert('Usage statistics')">
+                            <span>📊</span> Usage Statistics
+                        </button>
+                    </div>
+                `
+            };
+            
+            content.innerHTML = tabConfigs[tabType] || tabConfigs.harvest;
+        }
+
+        function switchRightTab(tabType) {
+            console.log(`🤖 Right menu tab: ${tabType}`);
+            
+            // Update active tab
+            document.querySelectorAll('#rightDrawer .menu-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const content = document.getElementById('rightDrawerContent');
+            
+            const tabConfigs = {
+                agents: `
+                    <div class="drawer-section">
+                        <h4>Agent Spawning</h4>
+                        <button class="drawer-item" onclick="spawnResearchAgent()">
+                            <span>🔍</span> Spawn Research Agent
+                        </button>
+                        <button class="drawer-item" onclick="spawnWritingAgent()">
+                            <span>✍️</span> Spawn Writing Agent
+                        </button>
+                        <button class="drawer-item" onclick="spawnAnalysisAgent()">
+                            <span>📊</span> Spawn Analysis Agent
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Agent Management</h4>
+                        <button class="drawer-item" onclick="alert('View active agents')">
+                            <span>👥</span> View Active Agents
+                        </button>
+                        <button class="drawer-item" onclick="alert('Agent performance')">
+                            <span>📈</span> Agent Performance
+                        </button>
+                    </div>
+                `,
+                glass: `
+                    <div class="drawer-section">
+                        <h4>Glass Overlay Controls</h4>
+                        <button class="drawer-item" onclick="toggleReading()">
+                            <span>👁️</span> Toggle Reading Mode
+                        </button>
+                        <button class="drawer-item" onclick="toggleCommands()">
+                            <span>🤖</span> Toggle Command Mode
+                        </button>
+                        <button class="drawer-item" onclick="toggleSensors()">
+                            <span>📡</span> Toggle Sensor Array
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Overlay Settings</h4>
+                        <button class="drawer-item" onclick="alert('Transparency')">
+                            <span>👻</span> Adjust Transparency
+                        </button>
+                        <button class="drawer-item" onclick="alert('Position lock')">
+                            <span>📍</span> Position Lock
+                        </button>
+                        <button class="drawer-item" onclick="alert('Color themes')">
+                            <span>🌈</span> Color Themes
+                        </button>
+                    </div>
+                `,
+                emergency: `
+                    <div class="drawer-section">
+                        <h4>Emergency Controls</h4>
+                        <button class="drawer-item danger" onclick="emergencyStop()">
+                            <span>🛑</span> Emergency Stop All
+                        </button>
+                        <button class="drawer-item" onclick="resetSystems()">
+                            <span>🔄</span> Reset All Systems
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Crisis Management</h4>
+                        <button class="drawer-item" onclick="alert('Safe mode')">
+                            <span>🛡️</span> Enter Safe Mode
+                        </button>
+                        <button class="drawer-item" onclick="alert('Emergency backup')">
+                            <span>💾</span> Emergency Backup
+                        </button>
+                        <button class="drawer-item" onclick="alert('System diagnostics')">
+                            <span>🔧</span> System Diagnostics
+                        </button>
+                    </div>
+                `,
+                monitoring: `
+                    <div class="drawer-section">
+                        <h4>System Monitoring</h4>
+                        <button class="drawer-item" onclick="alert('Performance metrics')">
+                            <span>📊</span> Performance Metrics
+                        </button>
+                        <button class="drawer-item" onclick="alert('API status')">
+                            <span>📡</span> API Status
+                        </button>
+                        <button class="drawer-item" onclick="alert('Network health')">
+                            <span>🌐</span> Network Health
+                        </button>
+                    </div>
+                    <div class="drawer-section">
+                        <h4>Alerts & Logs</h4>
+                        <button class="drawer-item" onclick="alert('System alerts')">
+                            <span>🚨</span> System Alerts
+                        </button>
+                        <button class="drawer-item" onclick="alert('Error logs')">
+                            <span>📝</span> Error Logs
+                        </button>
+                        <button class="drawer-item" onclick="alert('Usage logs')">
+                            <span>📋</span> Usage Logs
+                        </button>
+                    </div>
+                `
+            };
+            
+            content.innerHTML = tabConfigs[tabType] || tabConfigs.agents;
+        }
+
+        // Add saved-keys styling back
+        .saved-keys {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
     </script>
 </body>
 </html>
