@@ -1047,7 +1047,7 @@
         }
 
         function showLeftMenu(menuType) {
-            console.log(`📊 Switching to ${menuType} menu`);
+            console.log(`📊 Switching LEFT menu to ${menuType}`);
             
             // Update active tab
             document.querySelectorAll('.side-menu-tabs.left .side-tab').forEach(tab => {
@@ -1055,7 +1055,7 @@
             });
             event.target.classList.add('active');
             
-            // Update drawer content based on menu type
+            // Update LEFT drawer content
             const drawer = document.getElementById('leftDrawer');
             const header = drawer.querySelector('.drawer-header');
             const content = drawer.querySelector('.drawer-content');
@@ -1064,7 +1064,43 @@
                 data: {
                     icon: '📊',
                     title: 'Data Liberation Hub',
-                    content: drawer.querySelector('.drawer-content').innerHTML // Keep current content
+                    content: `
+                        <div class="drawer-section">
+                            <h4>Conversation Harvesting</h4>
+                            <button class="drawer-item" onclick="harvestConversations()">
+                                <span>🔄</span> Harvest All Conversations
+                            </button>
+                            <button class="drawer-item" onclick="exportConversations()">
+                                <span>📤</span> Export Conversations
+                            </button>
+                            <button class="drawer-item" onclick="viewHarvestedData()">
+                                <span>👁️</span> View Harvested Data
+                            </button>
+                        </div>
+                        
+                        <div class="drawer-section">
+                            <h4>Data Liberation</h4>
+                            <button class="drawer-item" onclick="liberateFromChatGPT()">
+                                <span>💬</span> Liberate ChatGPT Data
+                            </button>
+                            <button class="drawer-item" onclick="liberateFromClaude()">
+                                <span>🤖</span> Liberate Claude Data
+                            </button>
+                            <button class="drawer-item" onclick="liberateFromAll()">
+                                <span>🌐</span> Liberate All Platform Data
+                            </button>
+                        </div>
+                        
+                        <div class="drawer-section">
+                            <h4>Cloud Backup</h4>
+                            <button class="drawer-item" onclick="syncToCloud()">
+                                <span>☁️</span> Sync to Cloud Storage
+                            </button>
+                            <button class="drawer-item" onclick="scheduleBackups()">
+                                <span>⏰</span> Schedule Auto-Backups
+                            </button>
+                        </div>
+                    `
                 },
                 conversation: {
                     icon: '💬',
@@ -1078,6 +1114,9 @@
                             <button class="drawer-item" onclick="alert('Search conversations')">
                                 <span>🔍</span> Search Conversations
                             </button>
+                            <button class="drawer-item" onclick="alert('Filter by date')">
+                                <span>📅</span> Filter by Date
+                            </button>
                         </div>
                         <div class="drawer-section">
                             <h4>Conversation History</h4>
@@ -1086,6 +1125,9 @@
                             </button>
                             <button class="drawer-item" onclick="alert('Filter by AI')">
                                 <span>🤖</span> Filter by AI
+                            </button>
+                            <button class="drawer-item" onclick="alert('Search content')">
+                                <span>🔎</span> Search Content
                             </button>
                         </div>
                     `
@@ -1114,20 +1156,23 @@
                             <button class="drawer-item" onclick="alert('Email conversation')">
                                 <span>📧</span> Email Conversation
                             </button>
+                            <button class="drawer-item" onclick="alert('Share to social')">
+                                <span>📱</span> Share to Social
+                            </button>
                         </div>
                     `
                 }
             };
             
             const config = menuConfigs[menuType];
-            if (config && menuType !== 'data') { // Don't change data menu - it's already set up
+            if (config) {
                 header.innerHTML = `<span>${config.icon}</span> ${config.title}`;
                 content.innerHTML = config.content;
             }
         }
 
         function showRightMenu(menuType) {
-            console.log(`🤖 Switching to ${menuType} menu`);
+            console.log(`🤖 Switching RIGHT menu to ${menuType}`);
             
             // Update active tab
             document.querySelectorAll('.side-menu-tabs.right .side-tab').forEach(tab => {
@@ -1135,7 +1180,7 @@
             });
             event.target.classList.add('active');
             
-            // Update drawer content based on menu type
+            // Update RIGHT drawer content
             const drawer = document.getElementById('rightDrawer');
             const header = drawer.querySelector('.drawer-header');
             const content = drawer.querySelector('.drawer-content');
@@ -1144,7 +1189,43 @@
                 agents: {
                     icon: '🤖',
                     title: 'Agent Command Center',
-                    content: drawer.querySelector('.drawer-content').innerHTML // Keep current content
+                    content: `
+                        <div class="drawer-section">
+                            <h4>Agent Spawning</h4>
+                            <button class="drawer-item" onclick="spawnResearchAgent()">
+                                <span>🔍</span> Spawn Research Agent
+                            </button>
+                            <button class="drawer-item" onclick="spawnWritingAgent()">
+                                <span>✍️</span> Spawn Writing Agent
+                            </button>
+                            <button class="drawer-item" onclick="spawnAnalysisAgent()">
+                                <span>📊</span> Spawn Analysis Agent
+                            </button>
+                        </div>
+                        
+                        <div class="drawer-section">
+                            <h4>Glass Overlay Controls</h4>
+                            <button class="drawer-item" onclick="toggleReading()">
+                                <span>👁️</span> Toggle Reading Mode
+                            </button>
+                            <button class="drawer-item" onclick="toggleCommands()">
+                                <span>🤖</span> Toggle Command Mode
+                            </button>
+                            <button class="drawer-item" onclick="toggleSensors()">
+                                <span>📡</span> Toggle Sensor Array
+                            </button>
+                        </div>
+                        
+                        <div class="drawer-section">
+                            <h4>Emergency Controls</h4>
+                            <button class="drawer-item danger" onclick="emergencyStop()">
+                                <span>🛑</span> Emergency Stop All
+                            </button>
+                            <button class="drawer-item" onclick="resetSystems()">
+                                <span>🔄</span> Reset All Systems
+                            </button>
+                        </div>
+                    `
                 },
                 glass: {
                     icon: '👁️',
@@ -1169,6 +1250,9 @@
                             </button>
                             <button class="drawer-item" onclick="alert('Change position')">
                                 <span>📍</span> Change Position
+                            </button>
+                            <button class="drawer-item" onclick="alert('Color themes')">
+                                <span>🎨</span> Color Themes
                             </button>
                         </div>
                     `
@@ -1197,13 +1281,16 @@
                             <button class="drawer-item" onclick="alert('Clear cache')">
                                 <span>🗑️</span> Clear All Cache
                             </button>
+                            <button class="drawer-item" onclick="alert('Export everything')">
+                                <span>📦</span> Export Everything
+                            </button>
                         </div>
                     `
                 }
             };
             
             const config = menuConfigs[menuType];
-            if (config && menuType !== 'agents') { // Don't change agents menu - it's already set up
+            if (config) {
                 header.innerHTML = `<span>${config.icon}</span> ${config.title}`;
                 content.innerHTML = config.content;
             }
