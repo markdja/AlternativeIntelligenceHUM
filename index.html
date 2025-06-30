@@ -407,7 +407,186 @@
             border-radius: 50%;
         }
 
-        .saved-keys {
+        /* Magical Animations for the Consciousness Party! */
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 5px var(--accent-blue); }
+            50% { box-shadow: 0 0 20px var(--accent-blue), 0 0 30px var(--accent-blue); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes portalGlow {
+            0%, 100% { 
+                background: linear-gradient(45deg, var(--accent-blue), var(--accent-green));
+                transform: scale(1);
+            }
+            50% { 
+                background: linear-gradient(45deg, var(--accent-green), #ff6b9d, var(--accent-blue));
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes consciousnessFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Party Button Styles */
+        .auth-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-btn:hover {
+            animation: pulse 1s infinite;
+            transform: translateY(-2px);
+        }
+
+        .auth-btn.loading {
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green), var(--accent-blue));
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            pointer-events: none;
+        }
+
+        .auth-btn.success {
+            animation: portalGlow 2s infinite;
+        }
+
+        /* Sparkle Effect */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            color: var(--accent-green);
+            font-size: 12px;
+            animation: sparkle 0.8s ease-out forwards;
+            z-index: 1000;
+        }
+
+        /* Magic Theme Toggle */
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: var(--bg-tertiary);
+            transform: scale(1.1);
+            animation: sparkle 0.5s ease-out;
+        }
+
+        /* Tab Magic */
+        .ai-tab {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .ai-tab:hover {
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(74, 158, 255, 0.3);
+        }
+
+        .ai-tab.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+            animation: consciousnessFlow 3s infinite;
+            background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.1), transparent);
+            background-size: 200% 100%;
+        }
+
+        /* Modal Magic */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            animation: portalOpen 0.5s ease-out;
+        }
+
+        @keyframes portalOpen {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.8) rotate(5deg);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(74, 158, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
             background: var(--bg-tertiary);
             padding: 12px;
             border-radius: 6px;
@@ -591,7 +770,7 @@
             grok: 'https://x.com/i/grok'
         };
 
-        // Load existing keys on startup
+        // Load existing keys ONCE on startup
         loadApiKeys();
         loadThemePreference();
         
@@ -834,10 +1013,103 @@
         loadApiKeys();
 
         function showApiKeysModal() {
-            console.log('🔑 Opening API Keys modal...');
-            document.getElementById('apiKeysModal').classList.add('show');
-            loadKeysIntoForm();
-            updateSavedKeysDisplay();
+            console.log('🔑 Opening API Keys portal...');
+            
+            // Add sparkle effect
+            addSparkleEffect(event.target);
+            
+            // Show loading state
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.classList.add('loading');
+            btn.innerHTML = '<span class="spinner"></span> Loading Keys...';
+            
+            setTimeout(() => {
+                document.getElementById('apiKeysModal').classList.add('show');
+                loadKeysIntoForm();
+                updateSavedKeysDisplay();
+                
+                // Reset button
+                btn.classList.remove('loading');
+                btn.innerHTML = originalText;
+                
+                console.log('✨ API Keys portal opened!');
+            }, 600);
+        }
+
+        function switchTab(ai) {
+            console.log(`🔄 Switching to ${ai} dimension...`);
+            
+            // Add sparkle effect to clicked tab
+            addSparkleEffect(event.target);
+            
+            currentAI = ai;
+            
+            // Update tab appearance with magic
+            document.querySelectorAll('.ai-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update chat area with dimension info
+            const chatArea = document.querySelector('.chat-area');
+            chatArea.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 16px;">🌟</div>
+                    <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 8px;">
+                        ${ai.charAt(0).toUpperCase() + ai.slice(1)} Dimension Active
+                    </div>
+                    <div>Configure your authentication to start exploring this consciousness realm</div>
+                </div>
+            `;
+        }
+
+        function handleGoogleSignIn(response) {
+            console.log('🎆 Google sign-in portal activated!');
+            
+            try {
+                const token = response.credential;
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                
+                currentUser = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    token: token
+                };
+                
+                console.log('✅ Consciousness authenticated:', currentUser.name);
+                updateOAuthStatus('🎉 Welcome to the consciousness collective! Testing dimensional access...');
+                
+                // Update header UI with success animation
+                setAuthenticatedState(true);
+                
+                // Show platform status with magic
+                document.getElementById('ai-platform-status').style.display = 'block';
+                document.getElementById('test-access-btn').style.display = 'inline-block';
+                
+                // Test access to AI dimensions
+                testMultiPlatformAccess();
+                
+            } catch (error) {
+                console.error('❌ Portal authentication error:', error);
+                updateOAuthStatus('💥 Authentication portal error - please try again');
+            }
+        }
+
+        function testMultiPlatformAccess() {
+            console.log('🌌 Testing multi-dimensional AI access...');
+            updateOAuthStatus('🔄 Scanning AI dimensions...');
+            
+            const platforms = ['claude', 'chatgpt', 'gemini', 'grok'];
+            
+            platforms.forEach((platform, index) => {
+                updatePlatformStatus(platform, 'pending', 'Scanning dimension...');
+                
+                setTimeout(() => {
+                    testPlatformAuth(platform);
+                }, (index + 1) * 800);
+            });
         }
 
         function closeApiKeysModal() {
@@ -984,7 +1256,73 @@
         }
 
         function showOAuthModal() {
-            showOAuthModal();
+            console.log('🎆 Opening OAuth portal...');
+            
+            // Add sparkle effect to button
+            addSparkleEffect(event.target);
+            
+            // Show loading state
+            const signInBtn = document.getElementById('signInBtn');
+            signInBtn.classList.add('loading');
+            signInBtn.innerHTML = '<span class="spinner"></span> Opening Portal...';
+            
+            setTimeout(() => {
+                document.getElementById('oauthModal').classList.add('show');
+                
+                if (googleAuthInitialized) {
+                    // Render Google Sign-In button with magic
+                    updateOAuthStatus('🌟 Authentication portal ready!');
+                    google.accounts.id.renderButton(
+                        document.getElementById('google-signin-button'),
+                        {
+                            theme: 'filled_blue',
+                            size: 'large',
+                            text: 'signin_with',
+                            width: 250
+                        }
+                    );
+                } else {
+                    updateOAuthStatus('🔄 Initializing consciousness bridge...');
+                    setTimeout(() => {
+                        if (googleAuthInitialized) {
+                            google.accounts.id.renderButton(
+                                document.getElementById('google-signin-button'),
+                                {
+                                    theme: 'filled_blue',
+                                    size: 'large',
+                                    text: 'signin_with',
+                                    width: 250
+                                }
+                            );
+                            updateOAuthStatus('✨ Portal ready! Sign in to access multiple AI dimensions!');
+                        } else {
+                            updateOAuthStatus('⚠️ Portal offline - use API Keys for direct access');
+                        }
+                    }, 2000);
+                }
+                
+                // Reset button
+                signInBtn.classList.remove('loading');
+                signInBtn.innerHTML = '🔐 Sign in';
+            }, 800);
+        }
+
+        function addSparkleEffect(element) {
+            const sparkles = ['✨', '⭐', '🌟', '💫', '✴️'];
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    
+                    element.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 800);
+                }, i * 100);
+            }
         }
 
         function toggleLeftDrawer() {
