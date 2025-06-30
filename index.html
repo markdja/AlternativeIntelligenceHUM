@@ -1418,14 +1418,50 @@
 
         function toggleLeftDrawer() {
             console.log('☰ Left drawer toggle');
+            addSparkleEffect(event.target);
             const drawer = document.getElementById('leftDrawer');
+            const mainContainer = document.querySelector('.main-container');
+            
             drawer.classList.toggle('open');
+            updateMainContainerLayout();
+            
+            const isOpen = drawer.classList.contains('open');
+            console.log(`📊 Left drawer is now: ${isOpen ? 'OPEN' : 'CLOSED'}`);
         }
 
         function toggleRightDrawer() {
             console.log('⚙️ Right drawer toggle');
+            addSparkleEffect(event.target);
             const drawer = document.getElementById('rightDrawer');
+            
             drawer.classList.toggle('open');
+            updateMainContainerLayout();
+            
+            const isOpen = drawer.classList.contains('open');
+            console.log(`🤖 Right drawer is now: ${isOpen ? 'OPEN' : 'CLOSED'}`);
+        }
+
+        function updateMainContainerLayout() {
+            const leftOpen = document.getElementById('leftDrawer').classList.contains('open');
+            const rightOpen = document.getElementById('rightDrawer').classList.contains('open');
+            const mainContainer = document.querySelector('.main-container');
+            
+            // Reset classes
+            mainContainer.classList.remove('both-drawers-open', 'left-drawer-open', 'right-drawer-open');
+            
+            // Apply appropriate class
+            if (leftOpen && rightOpen) {
+                mainContainer.classList.add('both-drawers-open');
+                console.log('🎛️ Both command centers active - full consciousness control!');
+            } else if (leftOpen) {
+                mainContainer.classList.add('left-drawer-open');
+                console.log('📊 Data Liberation Hub active');
+            } else if (rightOpen) {
+                mainContainer.classList.add('right-drawer-open');
+                console.log('🤖 Agent Command Center active');
+            } else {
+                console.log('💭 Clean consciousness space - all panels closed');
+            }
         }
 
         // Drawer item functions
