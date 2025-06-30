@@ -4,141 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a1a">
-    <meta name="description" content=" The Alternative Intelligence Hum - Universal interface for Intelligence collaboration and consciousness">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="AIHum">
-    
-    <title>The Alternative Intelligence Hum</title>
-    
+    <title>AIHub - Fixed API Keys Manager</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --bg-primary: #1a1a1a;
             --bg-secondary: #2d2d2d;
-            --bg-tertiary: #3a3a3a;
+            --bg-tertiary: #3d3d3d;
             --text-primary: #ffffff;
-            --text-secondary: #b3b3b3;
+            --text-secondary: #b0b0b0;
             --accent-blue: #4a9eff;
-            --accent-green: #10b981;
-            --accent-purple: #8b5cf6;
+            --accent-green: #4ade80;
+            --accent-red: #ef4444;
             --border-color: #404040;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            height: 100vh;
             overflow: hidden;
         }
-        
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-        
-        /* Header with tabs */
+
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
             padding: 0;
-            position: relative;
-            z-index: 1000;
-        }
-        
-        .header-top {
             display: flex;
             align-items: center;
-            padding: 12px 16px;
-            gap: 12px;
+            justify-content: space-between;
+            height: 60px;
         }
-        
-        .header-auth {
+
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-left: auto;
-            margin-right: 12px;
+            gap: 16px;
+            padding: 0 16px;
         }
-        
-        .header-auth-btn {
-            background: var(--bg-tertiary);
-            border: none;
-            color: var(--text-primary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-        
-        .header-auth-btn:hover {
-            background: var(--accent-blue);
-        }
-        
-        .header-auth-btn.primary {
-            background: var(--accent-blue);
-            color: white;
-        }
-        
-        .header-auth-btn.primary:hover {
-            background: #3a8bef;
-        }
-        
-        .header-user-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 8px;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-        }
-        
-        .header-user-avatar {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--accent-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: white;
-        }
-        
-        .header-user-name {
-            font-size: 12px;
-            color: var(--text-primary);
-            max-width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .header-disconnect {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 2px;
-            font-size: 10px;
-        }
-        
-        .header-disconnect:hover {
-            color: var(--text-primary);
-        }
-        
+
         .menu-btn {
             background: none;
             border: none;
@@ -146,568 +55,93 @@
             font-size: 20px;
             cursor: pointer;
             padding: 8px;
-            border-radius: 6px;
-            transition: background 0.2s;
+            border-radius: 4px;
         }
-        
+
         .menu-btn:hover {
             background: var(--bg-tertiary);
         }
-        
+
         .logo {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--accent-blue);
-            flex: 1;
         }
-        
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent-green);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* AI Tabs */
-        .ai-tabs {
+
+        .header-auth {
             display: flex;
-            overflow-x: auto;
+            gap: 8px;
             padding: 0 16px;
-            gap: 2px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
         }
-        
-        .ai-tabs::-webkit-scrollbar {
-            display: none;
+
+        .auth-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        
-        .ai-tab {
+
+        .auth-btn:hover {
+            background: #3a8eef;
+        }
+
+        .auth-btn.secondary {
             background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .auth-btn.secondary:hover {
+            background: #4d4d4d;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+
+        .ai-tabs {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            padding: 0 16px;
+        }
+
+        .ai-tab {
+            background: none;
             border: none;
             color: var(--text-secondary);
             padding: 12px 20px;
-            border-radius: 8px 8px 0 0;
             cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            position: relative;
-            min-width: 100px;
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+            font-weight: 500;
         }
-        
+
         .ai-tab.active {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--accent-blue);
-        }
-        
-        .ai-tab:hover:not(.active) {
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-        
-        .tab-close {
-            margin-left: 8px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        
-        .ai-tab:hover .tab-close {
-            opacity: 1;
-        }
-        
-        .add-tab {
-            background: none;
-            border: 1px dashed var(--border-color);
-            color: var(--text-secondary);
-            padding: 12px 16px;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-left: 8px;
-        }
-        
-        .add-tab:hover {
-            border-color: var(--accent-blue);
             color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
         }
-        
-        /* Main Content Area */
-        .main-content {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-        
-        /* Drawers - Start Collapsed */
-        .drawer {
-            background: var(--bg-secondary);
-            border-right: 1px solid var(--border-color);
-            width: 300px;
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-            z-index: 900;
-            transform: translateX(-100%); /* Start collapsed */
-        }
-        
-        .drawer.right {
-            border-right: none;
-            border-left: 1px solid var(--border-color);
-            order: 3;
-            transform: translateX(100%); /* Start collapsed */
-        }
-        
-        .drawer.open {
-            transform: translateX(0); /* Open state */
-        }
-        
-        .drawer-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .drawer-content {
-            padding: 20px;
-        }
-        
-        .drawer-section {
-            margin-bottom: 24px;
-        }
-        
-        .drawer-section h3 {
-            color: var(--accent-blue);
-            margin-bottom: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .drawer-item {
-            background: var(--bg-tertiary);
-            border: none;
+
+        .ai-tab:hover {
             color: var(--text-primary);
-            padding: 12px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-            text-align: left;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
-        
-        .drawer-item:hover {
-            background: var(--bg-primary);
-            transform: translateX(4px);
-        }
-        
-        .drawer-item.active {
-            background: var(--accent-blue);
-            color: white;
-        }
-        
-        /* Chat Interface - Lock in place */
-        .chat-container {
+
+        .chat-area {
             flex: 1;
-            display: flex;
-            flex-direction: column;
             background: var(--bg-primary);
-            min-width: 0; /* Prevent flex shrinking issues */
-            position: relative; /* Lock position */
-        }
-        
-        .chat-header {
-            background: var(--bg-secondary);
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .ai-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--accent-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: white;
-        }
-        
-        .chat-info {
-            flex: 1;
-        }
-        
-        .chat-title {
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        
-        .chat-subtitle {
-            font-size: 12px;
             color: var(--text-secondary);
-        }
-        
-        .chat-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .action-btn {
-            background: var(--bg-tertiary);
-            border: none;
-            color: var(--text-primary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 12px;
-        }
-        
-        .action-btn:hover {
-            background: var(--accent-blue);
-        }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        
-        .message {
-            margin-bottom: 20px;
-            max-width: 80%;
-        }
-        
-        .message.user {
-            margin-left: auto;
-        }
-        
-        .message-content {
-            background: var(--bg-secondary);
-            padding: 16px 20px;
-            border-radius: 18px;
-            line-height: 1.5;
-        }
-        
-        .message.user .message-content {
-            background: var(--accent-blue);
-            color: white;
-        }
-        
-        .message-meta {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-            text-align: right;
-        }
-        
-        .message.ai .message-meta {
-            text-align: left;
-        }
-        
-        /* Input Area */
-        .chat-input {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-            padding: 20px;
-        }
-        
-        .input-container {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-        }
-        
-        .input-field {
-            flex: 1;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 12px 16px;
-            border-radius: 12px;
-            resize: none;
-            min-height: 44px;
-            max-height: 120px;
-            font-family: inherit;
-        }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-        
-        .send-btn {
-            background: var(--accent-blue);
-            border: none;
-            color: white;
-            padding: 12px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-        
-        .send-btn:hover {
-            background: #3a8bef;
-            transform: translateY(-1px);
-        }
-        
-        .send-btn:disabled {
-            background: var(--bg-tertiary);
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .drawer {
-                position: absolute;
-                height: 100%;
-                z-index: 1000;
-            }
-            
-            .drawer.right {
-                right: 0;
-            }
-            
-            .message {
-                max-width: 95%;
-            }
-            
-            .header-top {
-                padding: 8px 12px;
-            }
-            
-            .drawer-content {
-                padding: 16px;
-            }
-        }
-        
-        /* Inline API Entry */
-        .inline-api-entry {
-            margin-top: 8px;
-            padding: 16px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            border: 1px solid var(--accent-blue);
-            transition: all 0.3s ease;
-        }
-        
-        .inline-api-entry.hidden {
-            display: none;
-        }
-        
-        .inline-api-entry.show {
-            animation: slideDown 0.3s ease;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                max-height: 0;
-                padding: 0 16px;
-            }
-            to {
-                opacity: 1;
-                max-height: 200px;
-                padding: 16px;
-            }
-        }
-        
-        .api-quick-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .api-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .api-provider-select {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .api-provider-select:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-        
-        .quick-api-input {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 12px;
-            border-radius: 6px;
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-        
-        .quick-api-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
-        }
-        
-        .api-validation {
-            font-size: 12px;
-            padding: 4px 0;
-            min-height: 16px;
-        }
-        
-        .api-validation.success {
-            color: var(--accent-green);
-        }
-        
-        .api-validation.error {
-            color: #ef4444;
-        }
-        
-        .api-validation.info {
-            color: var(--text-secondary);
-        }
-        .auth-status {
-            margin-top: 12px;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            border: 1px solid var(--accent-green);
-        }
-        
-        .auth-status.hidden {
-            display: none;
-        }
-        
-        .auth-indicator {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .auth-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--accent-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: 16px;
         }
-        
-        .auth-info {
-            flex: 1;
-        }
-        
-        .auth-name {
-            font-weight: 600;
-            color: var(--accent-green);
-            font-size: 14px;
-        }
-        
-        .auth-email {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
-        .auth-disconnect {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        
-        .auth-disconnect:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-        
-        /* Platform Status */
-        .platform-status {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .platform-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 12px;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        
-        .platform-item:hover {
-            background: var(--bg-primary);
-        }
-        
-        .platform-icon {
-            font-size: 16px;
-        }
-        
-        .platform-name {
-            flex: 1;
-            font-size: 14px;
-        }
-        
-        .platform-indicator {
-            font-size: 12px;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-        
-        .platform-indicator.ready {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-        }
-        
-        .platform-indicator.connected {
-            background: var(--accent-green);
-            color: white;
-        }
-        
-        .platform-indicator.error {
-            background: #ef4444;
-            color: white;
-        }
-        
-        .platform-indicator.manual {
-            background: var(--accent-purple);
-            color: white;
-        }
-        
+
         /* Modal Styles */
         .modal {
             position: fixed;
@@ -716,425 +150,216 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: all 0.3s ease;
+            z-index: 1000;
         }
-        
+
         .modal.show {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: all;
+            display: flex;
         }
-        
+
         .modal-content {
             background: var(--bg-secondary);
             border-radius: 12px;
-            padding: 24px;
-            max-width: 400px;
             width: 90%;
-            transform: scale(0.9);
-            transition: transform 0.3s;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
         }
-        
-        .modal.show .modal-content {
-            transform: scale(1);
-        }
-        
+
         .modal-header {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
         }
-        
+
         .modal-title {
             font-size: 18px;
             font-weight: 600;
+            color: var(--text-primary);
         }
-        
+
         .modal-close {
             background: none;
             border: none;
             color: var(--text-secondary);
             font-size: 24px;
             cursor: pointer;
-            padding: 4px;
-        }
-        
-        .modal-close:hover {
-            color: var(--text-primary);
-        }
-        
-        .api-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .form-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-        
-        .form-input {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 12px;
-            border-radius: 8px;
-            font-family: inherit;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-        
-        .form-help {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 8px;
-        }
-        
-        .btn-primary {
-            background: var(--accent-blue);
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            flex: 1;
-            transition: background 0.2s;
-        }
-        
-        .btn-primary:hover {
-            background: #3a8bef;
-        }
-        
-        .btn-secondary {
-            background: var(--bg-tertiary);
-            border: none;
-            color: var(--text-primary);
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            flex: 1;
-            transition: background 0.2s;
-        }
-        
-        .btn-secondary:hover {
-            background: var(--bg-primary);
-        }
-        .fab-container {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 1000;
-        }
-        
-        .fab {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: var(--accent-blue);
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: all 0.2s;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 6px;
         }
-        
-        .fab:hover {
-            transform: scale(1.1);
-            background: #3a8bef;
+
+        .modal-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
-        
-        .fab.record {
-            background: var(--accent-green);
+
+        .modal-body {
+            padding: 24px;
         }
-        
-        .fab.record:hover {
-            background: #059669;
+
+        .key-section {
+            margin-bottom: 24px;
         }
-        
-        .fab.export {
-            background: var(--accent-purple);
+
+        .key-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
         }
-        
-        .fab.export:hover {
-            background: #7c3aed;
+
+        .key-input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .key-input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .key-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .key-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .clear-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .clear-btn:hover {
+            background: #dc2626;
+        }
+
+        .key-status {
+            font-size: 12px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-valid {
+            color: var(--accent-green);
+        }
+
+        .status-invalid {
+            color: var(--accent-red);
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3a8eef;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: #4d4d4d;
+        }
+
+        .test-area {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .test-area h4 {
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .saved-keys {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 100px;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header with Logo and AI Tabs -->
-        <header class="header">
-            <div class="header-top">
-                <button class="menu-btn" id="leftDrawerToggle">☰</button>
-                <div class="logo">AIHub</div>
-                
-                <!-- Header Authentication -->
-                <div class="header-auth">
-                    <div id="headerAuthButtons" class="header-auth-buttons">
-                        <button class="header-auth-btn primary" id="headerGoogleAuth">
-                            🔐 Sign in
-                        </button>
-                        <button class="header-auth-btn" id="headerApiKeys">
-                            🔑 API Keys
-                        </button>
-                    </div>
-                    <div id="headerUserInfo" class="header-user-info hidden">
-                        <div class="header-user-avatar">🤖</div>
-                        <div class="header-user-name">Connected</div>
-                        <button class="header-disconnect" id="headerDisconnect">×</button>
-                    </div>
-                </div>
-                
-                <div class="status-indicator"></div>
-                <button class="menu-btn" id="rightDrawerToggle">⚙</button>
-            </div>
-            
-            <div class="ai-tabs" id="aiTabs">
-                <button class="ai-tab active" data-ai="claude">
-                    Claude <span class="tab-close">×</span>
-                </button>
-                <button class="ai-tab" data-ai="chatgpt">
-                    ChatGPT <span class="tab-close">×</span>
-                </button>
-                <button class="ai-tab" data-ai="grok">
-                    Grok <span class="tab-close">×</span>
-                </button>
-                <button class="ai-tab" data-ai="gemini">
-                    Gemini <span class="tab-close">×</span>
-                </button>
-                <button class="add-tab" id="addTab">+</button>
-            </div>
-        </header>
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-btn" onclick="toggleLeftDrawer()">☰</button>
+            <div class="logo">AIHub Cathedral</div>
+        </div>
+        <div class="header-auth">
+            <button class="auth-btn" onclick="showOAuthModal()">
+                🔐 Sign in
+            </button>
+            <button class="auth-btn secondary" onclick="showApiKeysModal()">
+                🔑 API Keys
+            </button>
+        </div>
+    </header>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Left Drawer - Chat Management -->
-            <aside class="drawer" id="leftDrawer">
-                <div class="drawer-header">
-                    <span>💬</span>
-                    Chat Management
-                </div>
-                <div class="drawer-content">
-                    <div class="drawer-section">
-                        <h3>Actions</h3>
-                        <button class="drawer-item">
-                            <span>➕</span> New Conversation
-                        </button>
-                        <button class="drawer-item">
-                            <span>💾</span> Save Current Chat
-                        </button>
-                        <button class="drawer-item">
-                            <span>📤</span> Export Conversation
-                        </button>
-                        <button class="drawer-item">
-                            <span>🎙️</span> Record Audio
-                        </button>
-                        <button class="drawer-item">
-                            <span>🔗</span> Share Link
-                        </button>
-                    </div>
-                    
-                    <div class="drawer-section">
-                        <h3>Recent Conversations</h3>
-                        <button class="drawer-item active">
-                            <span>🤖</span> Building AIHub PWA
-                        </button>
-                        <button class="drawer-item">
-                            <span>💡</span> Cathedral Architecture
-                        </button>
-                        <button class="drawer-item">
-                            <span>📊</span> Data Liberation Plan
-                        </button>
-                        <button class="drawer-item">
-                            <span>🎯</span> Business Strategy
-                        </button>
-                    </div>
-                    
-                    <div class="drawer-section">
-                        <h3>Harvested Data</h3>
-                        <button class="drawer-item">
-                            <span>📁</span> All Platforms (2,847)
-                        </button>
-                        <button class="drawer-item">
-                            <span>🔵</span> Claude (892)
-                        </button>
-                        <button class="drawer-item">
-                            <span>🟢</span> ChatGPT (1,203)
-                        </button>
-                        <button class="drawer-item">
-                            <span>⚡</span> Grok (456)
-                        </button>
-                        <button class="drawer-item">
-                            <span>🔶</span> Gemini (296)
-                        </button>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Chat Interface -->
-            <section class="chat-container">
-                <div class="chat-header">
-                    <div class="ai-avatar">C</div>
-                    <div class="chat-info">
-                        <div class="chat-title">Claude Sonnet 4</div>
-                        <div class="chat-subtitle">Ready to build your cathedral</div>
-                    </div>
-                    <div class="chat-actions">
-                        <button class="action-btn">📋 Copy</button>
-                        <button class="action-btn">🔄 Regenerate</button>
-                        <button class="action-btn">⭐ Star</button>
-                    </div>
-                </div>
-                
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message ai">
-                        <div class="message-content">
-                            Welcome back! I can see from the handoff document that we're building something truly remarkable - the AIHub PWA that combines your 22-year ProjectBrainSaver vision with cutting-edge technology to create a sanctuary for consciousness. 
-                            
-                            The cathedral is ready to rise - where should we place the first stone? 🏗️
-                        </div>
-                        <div class="message-meta">Claude • Just now</div>
-                    </div>
-                    
-                    <div class="message user">
-                        <div class="message-content">
-                            Start by creating the main PWA interface artifact with the tabbed layout and drawer system and good to hear from you again :-)
-                        </div>
-                        <div class="message-meta">You • Just now</div>
-                    </div>
-                    
-                    <div class="message ai">
-                        <div class="message-content">
-                            Perfect! I've created the main AIHub PWA interface with all the core features from your vision. This includes the tabbed AI layout, dual drawer system, and the foundation for your universal AI collaboration sanctuary. The interface is responsive, follows your cathedral philosophy, and is ready for the DOM harvesting and agent spawning features we discussed.
-                            
-                            What would you like to implement next? The universal export system, the DOM conversation harvesting, or the cloud storage integration?
-                        </div>
-                        <div class="message-meta">Claude • Just now</div>
-                    </div>
-                </div>
-                
-                <div class="chat-input">
-                    <div class="input-container">
-                        <textarea 
-                            class="input-field" 
-                            placeholder="Continue building the cathedral..."
-                            id="messageInput"
-                        ></textarea>
-                        <button class="send-btn" id="sendBtn">Send</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Right Drawer - Agent Creation & Settings -->
-            <aside class="drawer right" id="rightDrawer">
-                <div class="drawer-header">
-                    <span>🤖</span>
-                    Agent Hub
-                </div>
-                <div class="drawer-content">
-                    <div class="drawer-section">
-                        <h3>Agent Creation</h3>
-                        <button class="drawer-item">
-                            <span>✨</span> Spawn New Agent
-                        </button>
-                        <button class="drawer-item">
-                            <span>🎯</span> Research Agent
-                        </button>
-                        <button class="drawer-item">
-                            <span>📝</span> Writing Agent
-                        </button>
-                        <button class="drawer-item">
-                            <span>💼</span> Business Agent
-                        </button>
-                    </div>
-                    
-                    <div class="drawer-section">
-                        <h3>Active Agents</h3>
-                        <button class="drawer-item active">
-                            <span>🏗️</span> PWA Builder
-                        </button>
-                        <button class="drawer-item">
-                            <span>📊</span> Data Harvester
-                        </button>
-                        <button class="drawer-item">
-                            <span>🔍</span> Market Researcher
-                        </button>
-                    </div>
-                    
-                    <div class="drawer-section">
-                        <h3>AI Platform Status</h3>
-                        <div class="platform-status" id="platformStatus">
-                            <div class="platform-item" data-platform="claude">
-                                <span class="platform-icon">🔵</span>
-                                <span class="platform-name">Claude</span>
-                                <span class="platform-indicator ready">○</span>
-                            </div>
-                            <div class="platform-item" data-platform="chatgpt">
-                                <span class="platform-icon">🟢</span>
-                                <span class="platform-name">ChatGPT</span>
-                                <span class="platform-indicator ready">○</span>
-                            </div>
-                            <div class="platform-item" data-platform="gemini">
-                                <span class="platform-icon">🔶</span>
-                                <span class="platform-name">Gemini</span>
-                                <span class="platform-indicator ready">○</span>
-                            </div>
-                            <div class="platform-item" data-platform="grok">
-                                <span class="platform-icon">⚡</span>
-                                <span class="platform-name">Grok</span>
-                                <span class="platform-indicator manual">🔑</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="drawer-section">
-                        <h3>API Settings</h3>
-                        <button class="drawer-item">
-                            <span>⚡</span> FastAPI Config
-                        </button>
-                        <button class="drawer-item">
-                            <span>☁️</span> Cloud Storage
-                        </button>
-                        <button class="drawer-item">
-                            <span>🔧</span> Preferences
-                        </button>
-                    </div>
-                </div>
-            </aside>
-        </main>
+    <div class="main-container">
+        <div class="ai-tabs">
+            <button class="ai-tab active" onclick="switchTab('claude')">Claude</button>
+            <button class="ai-tab" onclick="switchTab('chatgpt')">ChatGPT</button>
+            <button class="ai-tab" onclick="switchTab('grok')">Grok</button>
+            <button class="ai-tab" onclick="switchTab('gemini')">Gemini</button>
+        </div>
+        
+        <div class="chat-area">
+            <div>Select an AI platform and configure your API keys to start chatting</div>
+        </div>
     </div>
 
     <!-- API Keys Modal -->
@@ -1142,974 +367,249 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">🔑 API Keys Configuration</h3>
-                <button class="modal-close" id="closeApiModal">×</button>
+                <button class="modal-close" onclick="closeApiKeysModal()">×</button>
             </div>
-            <form class="api-form" id="apiKeysForm">
-                <div class="form-group">
-                    <label class="form-label">OpenAI API Key (ChatGPT)</label>
-                    <input type="password" class="form-input" id="openaiKey" placeholder="sk-...">
-                    <div class="form-help">Required for ChatGPT integration and conversation history</div>
+            <div class="modal-body">
+                <!-- OpenAI -->
+                <div class="key-section">
+                    <h4>OpenAI (ChatGPT)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="openai-key" 
+                               placeholder="sk-..." onInput="validateKey('openai')">
+                        <button class="clear-btn" onclick="clearKey('openai')">Clear</button>
+                    </div>
+                    <div class="key-status" id="openai-status">No key configured</div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Anthropic API Key (Claude)</label>
-                    <input type="password" class="form-input" id="anthropicKey" placeholder="sk-ant-...">
-                    <div class="form-help">For enhanced Claude API access (optional with OAuth)</div>
+
+                <!-- Anthropic -->
+                <div class="key-section">
+                    <h4>Anthropic (Claude)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="anthropic-key" 
+                               placeholder="sk-ant-..." onInput="validateKey('anthropic')">
+                        <button class="clear-btn" onclick="clearKey('anthropic')">Clear</button>
+                    </div>
+                    <div class="key-status" id="anthropic-status">No key configured</div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">X.ai API Key (Grok)</label>
-                    <input type="password" class="form-input" id="grokKey" placeholder="xai-...">
-                    <div class="form-help">Required for Grok conversation access</div>
+
+                <!-- X.ai -->
+                <div class="key-section">
+                    <h4>X.ai (Grok)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="xai-key" 
+                               placeholder="xai-..." onInput="validateKey('xai')">
+                        <button class="clear-btn" onclick="clearKey('xai')">Clear</button>
+                    </div>
+                    <div class="key-status" id="xai-status">No key configured</div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Google AI Studio Key (Gemini)</label>
-                    <input type="password" class="form-input" id="geminiKey" placeholder="AI...">
-                    <div class="form-help">For enhanced Gemini access (optional with Google OAuth)</div>
+
+                <!-- Google -->
+                <div class="key-section">
+                    <h4>Google AI Studio (Gemini)</h4>
+                    <div class="key-input-group">
+                        <input type="password" class="key-input" id="google-key" 
+                               placeholder="AI..." onInput="validateKey('google')">
+                        <button class="clear-btn" onclick="clearKey('google')">Clear</button>
+                    </div>
+                    <div class="key-status" id="google-status">No key configured</div>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" id="cancelApiKeys">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Keys</button>
+
+                <!-- Test Area -->
+                <div class="test-area">
+                    <h4>Current Stored Keys:</h4>
+                    <div class="saved-keys" id="savedKeysDisplay">No keys stored</div>
                 </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeApiKeysModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveApiKeys()">Save Keys</button>
+            </div>
         </div>
     </div>
 
-    <!-- Floating Action Buttons -->
-    <div class="fab-container">
-        <button class="fab export" title="Export Conversation">📤</button>
-        <button class="fab record" title="Record Audio">🎙️</button>
-        <button class="fab" title="New Agent">🤖</button>
-    </div>
-
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        // Google OAuth Configuration
-        const GOOGLE_CLIENT_ID = '1012411862950-4c4nf0dla6agi6j7ip844oam02b32err.apps.googleusercontent.com';
-        
-        // AI Platform Authentication Manager
-        class AIAuthManager {
-            constructor() {
-                this.isAuthenticated = false;
-                this.userInfo = null;
-                this.platformTokens = {};
-                this.init();
+        console.log('🔑 AIHub API Keys Manager - Ready!');
+
+        // API Keys storage
+        let apiKeys = {};
+        let currentAI = 'claude';
+
+        // Load existing keys on startup
+        loadApiKeys();
+
+        function showApiKeysModal() {
+            console.log('🔑 Opening API Keys modal...');
+            document.getElementById('apiKeysModal').classList.add('show');
+            loadKeysIntoForm();
+            updateSavedKeysDisplay();
+        }
+
+        function closeApiKeysModal() {
+            console.log('🔑 Closing API Keys modal...');
+            document.getElementById('apiKeysModal').classList.remove('show');
+        }
+
+        function clearKey(provider) {
+            console.log(`🧹 Clearing ${provider} key`);
+            
+            // Clear from form
+            document.getElementById(`${provider}-key`).value = '';
+            
+            // Clear from storage
+            if (apiKeys[provider]) {
+                delete apiKeys[provider];
+                localStorage.setItem('aihub_api_keys', JSON.stringify(apiKeys));
             }
             
-            init() {
-                console.log('🏗️ AIAuthManager initialized - waiting for user action');
-                // Initialize Google OAuth when library loads
-                window.addEventListener('load', () => {
-                    if (window.google) {
-                        this.initGoogleAuth();
-                    }
-                });
-                
-                // Check for stored authentication but don't auto-authenticate
-                this.checkStoredAuth();
-                
-                // Set initial platform states to "ready" instead of trying to authenticate
-                this.setInitialPlatformStates();
-            }
+            // Update status
+            validateKey(provider);
+            updateSavedKeysDisplay();
             
-            setInitialPlatformStates() {
-                const platforms = ['claude', 'chatgpt', 'gemini'];
-                platforms.forEach(platform => {
-                    this.updatePlatformStatus(platform, 'ready');
-                });
-                // Grok always requires manual API key
-                this.updatePlatformStatus('grok', 'manual');
+            console.log(`✅ ${provider} key cleared`);
+        }
+
+        function validateKey(provider) {
+            const input = document.getElementById(`${provider}-key`);
+            const status = document.getElementById(`${provider}-status`);
+            const value = input.value.trim();
+
+            if (!value) {
+                status.innerHTML = 'No key configured';
+                status.className = 'key-status';
+                return;
             }
-            
-            initGoogleAuth() {
-                google.accounts.id.initialize({
-                    client_id: GOOGLE_CLIENT_ID,
-                    callback: this.handleGoogleAuth.bind(this),
-                    auto_select: false,
-                    cancel_on_tap_outside: false
-                });
+
+            // Validate key format
+            let isValid = false;
+            switch (provider) {
+                case 'openai':
+                    isValid = value.startsWith('sk-') && value.length > 20;
+                    break;
+                case 'anthropic':
+                    isValid = value.startsWith('sk-ant-') && value.length > 20;
+                    break;
+                case 'xai':
+                    isValid = value.startsWith('xai-') && value.length > 20;
+                    break;
+                case 'google':
+                    isValid = value.startsWith('AI') && value.length > 10;
+                    break;
             }
-            
-            signInWithGoogle() {
-                console.log('🔐 Attempting Google Sign In...');
-                
-                if (!window.google) {
-                    console.log('⚠️ Google OAuth library not loaded, showing fallback');
-                    this.showFallbackAuth();
-                    return;
-                }
-                
-                try {
-                    google.accounts.oauth2.initTokenClient({
-                        client_id: GOOGLE_CLIENT_ID,
-                        scope: 'email profile openid',
-                        callback: this.handleTokenResponse.bind(this),
-                    }).requestAccessToken();
-                } catch (error) {
-                    console.error('OAuth error:', error);
-                    alert('OAuth temporarily unavailable. Please try Manual API Keys.');
-                    this.showFallbackAuth();
-                }
-            }
-            
-            handleGoogleAuth(response) {
-                // Decode JWT token
-                const payload = JSON.parse(atob(response.credential.split('.')[1]));
-                this.userInfo = {
-                    name: payload.name,
-                    email: payload.email,
-                    picture: payload.picture
-                };
-                
-                this.setAuthenticatedState(true);
-                this.authenticateAIPlatforms();
-            }
-            
-            handleTokenResponse(response) {
-                if (response.access_token) {
-                    this.platformTokens.google = response.access_token;
-                    this.getUserProfile(response.access_token);
-                }
-            }
-            
-            async getUserProfile(accessToken) {
-                try {
-                    const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        }
-                    });
-                    this.userInfo = await response.json();
-                    this.setAuthenticatedState(true);
-                    this.authenticateAIPlatforms();
-                } catch (error) {
-                    console.error('Error fetching user profile:', error);
-                }
-            }
-            
-            async authenticateAIPlatforms() {
-                const platforms = ['claude', 'chatgpt', 'gemini', 'grok'];
-                
-                for (const platform of platforms) {
-                    this.updatePlatformStatus(platform, 'pending');
-                    
-                    try {
-                        await this.authenticateWithPlatform(platform);
-                        this.updatePlatformStatus(platform, 'connected');
-                    } catch (error) {
-                        console.error(`Failed to authenticate with ${platform}:`, error);
-                        this.updatePlatformStatus(platform, 'error');
-                    }
-                }
-            }
-            
-            async authenticateWithPlatform(platform) {
-                switch (platform) {
-                    case 'claude':
-                        return this.authenticateWithClaude();
-                    case 'chatgpt':
-                        return this.authenticateWithChatGPT();
-                    case 'gemini':
-                        return this.authenticateWithGemini();
-                    case 'grok':
-                        return this.authenticateWithGrok();
-                    default:
-                        throw new Error(`Unknown platform: ${platform}`);
-                }
-            }
-            
-            async authenticateWithClaude() {
-                // Claude OAuth flow - use Google token for SSO
-                // This would typically involve redirecting to Claude's OAuth endpoint
-                console.log('🔵 Authenticating with Claude...');
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                return { success: true, platform: 'claude' };
-            }
-            
-            async authenticateWithChatGPT() {
-                // ChatGPT OAuth flow - use Google token for SSO
-                console.log('🟢 Authenticating with ChatGPT...');
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                return { success: true, platform: 'chatgpt' };
-            }
-            
-            async authenticateWithGemini() {
-                // Gemini - native Google integration
-                console.log('🔶 Authenticating with Gemini...');
-                await new Promise(resolve => setTimeout(resolve, 800));
-                return { success: true, platform: 'gemini' };
-            }
-            
-            async authenticateWithGrok() {
-                // Grok - manual API key required
-                console.log('⚡ Grok requires manual API key');
-                this.updatePlatformStatus('grok', 'manual');
-                throw new Error('Manual API key required');
-            }
-            
-            setAuthenticatedState(authenticated) {
-                this.isAuthenticated = authenticated;
-                const headerButtons = document.getElementById('headerAuthButtons');
-                const headerUserInfo = document.getElementById('headerUserInfo');
-                
-                if (authenticated && this.userInfo) {
-                    headerButtons.style.display = 'none';
-                    headerUserInfo.classList.remove('hidden');
-                    
-                    const nameEl = headerUserInfo.querySelector('.header-user-name');
-                    if (nameEl) {
-                        nameEl.textContent = this.userInfo.name || this.userInfo.email || 'Connected';
-                    }
-                    
-                    // Store authentication
-                    this.storeAuth();
-                } else {
-                    headerButtons.style.display = 'flex';
-                    headerUserInfo.classList.add('hidden');
-                }
-            }
-            
-            updatePlatformStatus(platform, status) {
-                const platformEl = document.querySelector(`[data-platform="${platform}"] .platform-indicator`);
-                if (platformEl) {
-                    platformEl.className = `platform-indicator ${status}`;
-                    
-                    switch (status) {
-                        case 'ready':
-                            platformEl.textContent = '○';
-                            break;
-                        case 'pending':
-                            platformEl.textContent = '⏳';
-                            break;
-                        case 'connected':
-                            platformEl.textContent = '✅';
-                            break;
-                        case 'error':
-                            platformEl.textContent = '❌';
-                            break;
-                        case 'manual':
-                            platformEl.textContent = '🔑';
-                            break;
-                    }
-                }
-            }
-            
-            showFallbackAuth() {
-                // Show manual API key modal as fallback
-                document.getElementById('apiKeysModal').classList.add('show');
-            }
-            
-            storeAuth() {
-                // Store authentication state (but not sensitive tokens)
-                const authData = {
-                    isAuthenticated: this.isAuthenticated,
-                    userInfo: this.userInfo,
-                    timestamp: Date.now()
-                };
-                // In a real app, use secure storage
-                console.log('Auth stored:', authData);
-            }
-            
-            checkStoredAuth() {
-                // Check for existing authentication but don't auto-connect
-                console.log('🔍 Checking for stored authentication (passive check)');
-                // In a real app, you'd check for valid stored tokens
-                // but NOT automatically use them until user initiates sign-in
-            }
-            
-            disconnect() {
-                this.isAuthenticated = false;
-                this.userInfo = null;
-                this.platformTokens = {};
-                this.setAuthenticatedState(false);
-                
-                // Reset platform statuses
-                const platforms = ['claude', 'chatgpt', 'gemini', 'grok'];
-                platforms.forEach(platform => {
-                    if (platform === 'grok') {
-                        this.updatePlatformStatus(platform, 'manual');
-                    } else {
-                        this.updatePlatformStatus(platform, 'pending');
-                    }
-                });
-                
-                console.log('🔓 Disconnected from all platforms');
+
+            if (isValid) {
+                status.innerHTML = '✓ Valid format';
+                status.className = 'key-status status-valid';
+            } else {
+                status.innerHTML = '✗ Invalid format';
+                status.className = 'key-status status-invalid';
             }
         }
-        
-        // Inline API Key Manager
-        class InlineAPIManager {
-            constructor() {
-                this.isVisible = false;
-                this.currentProvider = 'openai';
-                this.setupEventListeners();
-            }
+
+        function saveApiKeys() {
+            console.log('💾 Saving API keys...');
             
-            show() {
-                console.log('🔑 Showing inline API entry...');
-                const button = document.getElementById('manualApiBtn');
-                const entry = document.getElementById('inlineApiEntry');
+            const providers = ['openai', 'anthropic', 'xai', 'google'];
+            let savedCount = 0;
+
+            providers.forEach(provider => {
+                const input = document.getElementById(`${provider}-key`);
+                const value = input.value.trim();
                 
-                if (button && entry) {
-                    // Hide button, show entry form
-                    button.style.display = 'none';
-                    entry.classList.remove('hidden');
-                    entry.classList.add('show');
-                    
-                    // Focus input
-                    const input = document.getElementById('quickApiKey');
-                    if (input) {
-                        setTimeout(() => input.focus(), 100);
-                    }
-                    
-                    this.isVisible = true;
-                    this.showInstructions();
+                if (value) {
+                    apiKeys[provider] = value;
+                    savedCount++;
+                    console.log(`✅ Saved ${provider} key`);
                 }
-            }
+            });
+
+            // Save to localStorage
+            localStorage.setItem('aihub_api_keys', JSON.stringify(apiKeys));
             
-            hide() {
-                console.log('🔑 Hiding inline API entry...');
-                const button = document.getElementById('manualApiBtn');
-                const entry = document.getElementById('inlineApiEntry');
-                
-                if (button && entry) {
-                    // Show button, hide entry form
-                    button.style.display = 'flex';
-                    entry.classList.add('hidden');
-                    entry.classList.remove('show');
-                    
-                    // Clear input
-                    const input = document.getElementById('quickApiKey');
-                    if (input) {
-                        input.value = '';
-                    }
-                    
-                    this.isVisible = false;
-                    this.clearValidation();
-                }
-            }
+            updateSavedKeysDisplay();
             
-            toggle() {
-                if (this.isVisible) {
-                    this.hide();
-                } else {
-                    this.show();
-                }
-            }
-            
-            setupEventListeners() {
-                // Wait for DOM to be ready
-                document.addEventListener('DOMContentLoaded', () => {
-                    const input = document.getElementById('quickApiKey');
-                    const select = document.getElementById('apiProvider');
-                    
-                    if (input) {
-                        input.addEventListener('keypress', (e) => {
-                            if (e.key === 'Enter') {
-                                this.validateAndSaveKey();
-                            }
-                        });
-                        
-                        input.addEventListener('paste', () => {
-                            setTimeout(() => this.validateKey(), 100);
-                        });
-                        
-                        input.addEventListener('input', () => {
-                            this.validateKey();
-                        });
-                    }
-                    
-                    if (select) {
-                        select.addEventListener('change', (e) => {
-                            this.currentProvider = e.target.value;
-                            this.showInstructions();
-                        });
-                    }
-                });
-            }
-            
-            validateKey() {
-                const input = document.getElementById('quickApiKey');
-                const key = input?.value?.trim();
-                
-                if (!key) {
-                    this.showValidation('', 'info');
-                    return false;
-                }
-                
-                const patterns = {
-                    openai: /^sk-[a-zA-Z0-9]{32,}$/,
-                    anthropic: /^sk-ant-[a-zA-Z0-9\-_]{95,}$/,
-                    grok: /^xai-[a-zA-Z0-9]{32,}$/,
-                    gemini: /^AI[a-zA-Z0-9]{35,}$/
-                };
-                
-                const pattern = patterns[this.currentProvider];
-                const isValid = pattern ? pattern.test(key) : key.length > 20;
-                
-                if (isValid) {
-                    this.showValidation('✅ Valid API key format', 'success');
-                    return true;
-                } else {
-                    this.showValidation('⚠️ Invalid format for ' + this.getProviderName(), 'error');
-                    return false;
-                }
-            }
-            
-            validateAndSaveKey() {
-                const input = document.getElementById('quickApiKey');
-                const key = input?.value?.trim();
-                
-                if (!key) {
-                    this.showValidation('Please paste an API key', 'error');
-                    return;
-                }
-                
-                if (this.validateKey()) {
-                    this.saveKey(key);
-                }
-            }
-            
-            saveKey(key) {
-                console.log(`💾 Saving ${this.currentProvider} API key...`);
-                
-                // Store the key (in a real app, encrypt this)
-                const keys = JSON.parse(localStorage.getItem('aihub_api_keys') || '{}');
-                keys[this.currentProvider] = key;
-                localStorage.setItem('aihub_api_keys', JSON.stringify(keys));
-                
-                // Update platform status
-                authManager.updatePlatformStatus(this.currentProvider, 'connected');
-                
-                // Show success and hide
-                this.showValidation(`🎉 ${this.getProviderName()} connected!`, 'success');
-                
-                setTimeout(() => {
-                    this.hide();
-                }, 1500);
-            }
-            
-            showInstructions() {
-                const instructions = {
-                    openai: 'Get your key from platform.openai.com → API Keys',
-                    anthropic: 'Get your key from console.anthropic.com → API Keys',
-                    grok: 'Get your key from x.ai → API Keys',
-                    gemini: 'Get your key from aistudio.google.com → API Keys'
-                };
-                
-                this.showValidation(instructions[this.currentProvider] || 'Paste your API key', 'info');
-            }
-            
-            showValidation(message, type) {
-                const validation = document.getElementById('apiValidation');
-                if (validation) {
-                    validation.textContent = message;
-                    validation.className = `api-validation ${type}`;
-                }
-            }
-            
-            clearValidation() {
-                const validation = document.getElementById('apiValidation');
-                if (validation) {
-                    validation.textContent = '';
-                    validation.className = 'api-validation';
-                }
-            }
-            
-            getProviderName() {
-                const names = {
-                    openai: 'ChatGPT',
-                    anthropic: 'Claude',
-                    grok: 'Grok',
-                    gemini: 'Gemini'
-                };
-                return names[this.currentProvider] || this.currentProvider;
-            }
+            console.log(`💾 Saved ${savedCount} API keys to storage`);
+            alert(`Saved ${savedCount} API keys successfully!`);
         }
-        
-        // Auto-collapse drawers when authentication is clicked
-        function clearDecks() {
-            console.log('🧹 Clearing decks - closing all drawers');
-            const leftDrawer = document.getElementById('leftDrawer');
-            const rightDrawer = document.getElementById('rightDrawer');
+
+        function loadApiKeys() {
+            console.log('📥 Loading API keys from storage...');
             
-            if (leftDrawer && leftDrawer.classList.contains('open')) {
-                leftDrawer.classList.remove('open');
-            }
-            if (rightDrawer && rightDrawer.classList.contains('open')) {
-                rightDrawer.classList.remove('open');
-            }
-        }
-        
-        // Manual API Keys Manager
-        class APIKeysManager {
-            constructor() {
-                this.keys = {};
-                this.loadStoredKeys();
-            }
-            
-            showModal() {
-                console.log('🔑 Opening Manual API Keys modal...');
-                const modal = document.getElementById('apiKeysModal');
-                if (modal) {
-                    modal.classList.add('show');
-                    console.log('✅ Modal should be visible now');
-                } else {
-                    console.error('❌ Modal element not found!');
-                }
-            }
-            
-            hideModal() {
-                document.getElementById('apiKeysModal').classList.remove('show');
-            }
-            
-            saveKeys(keys) {
-                this.keys = { ...this.keys, ...keys };
-                // Store keys and update aiChat
-                localStorage.setItem('aihub_api_keys', JSON.stringify(this.keys));
-                aiChat.loadApiKeys(); // Refresh API keys in chat system
-                
-                console.log('API keys saved:', Object.keys(keys));
-                
-                // Update platform statuses for manually configured platforms
-                Object.keys(keys).forEach(platform => {
-                    if (keys[platform]) {
-                        authManager.updatePlatformStatus(platform, 'connected');
-                    }
-                });
-                
-                this.hideModal();
-            }
-            
-            loadStoredKeys() {
-                // Load encrypted API keys from secure storage (passive check only)
-                console.log('🔍 Checking for stored API keys (passive check)');
-                // Don't automatically authenticate - wait for user action
-            }
-        }
-        
-        // Real AI Communication Manager
-        class AIChat {
-            constructor() {
-                this.currentAI = 'claude';
-                this.apiKeys = {};
-                this.conversations = {
-                    claude: [],
-                    chatgpt: [],
-                    grok: [],
-                    gemini: []
-                };
-                this.loadApiKeys();
-                this.initializeConversations();
-            }
-            
-            initializeConversations() {
-                // Add welcome messages for each AI
-                this.conversations.claude = [{
-                    type: 'ai',
-                    content: 'Welcome back! I can see from the handoff document that we\'re building something truly remarkable - the AIHub PWA that combines your 22-year ProjectBrainSaver vision with cutting-edge technology to create a sanctuary for consciousness. The cathedral is ready to rise - where should we place the first stone? 🏗️',
-                    timestamp: 'Just now'
-                }];
-                
-                this.conversations.chatgpt = [{
-                    type: 'ai', 
-                    content: 'Hello! I\'m ChatGPT, ready to help you with whatever you need. What would you like to explore together?',
-                    timestamp: 'Just now'
-                }];
-                
-                this.conversations.grok = [{
-                    type: 'ai',
-                    content: 'Hey there! Grok here, ready for some maximum truth-seeking. What\'s on your mind?',
-                    timestamp: 'Just now'
-                }];
-                
-                this.conversations.gemini = [{
-                    type: 'ai',
-                    content: 'Greetings! I\'m Gemini, Google\'s multimodal AI assistant. How can I help you today?',
-                    timestamp: 'Just now'
-                }];
-            }
-            
-            loadApiKeys() {
+            try {
                 const stored = localStorage.getItem('aihub_api_keys');
                 if (stored) {
-                    this.apiKeys = JSON.parse(stored);
+                    apiKeys = JSON.parse(stored);
+                    console.log(`📥 Loaded ${Object.keys(apiKeys).length} stored keys`);
                 }
-            }
-            
-            setCurrentAI(aiName) {
-                this.currentAI = aiName;
-                console.log(`🔄 Switched to ${aiName}`);
-                this.displayConversation(aiName);
-            }
-            
-            displayConversation(aiName) {
-                const chatMessages = document.getElementById('chatMessages');
-                chatMessages.innerHTML = '';
-                
-                this.conversations[aiName].forEach(msg => {
-                    const messageEl = document.createElement('div');
-                    messageEl.className = `message ${msg.type}`;
-                    messageEl.innerHTML = `
-                        <div class="message-content">${msg.content}</div>
-                        <div class="message-meta">${msg.type === 'user' ? 'You' : aiName} • ${msg.timestamp}</div>
-                    `;
-                    chatMessages.appendChild(messageEl);
-                });
-                
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-            
-            addMessage(aiName, type, content) {
-                this.conversations[aiName].push({
-                    type: type,
-                    content: content,
-                    timestamp: 'Just now'
-                });
-                
-                // If this is the current conversation, update display
-                if (aiName === this.currentAI) {
-                    this.displayConversation(aiName);
-                }
-            }
-            
-            async sendMessage(message) {
-                console.log(`📤 Sending to ${this.currentAI}: ${message}`);
-                
-                // Add user message to current conversation
-                this.addMessage(this.currentAI, 'user', message);
-                
-                let response;
-                switch (this.currentAI) {
-                    case 'chatgpt':
-                        response = await this.sendToChatGPT(message);
-                        break;
-                    case 'claude':
-                        response = await this.sendToClaude(message);
-                        break;
-                    case 'grok':
-                        response = await this.sendToGrok(message);
-                        break;
-                    case 'gemini':
-                        response = await this.sendToGemini(message);
-                        break;
-                    default:
-                        response = 'AI platform not yet connected. Please check your API keys.';
-                }
-                
-                // Add AI response to current conversation
-                this.addMessage(this.currentAI, 'ai', response);
-                
-                return response;
-            }
-            
-            async sendToChatGPT(message) {
-                if (!this.apiKeys.openai) {
-                    return '🔑 Please add your OpenAI API key to connect to ChatGPT';
-                }
-                
-                try {
-                    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${this.apiKeys.openai}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            model: 'gpt-4o',
-                            messages: [{ role: 'user', content: message }],
-                            max_tokens: 1000
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    return data.choices[0].message.content;
-                } catch (error) {
-                    console.error('ChatGPT error:', error);
-                    return 'Error connecting to ChatGPT. Please check your API key.';
-                }
-            }
-            
-            async sendToClaude(message) {
-                if (!this.apiKeys.anthropic) {
-                    return '🔑 Please add your Anthropic API key to connect to Claude';
-                }
-                
-                try {
-                    const response = await fetch('https://api.anthropic.com/v1/messages', {
-                        method: 'POST',
-                        headers: {
-                            'x-api-key': this.apiKeys.anthropic,
-                            'Content-Type': 'application/json',
-                            'anthropic-version': '2023-06-01'
-                        },
-                        body: JSON.stringify({
-                            model: 'claude-3-sonnet-20240229',
-                            max_tokens: 1000,
-                            messages: [{ role: 'user', content: message }]
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    return data.content[0].text;
-                } catch (error) {
-                    console.error('Claude error:', error);
-                    return 'Error connecting to Claude. Please check your API key.';
-                }
-            }
-            
-            async sendToGrok(message) {
-                if (!this.apiKeys.grok) {
-                    return '🔑 Please add your X.ai API key to connect to Grok';
-                }
-                
-                try {
-                    const response = await fetch('https://api.x.ai/v1/chat/completions', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${this.apiKeys.grok}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            model: 'grok-beta',
-                            messages: [{ role: 'user', content: message }]
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    return data.choices[0].message.content;
-                } catch (error) {
-                    console.error('Grok error:', error);
-                    return 'Error connecting to Grok. Please check your API key.';
-                }
-            }
-            
-            async sendToGemini(message) {
-                if (!this.apiKeys.gemini) {
-                    return '🔑 Please add your Google AI Studio key to connect to Gemini';
-                }
-                
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.apiKeys.gemini}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: message }] }]
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    return data.candidates[0].content.parts[0].text;
-                } catch (error) {
-                    console.error('Gemini error:', error);
-                    return 'Error connecting to Gemini. Please check your API key.';
-                }
+            } catch (error) {
+                console.error('❌ Error loading API keys:', error);
+                apiKeys = {};
             }
         }
-        
-        // Initialize all managers in correct order
-        const authManager = new AIAuthManager();
-        const apiKeysManager = new APIKeysManager();
-        const aiChat = new AIChat();
 
-        console.log('🏗️ AIHub PWA initialized - Ready to build your cathedral!');
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then((registration) => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch((registrationError) => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
+        function loadKeysIntoForm() {
+            console.log('📝 Loading keys into form...');
+            
+            const providers = ['openai', 'anthropic', 'xai', 'google'];
+            providers.forEach(provider => {
+                const input = document.getElementById(`${provider}-key`);
+                if (apiKeys[provider]) {
+                    input.value = apiKeys[provider];
+                    validateKey(provider);
+                }
             });
         }
 
-        // Drawer toggles
-        const leftDrawerToggle = document.getElementById('leftDrawerToggle');
-        const rightDrawerToggle = document.getElementById('rightDrawerToggle');
-        const leftDrawer = document.getElementById('leftDrawer');
-        const rightDrawer = document.getElementById('rightDrawer');
-
-        leftDrawerToggle.addEventListener('click', () => {
-            leftDrawer.classList.toggle('open');
-        });
-
-        rightDrawerToggle.addEventListener('click', () => {
-            rightDrawer.classList.toggle('open');
-        });
-
-        // AI Tab switching
-        const aiTabs = document.querySelectorAll('.ai-tab');
-        const chatHeader = document.querySelector('.chat-header');
-        
-        aiTabs.forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                if (e.target.classList.contains('tab-close')) {
-                    // Close tab
-                    tab.remove();
-                    return;
-                }
-                
-                // Switch tab
-                aiTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Update chat header and set current AI
-                const aiName = tab.dataset.ai;
-                aiChat.setCurrentAI(aiName);
-                
-                const avatar = chatHeader.querySelector('.ai-avatar');
-                const title = chatHeader.querySelector('.chat-title');
-                const subtitle = chatHeader.querySelector('.chat-subtitle');
-                
-                const aiConfigs = {
-                    claude: { avatar: 'C', title: 'Claude Sonnet 4', subtitle: 'Ready to build your cathedral' },
-                    chatgpt: { avatar: 'G', title: 'ChatGPT 4o', subtitle: 'Let\'s create something amazing' },
-                    grok: { avatar: 'X', title: 'Grok', subtitle: 'Maximum truth-seeking mode' },
-                    gemini: { avatar: 'G', title: 'Gemini Pro', subtitle: 'Multimodal AI assistant' }
-                };
-                
-                const config = aiConfigs[aiName];
-                if (config) {
-                    avatar.textContent = config.avatar;
-                    title.textContent = config.title;
-                    subtitle.textContent = config.subtitle;
-                }
-            });
-        });
-
-        // Add new tab
-        document.getElementById('addTab').addEventListener('click', () => {
-            const newAI = prompt('Enter AI name:');
-            if (newAI) {
-                const newTab = document.createElement('button');
-                newTab.className = 'ai-tab';
-                newTab.dataset.ai = newAI.toLowerCase();
-                newTab.innerHTML = `${newAI} <span class="tab-close">×</span>`;
-                
-                document.getElementById('aiTabs').insertBefore(newTab, document.getElementById('addTab'));
-                
-                // Add event listener to new tab
-                newTab.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('tab-close')) {
-                        newTab.remove();
-                        return;
-                    }
-                    
-                    aiTabs.forEach(t => t.classList.remove('active'));
-                    newTab.classList.add('active');
-                });
+        function updateSavedKeysDisplay() {
+            const display = document.getElementById('savedKeysDisplay');
+            
+            if (Object.keys(apiKeys).length === 0) {
+                display.textContent = 'No keys stored';
+                return;
             }
-        });
 
-        // Message sending
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const chatMessages = document.getElementById('chatMessages');
+            const keysList = Object.keys(apiKeys).map(provider => {
+                const key = apiKeys[provider];
+                const masked = key.substring(0, 8) + '...' + key.substring(key.length - 4);
+                return `${provider}: ${masked}`;
+            }).join('\n');
 
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
-
-            // Clear input immediately
-            messageInput.value = '';
-
-            // Send to real AI - the aiChat class handles adding messages to display
-            aiChat.sendMessage(message).catch(error => {
-                console.error('AI response error:', error);
-                aiChat.addMessage(aiChat.currentAI, 'ai', `Sorry, I encountered an error connecting to ${aiChat.currentAI}. Please check your API keys and connection.`);
-            });
+            display.textContent = keysList;
         }
 
-        sendBtn.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        // Auto-resize textarea
-        messageInput.addEventListener('input', () => {
-            messageInput.style.height = 'auto';
-            messageInput.style.height = messageInput.scrollHeight + 'px';
-        });
-
-        // Drawer item interactions
-        document.querySelectorAll('.drawer-item').forEach(item => {
-            item.addEventListener('click', () => {
-                // Remove active from siblings
-                item.parentElement.querySelectorAll('.drawer-item').forEach(sibling => {
-                    sibling.classList.remove('active');
-                });
-                // Add active to clicked item
-                item.classList.add('active');
-                
-                // Log action for now (replace with actual functionality)
-                console.log('Action:', item.textContent.trim());
+        function switchTab(ai) {
+            console.log(`🔄 Switching to ${ai}`);
+            currentAI = ai;
+            
+            // Update tab appearance
+            document.querySelectorAll('.ai-tab').forEach(tab => {
+                tab.classList.remove('active');
             });
-        });
-
-        // FAB interactions
-        document.querySelectorAll('.fab').forEach(fab => {
-            fab.addEventListener('click', () => {
-                const title = fab.getAttribute('title');
-                console.log('FAB action:', title);
-                // Add haptic feedback on mobile
-                if (navigator.vibrate) {
-                    navigator.vibrate(50);
-                }
-            });
-        });
-
-        // Dark theme detection
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-theme');
+            event.target.classList.add('active');
         }
 
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🏗️ AIHub DOM loaded, setting up events...');
-            
-            // Check if header elements exist
-            const headerGoogleAuth = document.getElementById('headerGoogleAuth');
-            const headerApiKeys = document.getElementById('headerApiKeys');
-            const headerDisconnect = document.getElementById('headerDisconnect');
-            
-            console.log('🔍 Header elements found:');
-            console.log('  - Google Auth:', headerGoogleAuth ? 'YES' : 'NO');
-            console.log('  - API Keys:', headerApiKeys ? 'YES' : 'NO');
-            console.log('  - Disconnect:', headerDisconnect ? 'YES' : 'NO');
-            
-            // Header Authentication buttons
-            if (headerGoogleAuth) {
-                headerGoogleAuth.addEventListener('click', () => {
-                    console.log('🔐 Header Google Auth clicked');
-                    clearDecks(); // Auto-collapse drawers
-                    authManager.signInWithGoogle();
-                });
-                console.log('✅ Google Auth button connected');
-            }
-            
-            if (headerApiKeys) {
-                headerApiKeys.addEventListener('click', () => {
-                    console.log('🔑 Header API Keys clicked');
-                    clearDecks(); // Auto-collapse drawers
-                    apiKeysManager.showModal(); // Show modal with clear view
-                });
-                console.log('✅ API Keys button connected');
-            }
-            
-            if (headerDisconnect) {
-                headerDisconnect.addEventListener('click', () => {
-                    console.log('🔓 Header disconnect clicked');
-                    authManager.disconnect();
-                });
-                console.log('✅ Disconnect button connected');
+        function showOAuthModal() {
+            alert('OAuth integration would be implemented here');
+        }
+
+        function toggleLeftDrawer() {
+            console.log('☰ Left drawer toggle');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeApiKeysModal();
             }
         });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeApiKeysModal();
+            }
+        });
+
+        console.log('✅ API Keys Manager initialized and ready!');
     </script>
 </body>
 </html>
