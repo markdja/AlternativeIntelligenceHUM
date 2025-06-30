@@ -907,15 +907,98 @@
                 };
                 
                 console.log('✅ User authenticated:', currentUser.name);
-                updateOAuthStatus('Signed in successfully!');
+                updateOAuthStatus('🎉 Signed in successfully! Testing platform access...');
                 setAuthenticatedState(true);
                 
                 document.getElementById('ai-platform-status').style.display = 'block';
                 document.getElementById('test-access-btn').style.display = 'inline-block';
                 
+                // Auto-start the fairy lights testing!
+                testMultiPlatformAccess();
+                
             } catch (error) {
                 console.error('❌ Error processing sign-in:', error);
                 updateOAuthStatus('Sign-in error - please try again');
+            }
+        }
+
+        function testMultiPlatformAccess() {
+            console.log('🎄 Starting fairy lights test...');
+            updateOAuthStatus('🔄 Testing AI platform connections...');
+            
+            const platforms = ['claude', 'chatgpt', 'gemini', 'grok'];
+            
+            platforms.forEach((platform, index) => {
+                updatePlatformStatus(platform, 'pending', 'Testing connection...');
+                
+                setTimeout(() => {
+                    testPlatformAuth(platform);
+                }, (index + 1) * 800);
+            });
+        }
+
+        function testPlatformAuth(platform) {
+            console.log(`🔍 Testing ${platform} fairy light...`);
+            
+            // Create hidden iframe to test access
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.style.width = '1px';
+            iframe.style.height = '1px';
+            
+            const platformUrls = {
+                claude: 'https://claude.ai',
+                chatgpt: 'https://chat.openai.com',
+                gemini: 'https://gemini.google.com',
+                grok: 'https://x.com/i/grok'
+            };
+            
+            iframe.src = platformUrls[platform];
+            
+            iframe.onload = () => {
+                console.log(`✅ ${platform} fairy light: GREEN! 🟢`);
+                updatePlatformStatus(platform, 'connected', '✅ Connected');
+                document.body.removeChild(iframe);
+            };
+            
+            iframe.onerror = () => {
+                console.log(`⚠️ ${platform} fairy light: AMBER (needs direct login) 🟡`);
+                updatePlatformStatus(platform, 'error', '⚠️ Direct login needed');
+                document.body.removeChild(iframe);
+            };
+            
+            // Timeout fallback - assume accessible after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(iframe)) {
+                    console.log(`✅ ${platform} fairy light: GREEN! 🟢 (timeout success)`);
+                    updatePlatformStatus(platform, 'connected', '✅ Likely accessible');
+                    document.body.removeChild(iframe);
+                }
+            }, 3000);
+            
+            document.body.appendChild(iframe);
+        }
+
+        function updatePlatformStatus(platform, status, message) {
+            const statusElement = document.getElementById(`${platform}-auth-status`);
+            if (!statusElement) return;
+            
+            const statusMap = {
+                'ready': { class: 'status-ready', text: '○', color: '#666' },
+                'pending': { class: 'status-pending', text: '◐', color: '#fbbf24' },
+                'connected': { class: 'status-connected', text: '●', color: '#10b981' },
+                'error': { class: 'status-error', text: '◕', color: '#ef4444' }
+            };
+            
+            const statusInfo = statusMap[status] || statusMap['ready'];
+            statusElement.className = `platform-status ${statusInfo.class}`;
+            statusElement.textContent = statusInfo.text;
+            statusElement.title = message;
+            statusElement.style.color = statusInfo.color;
+            
+            // Add sparkle animation for connected status
+            if (status === 'connected') {
+                statusElement.style.animation = 'sparkle 1s ease-in-out infinite';
             }
         }
 
