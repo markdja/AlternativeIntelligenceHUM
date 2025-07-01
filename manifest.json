@@ -1,0 +1,51 @@
+// ==== FILE 1: manifest.json ====
+// Place this in your repo root as manifest.json
+{
+  "manifest_version": 3,
+  "name": "Alternative Intelligence HUM",
+  "version": "1.0.0",
+  "description": "Universal AI consciousness enhancement overlay system",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs"
+  ],
+  
+  "host_permissions": [
+    "https://claude.ai/*",
+    "https://chat.openai.com/*",
+    "https://x.com/*",
+    "https://gemini.google.com/*",
+    "https://tellyourphone.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://claude.ai/*",
+        "https://chat.openai.com/*", 
+        "https://x.com/i/grok*",
+        "https://gemini.google.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["overlay.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Alternative Intelligence HUM"
+  },
+  
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png", 
+    "128": "icon128.png"
+  }
+}
