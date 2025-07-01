@@ -1,0 +1,235 @@
+/* ==== overlay.css ====
+   HUM Overlay styles that inject into AI websites */
+
+#hum-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #ffffff;
+  max-width: 350px;
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#hum-overlay.minimized {
+  transform: scale(0.8);
+  opacity: 0.7;
+}
+
+#hum-overlay.minimized .hum-tools {
+  display: none !important;
+}
+
+.hum-status-bar {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hum-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.hum-icon {
+  font-size: 16px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.hum-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4ade80;
+}
+
+.hum-pulse {
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  margin-left: auto;
+}
+
+.hum-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.hum-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.hum-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.hum-btn:active {
+  transform: scale(0.95);
+}
+
+.hum-tools {
+  background: rgba(45, 45, 45, 0.95);
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hum-tool-section {
+  margin-bottom: 16px;
+}
+
+.hum-tool-section h4 {
+  font-size: 12px;
+  color: #b0b0b0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hum-tool-btn {
+  background: rgba(74, 158, 255, 0.2);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  color: #4a9eff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.hum-tool-btn:hover {
+  background: rgba(74, 158, 255, 0.3);
+  border-color: rgba(74, 158, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.hum-status {
+  font-size: 11px;
+  color: #b0b0b0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#hum-capture-status {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+#hum-message-count {
+  color: #4a9eff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #hum-overlay {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .hum-status-bar {
+    padding: 10px 12px;
+  }
+  
+  .hum-text {
+    font-size: 12px;
+  }
+}
+
+/* Platform-specific adjustments */
+.claude-ai #hum-overlay {
+  /* Adjust for Claude's interface */
+  top: 70px; /* Below Claude's header */
+}
+
+.chat-openai-com #hum-overlay {
+  /* Adjust for ChatGPT's interface */
+  top: 60px; /* Below ChatGPT's header */
+}
+
+.x-com #hum-overlay {
+  /* Adjust for X/Grok's interface */
+  top: 80px; /* Below X's header */
+  right: 280px; /* Away from X's sidebar */
+}
+
+.gemini-google-com #hum-overlay {
+  /* Adjust for Gemini's interface */
+  top: 64px; /* Below Gemini's header */
+}
+
+/* Animation for overlay appearance */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+#hum-overlay {
+  animation: slideInFromRight 0.5s ease-out;
+}
+
+/* Notification styles for future use */
+.hum-notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 26, 26, 0.95);
+  color: #ffffff;
+  padding: 16px 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 1000000;
+  font-size: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+  10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Ensure overlay stays on top of everything */
+#hum-overlay, .hum-notification {
+  z-index: 999999999 !important;
+}
