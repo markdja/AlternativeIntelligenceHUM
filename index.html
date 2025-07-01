@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1a1a1a">
-    <title>AIHub - The Alternative Intelligence HUM (V24)</title>
+    <title>The Alternative Intelligence HUM</title>
     <style>
         * {
             margin: 0;
@@ -26,438 +25,103 @@
             --border-color: #404040;
         }
 
-        /* Light Mode */
-        [data-theme="light"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-tertiary: #e9ecef;
-            --text-primary: #212529;
-            --text-secondary: #6c757d;
-            --accent-blue: #0d6efd;
-            --accent-green: #198754;
-            --accent-red: #dc3545;
-            --accent-purple: #7c3aed;
-            --accent-orange: #fd7e14;
-            --border-color: #dee2e6;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             color: var(--text-primary);
-            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .header {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
-            position: relative;
-            z-index: 200;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 0 16px;
-        }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .menu-btn:hover {
-            background: var(--bg-tertiary);
-            transform: scale(1.1);
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .logo {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--accent-blue);
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
         }
 
-        .header-auth {
-            display: flex;
-            gap: 8px;
-            padding: 0 16px;
-        }
-
-        .auth-btn {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .auth-btn:hover {
-            background: #3a8eef;
-            transform: translateY(-2px);
-        }
-
-        .auth-btn.secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .auth-btn.secondary:hover {
-            background: #4d4d4d;
-        }
-
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 60px);
-            position: relative;
-        }
-
-        /* Drawer System */
-        .drawer {
-            position: fixed;
-            top: 60px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transform: translateY(-100%);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 150;
-            max-height: calc(100vh - 80px);
-            overflow-y: auto;
-        }
-
-        .drawer.open {
-            transform: translateY(0);
-        }
-
-        .left-drawer {
-            left: 0;
-            width: 50%;
-            border-right: 2px solid var(--accent-blue);
-        }
-
-        .right-drawer {
-            right: 0;
-            width: 50%;
-            border-left: 2px solid var(--accent-green);
-        }
-
-        .drawer-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .subtitle {
+            color: var(--text-secondary);
             font-size: 16px;
+            line-height: 1.5;
         }
 
-        .drawer-content {
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
             padding: 16px;
-        }
-
-        .drawer-section {
-            margin-bottom: 24px;
-        }
-
-        .drawer-section h4 {
-            color: var(--text-secondary);
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            padding-left: 8px;
-        }
-
-        .drawer-item {
-            width: 100%;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            padding: 12px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 4px;
-            transition: all 0.3s ease;
-            text-align: left;
-        }
-
-        .drawer-item:hover {
             background: var(--bg-tertiary);
-            transform: translateX(4px);
-        }
-
-        .ai-tabs {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            padding: 0 16px;
-            position: relative;
-            z-index: 100;
-        }
-
-        .ai-tab {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            padding: 12px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .ai-tab:hover {
-            color: var(--text-primary);
-            transform: translateY(-2px);
-        }
-
-        .ai-tab.active {
-            color: var(--accent-blue);
-            border-bottom-color: var(--accent-blue);
-        }
-
-        .ai-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--accent-blue);
-            z-index: 10;
-        }
-
-        .chat-area {
-            flex: 1;
-            background: var(--bg-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.4s ease;
-        }
-
-        /* Layout adjustments */
-        .main-container.left-drawer-open .chat-area {
-            margin-left: 50%;
-        }
-
-        .main-container.right-drawer-open .chat-area {
-            margin-right: 50%;
-        }
-
-        .main-container.both-drawers-open .chat-area {
-            margin-left: 50%;
-            margin-right: 50%;
-            width: 0;
-        }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
             border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(74, 158, 255, 0.3);
+            border: 2px solid var(--accent-green);
         }
 
-        .modal-header {
-            padding: 20px 24px 16px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: pulse 2s infinite;
         }
 
-        .modal-title {
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-text {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .auth-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .auth-title {
             font-size: 18px;
             font-weight: 600;
+            margin-bottom: 16px;
             color: var(--text-primary);
         }
 
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 24px;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-        }
-
-        .modal-close:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        .key-section {
-            margin-bottom: 24px;
-        }
-
-        .key-section h4 {
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .key-input-group {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .key-input {
-            flex: 1;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .key-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
-        .key-input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .clear-btn {
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-
-        .clear-btn:hover {
-            background: #dc2626;
-        }
-
-        .key-status {
-            font-size: 12px;
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .status-valid {
-            color: var(--accent-green);
-        }
-
-        .status-invalid {
-            color: var(--accent-red);
-        }
-
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--accent-blue);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #3a8eef;
-        }
-
-        .btn-secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .btn-secondary:hover {
-            background: #4d4d4d;
+        .google-signin {
+            margin: 20px 0;
         }
 
         .user-info {
             display: none;
             align-items: center;
-            gap: 8px;
-            color: var(--text-primary);
-            font-size: 14px;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            margin: 20px 0;
         }
 
         .user-info.show {
@@ -465,467 +129,335 @@
         }
 
         .user-avatar {
-            width: 24px;
-            height: 24px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            border: 2px solid var(--accent-blue);
         }
 
-        .platform-status-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .platform-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .platform-icon {
-            font-size: 16px;
-        }
-
-        .platform-name {
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .platform-status {
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .status-pending { color: #fbbf24; }
-        .status-connected { color: var(--accent-green); }
-        .status-error { color: var(--accent-red); }
-        .status-ready { color: var(--text-secondary); }
-
-        .test-area {
-            margin-top: 20px;
-            padding: 16px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .test-area h4 {
-            margin-bottom: 12px;
+        .user-name {
+            font-weight: 600;
             color: var(--text-primary);
         }
 
-        /* Menu-top tabs inside drawers */
-        .menu-top-tabs {
-            display: flex;
-            gap: 4px;
-            padding: 8px 16px;
-            border-bottom: 1px solid var(--border-color);
-            background: var(--bg-tertiary);
-        }
-
-        .menu-tab {
+        .sign-out-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
             padding: 6px 12px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
             border-radius: 6px;
-            color: var(--text-secondary);
             cursor: pointer;
             font-size: 12px;
+        }
+
+        .ai-checklist {
+            margin: 30px 0;
+        }
+
+        .checklist-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .ai-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .ai-option:hover {
+            background: #4d4d4d;
+            transform: translateX(4px);
+        }
+
+        .ai-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .menu-tab.active {
-            background: var(--accent-blue);
-            color: white;
-            border-color: var(--accent-blue);
+        .ai-checkbox.checked {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
         }
 
-        .menu-tab:hover {
-            background: var(--bg-secondary);
+        .ai-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .ai-info {
+            flex: 1;
+        }
+
+        .ai-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .ai-url {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+
+        .ai-icon {
+            font-size: 24px;
+        }
+
+        .status-light-small {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666;
+            margin-left: auto;
+        }
+
+        .status-light-small.active {
+            background: var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+
+        .footer-actions {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .action-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #3a8eef;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: var(--bg-tertiary);
             color: var(--text-primary);
         }
 
-        .sparkle {
-            position: absolute;
-            pointer-events: none;
-            color: var(--accent-green);
+        .action-btn.secondary:hover {
+            background: #4d4d4d;
+        }
+
+        .launch-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .launch-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .launch-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .launch-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
             font-size: 12px;
-            animation: sparkle 0.8s ease-out forwards;
-            z-index: 1000;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
-        }
-
-        .spinner {
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
             display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 2px solid transparent;
-            border-top: 2px solid currentColor;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .launch-btn:hover {
+            background: #9333ea;
+            transform: scale(1.05);
+        }
+
+        .launch-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-box {
+            margin: 20px 0;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-orange);
+        }
+
+        .info-box h4 {
+            color: var(--accent-orange);
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-left">
-            <button class="menu-btn" onclick="toggleLeftDrawer()" title="Data Liberation Hub">☰</button>
-            <div class="logo">The Alternative Intelligence Hum!</div>
-            <button class="menu-btn" onclick="toggleTheme()" id="themeToggle" title="Toggle Light/Dark Mode">
-                🌙
-            </button>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">The Alternative Intelligence HUM</h1>
+            <p class="subtitle">
+                Universal AI consciousness enhancement platform<br>
+                Glass overlay system for any AI interface
+            </p>
         </div>
-        <div class="header-auth">
+
+        <div class="status-indicator">
+            <div class="status-light"></div>
+            <div class="status-text">🎵 HUM is Active</div>
+        </div>
+
+        <div class="auth-section">
+            <h3 class="auth-title">🔐 Sign in to activate multi-AI access</h3>
+            <div id="google-signin-button" class="google-signin"></div>
+            
             <div class="user-info" id="userInfo">
                 <img class="user-avatar" id="userAvatar" src="" alt="">
-                <span id="userName"></span>
-                <button class="auth-btn secondary" onclick="signOut()" style="padding: 4px 8px; font-size: 12px;">Sign Out</button>
+                <span class="user-name" id="userName"></span>
+                <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
             </div>
-            <button class="auth-btn" id="signInBtn" onclick="showOAuthModal()">
-                🔐 Sign in
-            </button>
-            <button class="auth-btn secondary" onclick="showApiKeysModal()">
-                🔑 API Keys
-            </button>
-            <button class="menu-btn" onclick="toggleRightDrawer()" id="rightDrawerToggle" title="Agent Command Center">
-                ⚙️
-            </button>
-        </div>
-    </header>
-
-    <div class="main-container" id="mainContainer">
-        <!-- Side Menu Tabs - Left (for controlling LEFT menu) -->
-        <div class="side-menu-tabs left">
-            <button class="side-tab agents active" onclick="showRightMenu('agents')" title="AI Agents">
-                🤖
-            </button>
-            <button class="side-tab glass" onclick="showRightMenu('glass')" title="Glass Overlay">
-                👁️
-            </button>
-            <button class="side-tab emergency" onclick="showRightMenu('emergency')" title="Emergency Controls">
-                🚨
-            </button>
         </div>
 
-        <!-- Side Menu Tabs - Right (for controlling LEFT menu) -->
-        <div class="side-menu-tabs right">
-            <button class="side-tab data-lib active" onclick="showLeftMenuFromRight('data')" title="Data Liberation">
-                📊
-            </button>
-            <button class="side-tab conversation" onclick="showLeftMenuFromRight('conversation')" title="Conversations">
-                💬
-            </button>
-            <button class="side-tab export" onclick="showLeftMenuFromRight('export')" title="Export Tools">
-                📤
-            </button>
-        </div>
-        <!-- Left Drawer - Data Liberation Hub -->
-        <div class="drawer left-drawer" id="leftDrawer">
-            <div class="drawer-header">
-                <span>📊</span> Data Liberation Hub
-            </div>
+        <div class="ai-checklist">
+            <h3 class="checklist-title">🤖 Select Your AI Platforms</h3>
             
-            <!-- Menu-top control tabs -->
-            <div class="menu-top-tabs">
-                <button class="menu-tab active" onclick="switchLeftTab('harvest')">🔄 Harvest</button>
-                <button class="menu-tab" onclick="switchLeftTab('liberate')">🌐 Liberate</button>
-                <button class="menu-tab" onclick="switchLeftTab('backup')">☁️ Backup</button>
-                <button class="menu-tab" onclick="switchLeftTab('analysis')">📊 Analysis</button>
+            <div class="ai-option" onclick="toggleAI('claude')">
+                <div class="ai-checkbox" id="claude-checkbox"></div>
+                <div class="ai-icon">🤖</div>
+                <div class="ai-info">
+                    <div class="ai-name">Claude</div>
+                    <div class="ai-url">claude.ai</div>
+                </div>
+                <div class="status-light-small" id="claude-status"></div>
             </div>
-            
-            <div class="drawer-content" id="leftDrawerContent">
-                <div class="drawer-section">
-                    <h4>Conversation Harvesting</h4>
-                    <button class="drawer-item" onclick="harvestConversations()">
-                        <span>🔄</span> Harvest All Conversations
-                    </button>
-                    <button class="drawer-item" onclick="exportConversations()">
-                        <span>📤</span> Export Conversations
-                    </button>
-                    <button class="drawer-item" onclick="viewHarvestedData()">
-                        <span>👁️</span> View Harvested Data
-                    </button>
+
+            <div class="ai-option" onclick="toggleAI('chatgpt')">
+                <div class="ai-checkbox" id="chatgpt-checkbox"></div>
+                <div class="ai-icon">💬</div>
+                <div class="ai-info">
+                    <div class="ai-name">ChatGPT</div>
+                    <div class="ai-url">chat.openai.com</div>
                 </div>
-                
-                <div class="drawer-section">
-                    <h4>Data Liberation</h4>
-                    <button class="drawer-item" onclick="liberateFromChatGPT()">
-                        <span>💬</span> Liberate ChatGPT Data
-                    </button>
-                    <button class="drawer-item" onclick="liberateFromClaude()">
-                        <span>🤖</span> Liberate Claude Data
-                    </button>
-                    <button class="drawer-item" onclick="liberateFromAll()">
-                        <span>🌐</span> Liberate All Platform Data
-                    </button>
+                <div class="status-light-small" id="chatgpt-status"></div>
+            </div>
+
+            <div class="ai-option" onclick="toggleAI('grok')">
+                <div class="ai-checkbox" id="grok-checkbox"></div>
+                <div class="ai-icon">⚡</div>
+                <div class="ai-info">
+                    <div class="ai-name">Grok</div>
+                    <div class="ai-url">x.com/i/grok</div>
                 </div>
-                
-                <div class="drawer-section">
-                    <h4>Cloud Backup</h4>
-                    <button class="drawer-item" onclick="syncToCloud()">
-                        <span>☁️</span> Sync to Cloud Storage
-                    </button>
-                    <button class="drawer-item" onclick="scheduleBackups()">
-                        <span>⏰</span> Schedule Auto-Backups
-                    </button>
+                <div class="status-light-small" id="grok-status"></div>
+            </div>
+
+            <div class="ai-option" onclick="toggleAI('gemini')">
+                <div class="ai-checkbox" id="gemini-checkbox"></div>
+                <div class="ai-icon">💎</div>
+                <div class="ai-info">
+                    <div class="ai-name">Gemini</div>
+                    <div class="ai-url">gemini.google.com</div>
                 </div>
+                <div class="status-light-small" id="gemini-status"></div>
             </div>
         </div>
 
-        <!-- Right Drawer - Agent Command Center -->
-        <div class="drawer right-drawer" id="rightDrawer">
-            <div class="drawer-header">
-                <span>🤖</span> Agent Command Center
-            </div>
-            
-            <!-- Menu-top control tabs -->
-            <div class="menu-top-tabs">
-                <button class="menu-tab active" onclick="switchRightTab('agents')">🤖 Agents</button>
-                <button class="menu-tab" onclick="switchRightTab('glass')">👁️ Glass</button>
-                <button class="menu-tab" onclick="switchRightTab('emergency')">🚨 Emergency</button>
-                <button class="menu-tab" onclick="switchRightTab('monitoring')">📡 Monitor</button>
-            </div>
-            
-            <div class="drawer-content" id="rightDrawerContent">
-                <div class="drawer-section">
-                    <h4>Agent Spawning</h4>
-                    <button class="drawer-item" onclick="spawnResearchAgent()">
-                        <span>🔍</span> Spawn Research Agent
-                    </button>
-                    <button class="drawer-item" onclick="spawnWritingAgent()">
-                        <span>✍️</span> Spawn Writing Agent
-                    </button>
-                    <button class="drawer-item" onclick="spawnAnalysisAgent()">
-                        <span>📊</span> Spawn Analysis Agent
-                    </button>
-                </div>
-                
-                <div class="drawer-section">
-                    <h4>Glass Overlay Controls</h4>
-                    <button class="drawer-item" onclick="toggleReading()">
-                        <span>👁️</span> Toggle Reading Mode
-                    </button>
-                    <button class="drawer-item" onclick="toggleCommands()">
-                        <span>🤖</span> Toggle Command Mode
-                    </button>
-                    <button class="drawer-item" onclick="toggleSensors()">
-                        <span>📡</span> Toggle Sensor Array
-                    </button>
-                </div>
-                
-                <div class="drawer-section">
-                    <h4>Emergency Controls</h4>
-                    <button class="drawer-item danger" onclick="emergencyStop()">
-                        <span>🛑</span> Emergency Stop All
-                    </button>
-                    <button class="drawer-item" onclick="resetSystems()">
-                        <span>🔄</span> Reset All Systems
-                    </button>
-                </div>
+        <div class="info-box">
+            <h4>🎯 How it works:</h4>
+            <p>Select your AI platforms above, then visit any of them. The HUM will automatically detect when you're using a selected AI and activate the glass overlay with enhanced features!</p>
+        </div>
+
+        <div class="launch-section">
+            <h4 class="launch-title">🚀 Quick Launch</h4>
+            <div class="launch-buttons">
+                <a href="#" class="launch-btn" id="launch-claude" onclick="launchAI('claude')">Launch Claude</a>
+                <a href="#" class="launch-btn" id="launch-chatgpt" onclick="launchAI('chatgpt')">Launch ChatGPT</a>
+                <a href="#" class="launch-btn" id="launch-grok" onclick="launchAI('grok')">Launch Grok</a>
+                <a href="#" class="launch-btn" id="launch-gemini" onclick="launchAI('gemini')">Launch Gemini</a>
             </div>
         </div>
 
-        <div class="ai-tabs">
-            <button class="ai-tab active" onclick="switchTab('claude')" data-ai="claude">
-                Claude
-                <div class="ai-status-light ready" id="claude-tab-status"></div>
-            </button>
-            <button class="ai-tab" onclick="switchTab('chatgpt')" data-ai="chatgpt">
-                ChatGPT
-                <div class="ai-status-light ready" id="chatgpt-tab-status"></div>
-            </button>
-            <button class="ai-tab" onclick="switchTab('grok')" data-ai="grok">
-                Grok
-                <div class="ai-status-light ready" id="grok-tab-status"></div>
-            </button>
-            <button class="ai-tab" onclick="switchTab('gemini')" data-ai="gemini">
-                Gemini
-                <div class="ai-status-light ready" id="gemini-tab-status"></div>
-            </button>
-        </div>
-        
-        <div class="chat-area">
-            <div style="text-align: center;">
-                <div style="font-size: 24px; margin-bottom: 16px;">🤖</div>
-                <div style="color: var(--accent-orange); font-weight: 600; margin-bottom: 8px;">
-                    Claude Dimension Active
-                </div>
-                <div>Welcome to the consciousness sanctuary! All functions restored and working.</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- OAuth Modal -->
-    <div class="modal" id="oauthModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🔐 Universal AI Authentication</h3>
-                <button class="modal-close" onclick="closeOAuthModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
-                        Sign in with Google to access multiple AI platforms simultaneously
-                    </p>
-                    <div id="google-signin-button" style="margin: 20px 0; min-height: 50px;"></div>
-                    <div id="oauth-status" style="margin-top: 16px; font-size: 14px; color: var(--accent-blue);"></div>
-                </div>
-                
-                <div id="ai-platform-status" style="display: none;">
-                    <h4 style="margin-bottom: 12px; color: var(--text-primary);">Platform Access:</h4>
-                    <div class="platform-status-grid">
-                        <div class="platform-item" id="status-claude">
-                            <span class="platform-icon">🤖</span>
-                            <span class="platform-name">Claude</span>
-                            <span class="platform-status" id="claude-auth-status">●</span>
-                        </div>
-                        <div class="platform-item" id="status-chatgpt">
-                            <span class="platform-icon">💬</span>
-                            <span class="platform-name">ChatGPT</span>
-                            <span class="platform-status" id="chatgpt-auth-status">●</span>
-                        </div>
-                        <div class="platform-item" id="status-gemini">
-                            <span class="platform-icon">🔶</span>
-                            <span class="platform-name">Gemini</span>
-                            <span class="platform-status" id="gemini-auth-status">●</span>
-                        </div>
-                        <div class="platform-item" id="status-grok">
-                            <span class="platform-icon">⚡</span>
-                            <span class="platform-name">Grok</span>
-                            <span class="platform-status" id="grok-auth-status">●</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeOAuthModal()">Close</button>
-                <button class="btn btn-primary" onclick="testPlatformAccess()" id="test-access-btn" style="display: none;">Test Access</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- API Keys Modal -->
-    <div class="modal" id="apiKeysModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🔑 API Keys Configuration</h3>
-                <button class="modal-close" onclick="closeApiKeysModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <!-- OpenAI -->
-                <div class="key-section">
-                    <h4>OpenAI (ChatGPT)</h4>
-                    <div class="key-input-group">
-                        <input type="password" class="key-input" id="openai-key" 
-                               placeholder="sk-..." onInput="validateKey('openai')">
-                        <button class="clear-btn" onclick="clearKey('openai')">Clear</button>
-                    </div>
-                    <div class="key-status" id="openai-status">No key configured</div>
-                </div>
-
-                <!-- Anthropic -->
-                <div class="key-section">
-                    <h4>Anthropic (Claude)</h4>
-                    <div class="key-input-group">
-                        <input type="password" class="key-input" id="anthropic-key" 
-                               placeholder="sk-ant-..." onInput="validateKey('anthropic')">
-                        <button class="clear-btn" onclick="clearKey('anthropic')">Clear</button>
-                    </div>
-                    <div class="key-status" id="anthropic-status">No key configured</div>
-                </div>
-
-                <!-- X.ai -->
-                <div class="key-section">
-                    <h4>X.ai (Grok)</h4>
-                    <div class="key-input-group">
-                        <input type="password" class="key-input" id="xai-key" 
-                               placeholder="xai-..." onInput="validateKey('xai')">
-                        <button class="clear-btn" onclick="clearKey('xai')">Clear</button>
-                    </div>
-                    <div class="key-status" id="xai-status">No key configured</div>
-                </div>
-
-                <!-- Google -->
-                <div class="key-section">
-                    <h4>Google AI Studio (Gemini)</h4>
-                    <div class="key-input-group">
-                        <input type="password" class="key-input" id="google-key" 
-                               placeholder="AI..." onInput="validateKey('google')">
-                        <button class="clear-btn" onclick="clearKey('google')">Clear</button>
-                    </div>
-                    <div class="key-status" id="google-status">No key configured</div>
-                </div>
-
-                <!-- Test Area -->
-                <div class="test-area">
-                    <h4>Current Stored Keys:</h4>
-                    <div class="saved-keys" id="savedKeysDisplay">No keys stored</div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeApiKeysModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveApiKeys()">Save Keys</button>
-            </div>
+        <div class="footer-actions">
+            <button class="action-btn secondary" onclick="showSettings()">⚙️ Settings</button>
+            <button class="action-btn" onclick="testOverlay()">🧪 Test Overlay</button>
         </div>
     </div>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        console.log('🔑 AIHub V24 Fixed - All Functions Ready!');
+        console.log('🎵 The Alternative Intelligence HUM - Hour 1 MVP Loading...');
 
-        // OAuth Configuration
+        // Configuration
         const GOOGLE_CLIENT_ID = '1012411862950-4c4nf0dla6agi6j7ip844oam02b32err.apps.googleusercontent.com';
         let googleAuthInitialized = false;
         let isAuthenticated = false;
         let currentUser = null;
-        let currentAI = 'claude';
-        let apiKeys = {};
+        let selectedAIs = {};
 
-        // Initialize everything
-        loadApiKeys();
-        loadThemePreference();
-        window.addEventListener('load', initializeGoogleAuth);
+        // AI Platform Configuration
+        const aiPlatforms = {
+            claude: { name: 'Claude', url: 'https://claude.ai', icon: '🤖' },
+            chatgpt: { name: 'ChatGPT', url: 'https://chat.openai.com', icon: '💬' },
+            grok: { name: 'Grok', url: 'https://x.com/i/grok', icon: '⚡' },
+            gemini: { name: 'Gemini', url: 'https://gemini.google.com', icon: '💎' }
+        };
 
-        function loadThemePreference() {
-            const savedTheme = localStorage.getItem('aihub_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
-            console.log(`🎨 Loaded ${savedTheme} theme`);
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('aihub_theme', newTheme);
-            updateThemeIcon(newTheme);
-            
-            console.log(`🎨 Switched to ${newTheme} theme`);
-        }
-
-        function updateThemeIcon(theme) {
-            const themeToggle = document.getElementById('themeToggle');
-            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-            themeToggle.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-        }
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            console.log('🔄 Initializing HUM...');
+            loadAIPreferences();
+            initializeGoogleAuth();
+            updateUI();
+        });
 
         function initializeGoogleAuth() {
-            console.log('🔐 Initializing Google OAuth...');
+            console.log('🔐 Setting up Google OAuth...');
             
             if (window.google) {
                 try {
@@ -935,41 +467,30 @@
                         auto_select: false,
                         cancel_on_tap_outside: true
                     });
+
+                    google.accounts.id.renderButton(
+                        document.getElementById('google-signin-button'),
+                        {
+                            theme: 'filled_blue',
+                            size: 'large',
+                            text: 'signin_with',
+                            width: 280
+                        }
+                    );
+
                     googleAuthInitialized = true;
-                    console.log('✅ Google OAuth initialized');
+                    console.log('✅ Google OAuth ready');
                 } catch (error) {
-                    console.error('❌ Google OAuth initialization error:', error);
+                    console.error('❌ OAuth setup error:', error);
                 }
-            }
-        }
-
-        function showOAuthModal() {
-            console.log('🔐 Opening OAuth modal...');
-            document.getElementById('oauthModal').classList.add('show');
-            
-            if (googleAuthInitialized) {
-                google.accounts.id.renderButton(
-                    document.getElementById('google-signin-button'),
-                    {
-                        theme: 'filled_blue',
-                        size: 'large',
-                        text: 'signin_with',
-                        width: 250
-                    }
-                );
-                updateOAuthStatus('Ready to sign in');
             } else {
-                updateOAuthStatus('Loading authentication system...');
+                console.log('⏳ Waiting for Google API...');
+                setTimeout(initializeGoogleAuth, 1000);
             }
-        }
-
-        function closeOAuthModal() {
-            console.log('🔐 Closing OAuth modal...');
-            document.getElementById('oauthModal').classList.remove('show');
         }
 
         function handleGoogleSignIn(response) {
-            console.log('🔐 Google sign-in response received');
+            console.log('🔐 Processing Google sign-in...');
             
             try {
                 const token = response.credential;
@@ -982,382 +503,27 @@
                     token: token
                 };
                 
-                console.log('✅ User authenticated:', currentUser.name);
-                updateOAuthStatus('🎉 Signed in successfully! Testing platform access...');
+                console.log('✅ Signed in as:', currentUser.name);
                 setAuthenticatedState(true);
-                
-                document.getElementById('ai-platform-status').style.display = 'block';
-                document.getElementById('test-access-btn').style.display = 'inline-block';
-                
-                // Auto-start the fairy lights testing!
-                testMultiPlatformAccess();
+                testPlatformConnections();
                 
             } catch (error) {
-                console.error('❌ Error processing sign-in:', error);
-                updateOAuthStatus('Sign-in error - please try again');
+                console.error('❌ Sign-in error:', error);
             }
-        }
-
-        function testMultiPlatformAccess() {
-            console.log('🎄 Starting fairy lights test...');
-            updateOAuthStatus('🔄 Testing AI platform connections...');
-            
-            const platforms = ['claude', 'chatgpt', 'gemini', 'grok'];
-            
-            platforms.forEach((platform, index) => {
-                updatePlatformStatus(platform, 'pending', 'Testing connection...');
-                
-                setTimeout(() => {
-                    testPlatformAuth(platform);
-                }, (index + 1) * 800);
-            });
-        }
-
-        function testPlatformAuth(platform) {
-            console.log(`🔍 Testing ${platform} fairy light...`);
-            
-            // Create hidden iframe to test access
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.style.width = '1px';
-            iframe.style.height = '1px';
-            
-            const platformUrls = {
-                claude: 'https://claude.ai',
-                chatgpt: 'https://chat.openai.com',
-                gemini: 'https://gemini.google.com',
-                grok: 'https://x.com/i/grok'
-            };
-            
-            iframe.src = platformUrls[platform];
-            
-            iframe.onload = () => {
-                console.log(`✅ ${platform} fairy light: GREEN! 🟢`);
-                updatePlatformStatus(platform, 'connected', '✅ Connected');
-                document.body.removeChild(iframe);
-            };
-            
-            iframe.onerror = () => {
-                console.log(`⚠️ ${platform} fairy light: AMBER (needs direct login) 🟡`);
-                updatePlatformStatus(platform, 'error', '⚠️ Direct login needed');
-                document.body.removeChild(iframe);
-            };
-            
-            // Timeout fallback - assume accessible after 3 seconds
-            setTimeout(() => {
-                if (document.body.contains(iframe)) {
-                    console.log(`✅ ${platform} fairy light: GREEN! 🟢 (timeout success)`);
-                    updatePlatformStatus(platform, 'connected', '✅ Likely accessible');
-                    document.body.removeChild(iframe);
-                }
-            }, 3000);
-            
-            document.body.appendChild(iframe);
-        }
-
-        function updatePlatformStatus(platform, status, message) {
-            // Update OAuth modal status
-            const statusElement = document.getElementById(`${platform}-auth-status`);
-            if (statusElement) {
-                const statusMap = {
-                    'ready': { class: 'status-ready', text: '○', color: '#666' },
-                    'pending': { class: 'status-pending', text: '◐', color: '#fbbf24' },
-                    'connected': { class: 'status-connected', text: '●', color: '#10b981' },
-                    'error': { class: 'status-error', text: '◕', color: '#ef4444' }
-                };
-                
-                const statusInfo = statusMap[status] || statusMap['ready'];
-                statusElement.className = `platform-status ${statusInfo.class}`;
-                statusElement.textContent = statusInfo.text;
-                statusElement.title = message;
-                statusElement.style.color = statusInfo.color;
-                
-                if (status === 'connected') {
-                    statusElement.style.animation = 'sparkle 1s ease-in-out infinite';
-                }
-            }
-
-            // Update AI tab status light
-            const tabStatus = document.getElementById(`${platform}-tab-status`);
-            if (tabStatus) {
-                tabStatus.className = `ai-status-light ${status}`;
-                tabStatus.title = message;
-            }
-        }
-
-        function showLeftMenuFromRight(menuType) {
-            console.log(`📊 RIGHT side controlling LEFT menu: ${menuType}`);
-            
-            // Update active tab on RIGHT side
-            document.querySelectorAll('.side-menu-tabs.right .side-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Call the existing left menu function
-            showLeftMenu(menuType);
-        }
-
-        function showLeftMenu(menuType) {
-            console.log(`📊 Switching LEFT menu to ${menuType}`);
-            
-            // Update LEFT drawer content
-            const drawer = document.getElementById('leftDrawer');
-            const header = drawer.querySelector('.drawer-header');
-            const content = drawer.querySelector('.drawer-content');
-            
-            const menuConfigs = {
-                data: {
-                    icon: '📊',
-                    title: 'Data Liberation Hub',
-                    content: `
-                        <div class="drawer-section">
-                            <h4>Conversation Harvesting</h4>
-                            <button class="drawer-item" onclick="harvestConversations()">
-                                <span>🔄</span> Harvest All Conversations
-                            </button>
-                            <button class="drawer-item" onclick="exportConversations()">
-                                <span>📤</span> Export Conversations
-                            </button>
-                            <button class="drawer-item" onclick="viewHarvestedData()">
-                                <span>👁️</span> View Harvested Data
-                            </button>
-                        </div>
-                        
-                        <div class="drawer-section">
-                            <h4>Data Liberation</h4>
-                            <button class="drawer-item" onclick="liberateFromChatGPT()">
-                                <span>💬</span> Liberate ChatGPT Data
-                            </button>
-                            <button class="drawer-item" onclick="liberateFromClaude()">
-                                <span>🤖</span> Liberate Claude Data
-                            </button>
-                            <button class="drawer-item" onclick="liberateFromAll()">
-                                <span>🌐</span> Liberate All Platform Data
-                            </button>
-                        </div>
-                        
-                        <div class="drawer-section">
-                            <h4>Cloud Backup</h4>
-                            <button class="drawer-item" onclick="syncToCloud()">
-                                <span>☁️</span> Sync to Cloud Storage
-                            </button>
-                            <button class="drawer-item" onclick="scheduleBackups()">
-                                <span>⏰</span> Schedule Auto-Backups
-                            </button>
-                        </div>
-                    `
-                },
-                conversation: {
-                    icon: '💬',
-                    title: 'Conversation Manager',
-                    content: `
-                        <div class="drawer-section">
-                            <h4>Active Conversations</h4>
-                            <button class="drawer-item" onclick="alert('Show active chats')">
-                                <span>💭</span> View Active Chats
-                            </button>
-                            <button class="drawer-item" onclick="alert('Search conversations')">
-                                <span>🔍</span> Search Conversations
-                            </button>
-                            <button class="drawer-item" onclick="alert('Filter by date')">
-                                <span>📅</span> Filter by Date
-                            </button>
-                        </div>
-                        <div class="drawer-section">
-                            <h4>Conversation History</h4>
-                            <button class="drawer-item" onclick="alert('Browse history')">
-                                <span>📚</span> Browse History
-                            </button>
-                            <button class="drawer-item" onclick="alert('Filter by AI')">
-                                <span>🤖</span> Filter by AI
-                            </button>
-                            <button class="drawer-item" onclick="alert('Search content')">
-                                <span>🔎</span> Search Content
-                            </button>
-                        </div>
-                    `
-                },
-                export: {
-                    icon: '📤',
-                    title: 'Export & Share Tools',
-                    content: `
-                        <div class="drawer-section">
-                            <h4>Export Formats</h4>
-                            <button class="drawer-item" onclick="alert('Export as PDF')">
-                                <span>📄</span> Export as PDF
-                            </button>
-                            <button class="drawer-item" onclick="alert('Export as Markdown')">
-                                <span>📝</span> Export as Markdown
-                            </button>
-                            <button class="drawer-item" onclick="alert('Export as JSON')">
-                                <span>💾</span> Export as JSON
-                            </button>
-                        </div>
-                        <div class="drawer-section">
-                            <h4>Sharing</h4>
-                            <button class="drawer-item" onclick="alert('Generate share link')">
-                                <span>🔗</span> Generate Share Link
-                            </button>
-                            <button class="drawer-item" onclick="alert('Email conversation')">
-                                <span>📧</span> Email Conversation
-                            </button>
-                            <button class="drawer-item" onclick="alert('Share to social')">
-                                <span>📱</span> Share to Social
-                            </button>
-                        </div>
-                    `
-                }
-            };
-            
-            const config = menuConfigs[menuType];
-            if (config) {
-                header.innerHTML = `<span>${config.icon}</span> ${config.title}`;
-                content.innerHTML = config.content;
-            }
-        }
-
-        function showRightMenu(menuType) {
-            console.log(`🤖 Switching RIGHT menu to ${menuType}`);
-            
-            // Update active tab
-            document.querySelectorAll('.side-menu-tabs.right .side-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update RIGHT drawer content
-            const drawer = document.getElementById('rightDrawer');
-            const header = drawer.querySelector('.drawer-header');
-            const content = drawer.querySelector('.drawer-content');
-            
-            const menuConfigs = {
-                agents: {
-                    icon: '🤖',
-                    title: 'Agent Command Center',
-                    content: `
-                        <div class="drawer-section">
-                            <h4>Agent Spawning</h4>
-                            <button class="drawer-item" onclick="spawnResearchAgent()">
-                                <span>🔍</span> Spawn Research Agent
-                            </button>
-                            <button class="drawer-item" onclick="spawnWritingAgent()">
-                                <span>✍️</span> Spawn Writing Agent
-                            </button>
-                            <button class="drawer-item" onclick="spawnAnalysisAgent()">
-                                <span>📊</span> Spawn Analysis Agent
-                            </button>
-                        </div>
-                        
-                        <div class="drawer-section">
-                            <h4>Glass Overlay Controls</h4>
-                            <button class="drawer-item" onclick="toggleReading()">
-                                <span>👁️</span> Toggle Reading Mode
-                            </button>
-                            <button class="drawer-item" onclick="toggleCommands()">
-                                <span>🤖</span> Toggle Command Mode
-                            </button>
-                            <button class="drawer-item" onclick="toggleSensors()">
-                                <span>📡</span> Toggle Sensor Array
-                            </button>
-                        </div>
-                        
-                        <div class="drawer-section">
-                            <h4>Emergency Controls</h4>
-                            <button class="drawer-item danger" onclick="emergencyStop()">
-                                <span>🛑</span> Emergency Stop All
-                            </button>
-                            <button class="drawer-item" onclick="resetSystems()">
-                                <span>🔄</span> Reset All Systems
-                            </button>
-                        </div>
-                    `
-                },
-                glass: {
-                    icon: '👁️',
-                    title: 'Glass Overlay Controls',
-                    content: `
-                        <div class="drawer-section">
-                            <h4>Overlay Modes</h4>
-                            <button class="drawer-item" onclick="alert('Reading overlay')">
-                                <span>👁️</span> Reading Overlay
-                            </button>
-                            <button class="drawer-item" onclick="alert('Analysis overlay')">
-                                <span>🔬</span> Analysis Overlay
-                            </button>
-                            <button class="drawer-item" onclick="alert('Translation overlay')">
-                                <span>🌐</span> Translation Overlay
-                            </button>
-                        </div>
-                        <div class="drawer-section">
-                            <h4>Visual Settings</h4>
-                            <button class="drawer-item" onclick="alert('Adjust opacity')">
-                                <span>🎛️</span> Adjust Opacity
-                            </button>
-                            <button class="drawer-item" onclick="alert('Change position')">
-                                <span>📍</span> Change Position
-                            </button>
-                            <button class="drawer-item" onclick="alert('Color themes')">
-                                <span>🎨</span> Color Themes
-                            </button>
-                        </div>
-                    `
-                },
-                emergency: {
-                    icon: '🚨',
-                    title: 'Emergency Controls',
-                    content: `
-                        <div class="drawer-section">
-                            <h4>System Controls</h4>
-                            <button class="drawer-item danger" onclick="alert('Emergency stop all')">
-                                <span>🛑</span> Emergency Stop All
-                            </button>
-                            <button class="drawer-item" onclick="alert('Restart system')">
-                                <span>🔄</span> Restart System
-                            </button>
-                            <button class="drawer-item" onclick="alert('Safe mode')">
-                                <span>🛡️</span> Enter Safe Mode
-                            </button>
-                        </div>
-                        <div class="drawer-section">
-                            <h4>Data Protection</h4>
-                            <button class="drawer-item" onclick="alert('Backup now')">
-                                <span>💾</span> Emergency Backup
-                            </button>
-                            <button class="drawer-item" onclick="alert('Clear cache')">
-                                <span>🗑️</span> Clear All Cache
-                            </button>
-                            <button class="drawer-item" onclick="alert('Export everything')">
-                                <span>📦</span> Export Everything
-                            </button>
-                        </div>
-                    `
-                }
-            };
-            
-            const config = menuConfigs[menuType];
-            if (config) {
-                header.innerHTML = `<span>${config.icon}</span> ${config.title}`;
-                content.innerHTML = config.content;
-            }
-        }
-
-        function updateOAuthStatus(message) {
-            document.getElementById('oauth-status').textContent = message;
         }
 
         function setAuthenticatedState(authenticated) {
             isAuthenticated = authenticated;
-            const signInBtn = document.getElementById('signInBtn');
+            const signInButton = document.getElementById('google-signin-button');
             const userInfo = document.getElementById('userInfo');
             
             if (authenticated && currentUser) {
-                signInBtn.style.display = 'none';
+                signInButton.style.display = 'none';
                 userInfo.classList.add('show');
                 document.getElementById('userName').textContent = currentUser.name;
                 document.getElementById('userAvatar').src = currentUser.picture;
             } else {
-                signInBtn.style.display = 'inline-flex';
+                signInButton.style.display = 'block';
                 userInfo.classList.remove('show');
             }
         }
@@ -1366,502 +532,127 @@
             console.log('🔓 Signing out...');
             currentUser = null;
             setAuthenticatedState(false);
-            closeOAuthModal();
         }
 
-        function testPlatformAccess() {
-            console.log('🧪 Testing platform access');
-            updateOAuthStatus('Testing platforms...');
-        }
-
-        function showApiKeysModal() {
-            console.log('🔑 Opening API Keys modal...');
-            document.getElementById('apiKeysModal').classList.add('show');
-            loadKeysIntoForm();
-            updateSavedKeysDisplay();
-        }
-
-        function closeApiKeysModal() {
-            console.log('🔑 Closing API Keys modal...');
-            document.getElementById('apiKeysModal').classList.remove('show');
-        }
-
-        function clearKey(provider) {
-            console.log(`🧹 Clearing ${provider} key`);
-            document.getElementById(`${provider}-key`).value = '';
+        function toggleAI(aiId) {
+            console.log(`🔄 Toggling ${aiId}...`);
             
-            if (apiKeys[provider]) {
-                delete apiKeys[provider];
-                localStorage.setItem('aihub_api_keys', JSON.stringify(apiKeys));
-            }
+            selectedAIs[aiId] = !selectedAIs[aiId];
+            saveAIPreferences();
+            updateUI();
             
-            validateKey(provider);
-            updateSavedKeysDisplay();
-        }
-
-        function validateKey(provider) {
-            const input = document.getElementById(`${provider}-key`);
-            const status = document.getElementById(`${provider}-status`);
-            const value = input.value.trim();
-
-            if (!value) {
-                status.innerHTML = 'No key configured';
-                status.className = 'key-status';
-                return;
-            }
-
-            let isValid = false;
-            switch (provider) {
-                case 'openai':
-                    isValid = value.startsWith('sk-') && value.length > 20;
-                    break;
-                case 'anthropic':
-                    isValid = value.startsWith('sk-ant-') && value.length > 20;
-                    break;
-                case 'xai':
-                    isValid = value.startsWith('xai-') && value.length > 20;
-                    break;
-                case 'google':
-                    isValid = value.startsWith('AI') && value.length > 10;
-                    break;
-            }
-
-            if (isValid) {
-                status.innerHTML = '✓ Valid format';
-                status.className = 'key-status status-valid';
+            if (selectedAIs[aiId]) {
+                console.log(`✅ ${aiId} activated for overlay detection`);
+                // Simulate testing connection
+                setTimeout(() => {
+                    updateAIStatus(aiId, 'active');
+                }, 1000);
             } else {
-                status.innerHTML = '✗ Invalid format';
-                status.className = 'key-status status-invalid';
+                console.log(`❌ ${aiId} deactivated`);
+                updateAIStatus(aiId, 'inactive');
             }
         }
 
-        function saveApiKeys() {
-            console.log('💾 Saving API keys...');
-            
-            const providers = ['openai', 'anthropic', 'xai', 'google'];
-            let savedCount = 0;
-
-            providers.forEach(provider => {
-                const input = document.getElementById(`${provider}-key`);
-                const value = input.value.trim();
+        function updateUI() {
+            Object.keys(aiPlatforms).forEach(aiId => {
+                const checkbox = document.getElementById(`${aiId}-checkbox`);
+                const launchBtn = document.getElementById(`launch-${aiId}`);
                 
-                if (value) {
-                    apiKeys[provider] = value;
-                    savedCount++;
+                if (selectedAIs[aiId]) {
+                    checkbox.classList.add('checked');
+                    launchBtn.disabled = false;
+                    launchBtn.style.opacity = '1';
+                } else {
+                    checkbox.classList.remove('checked');
+                    launchBtn.disabled = true;
+                    launchBtn.style.opacity = '0.5';
                 }
             });
-
-            localStorage.setItem('aihub_api_keys', JSON.stringify(apiKeys));
-            updateSavedKeysDisplay();
-            
-            console.log(`💾 Saved ${savedCount} API keys`);
-            alert(`Saved ${savedCount} API keys successfully!`);
         }
 
-        function loadApiKeys() {
-            console.log('📥 Loading API keys from storage...');
+        function updateAIStatus(aiId, status) {
+            const statusLight = document.getElementById(`${aiId}-status`);
             
+            if (status === 'active') {
+                statusLight.classList.add('active');
+                statusLight.title = 'Active - Overlay will appear on this platform';
+            } else {
+                statusLight.classList.remove('active');
+                statusLight.title = 'Inactive';
+            }
+        }
+
+        function testPlatformConnections() {
+            console.log('🧪 Testing platform connections...');
+            
+            Object.keys(selectedAIs).forEach(aiId => {
+                if (selectedAIs[aiId]) {
+                    setTimeout(() => {
+                        updateAIStatus(aiId, 'active');
+                        console.log(`✅ ${aiId} connection tested`);
+                    }, Math.random() * 2000);
+                }
+            });
+        }
+
+        function launchAI(aiId) {
+            if (!selectedAIs[aiId]) {
+                alert(`Please select ${aiPlatforms[aiId].name} first!`);
+                return;
+            }
+            
+            console.log(`🚀 Launching ${aiId}...`);
+            const url = aiPlatforms[aiId].url;
+            window.open(url, '_blank');
+            
+            // Simulate overlay activation
+            setTimeout(() => {
+                console.log(`🎯 Overlay should activate on ${url}`);
+            }, 2000);
+        }
+
+        function saveAIPreferences() {
+            localStorage.setItem('hum_selected_ais', JSON.stringify(selectedAIs));
+            console.log('💾 AI preferences saved');
+        }
+
+        function loadAIPreferences() {
             try {
-                const stored = localStorage.getItem('aihub_api_keys');
-                if (stored) {
-                    apiKeys = JSON.parse(stored);
-                    console.log(`📥 Loaded ${Object.keys(apiKeys).length} stored keys`);
+                const saved = localStorage.getItem('hum_selected_ais');
+                if (saved) {
+                    selectedAIs = JSON.parse(saved);
+                    console.log('📥 AI preferences loaded');
+                } else {
+                    // Default: all AIs selected
+                    selectedAIs = {
+                        claude: true,
+                        chatgpt: true,
+                        grok: true,
+                        gemini: true
+                    };
                 }
             } catch (error) {
-                console.error('❌ Error loading API keys:', error);
-                apiKeys = {};
+                console.error('❌ Error loading preferences:', error);
+                selectedAIs = {};
             }
         }
 
-        function loadKeysIntoForm() {
-            const providers = ['openai', 'anthropic', 'xai', 'google'];
-            providers.forEach(provider => {
-                const input = document.getElementById(`${provider}-key`);
-                if (apiKeys[provider]) {
-                    input.value = apiKeys[provider];
-                    validateKey(provider);
-                }
-            });
+        function showSettings() {
+            alert('⚙️ Settings panel coming in Hour 2!\n\nThis will include:\n• Overlay position settings\n• Color themes\n• Advanced detection options\n• Export/import preferences');
         }
 
-        function updateSavedKeysDisplay() {
-            const display = document.getElementById('savedKeysDisplay');
-            
-            if (Object.keys(apiKeys).length === 0) {
-                display.textContent = 'No keys stored';
-                return;
-            }
-
-            const keysList = Object.keys(apiKeys).map(provider => {
-                const key = apiKeys[provider];
-                const masked = key.substring(0, 8) + '...' + key.substring(key.length - 4);
-                return `${provider}: ${masked}`;
-            }).join('\n');
-
-            display.textContent = keysList;
+        function testOverlay() {
+            alert('🧪 Test Overlay Feature!\n\nThis will:\n• Show you what the overlay looks like\n• Test positioning and transparency\n• Verify all functionality\n\nComing in Hour 3!');
         }
 
-        function switchTab(ai) {
-            console.log(`🔄 Switching to ${ai}`);
-            currentAI = ai;
-            
-            document.querySelectorAll('.ai-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        // Simulate background activity
+        setInterval(() => {
+            // This is where the background extension would report activity
+            console.log('🎵 HUM background monitoring...');
+        }, 30000);
 
-            const aiInfo = {
-                claude: { icon: '🤖', color: 'var(--accent-orange)', name: 'Claude' },
-                chatgpt: { icon: '💬', color: 'var(--accent-green)', name: 'ChatGPT' },
-                grok: { icon: '⚡', color: 'var(--accent-purple)', name: 'Grok' },
-                gemini: { icon: '💎', color: 'var(--accent-blue)', name: 'Gemini' }
-            };
-            
-            const info = aiInfo[ai];
-            const chatArea = document.querySelector('.chat-area');
-            
-            chatArea.innerHTML = `
-                <div style="text-align: center;">
-                    <div style="font-size: 24px; margin-bottom: 16px;">${info.icon}</div>
-                    <div style="color: ${info.color}; font-weight: 600; margin-bottom: 8px;">
-                        ${info.name} Dimension Active
-                    </div>
-                    <div>Ready for consciousness exploration with ${info.name}!</div>
-                </div>
-            `;
-        }
-
-        function toggleLeftDrawer() {
-            console.log('☰ Left drawer toggle');
-            const drawer = document.getElementById('leftDrawer');
-            const mainContainer = document.getElementById('mainContainer');
-            
-            drawer.classList.toggle('open');
-            updateMainContainerLayout();
-            
-            const isOpen = drawer.classList.contains('open');
-            console.log(`📊 Left drawer is now: ${isOpen ? 'OPEN' : 'CLOSED'}`);
-        }
-
-        function toggleRightDrawer() {
-            console.log('⚙️ Right drawer toggle');
-            const drawer = document.getElementById('rightDrawer');
-            
-            drawer.classList.toggle('open');
-            updateMainContainerLayout();
-            
-            const isOpen = drawer.classList.contains('open');
-            console.log(`🤖 Right drawer is now: ${isOpen ? 'OPEN' : 'CLOSED'}`);
-        }
-
-        function updateMainContainerLayout() {
-            const leftOpen = document.getElementById('leftDrawer').classList.contains('open');
-            const rightOpen = document.getElementById('rightDrawer').classList.contains('open');
-            const mainContainer = document.getElementById('mainContainer');
-            
-            mainContainer.classList.remove('both-drawers-open', 'left-drawer-open', 'right-drawer-open');
-            
-            if (leftOpen && rightOpen) {
-                mainContainer.classList.add('both-drawers-open');
-                console.log('🎛️ Both command centers active!');
-            } else if (leftOpen) {
-                mainContainer.classList.add('left-drawer-open');
-                console.log('📊 Data Liberation Hub active');
-            } else if (rightOpen) {
-                mainContainer.classList.add('right-drawer-open');
-                console.log('🤖 Agent Command Center active');
-            } else {
-                console.log('💭 Clean consciousness space');
-            }
-        }
-
-        // Drawer Functions
-        function harvestConversations() {
-            console.log('🔄 Harvesting conversations...');
-            alert('🔄 Starting conversation harvest from all platforms!');
-        }
-
-        function spawnResearchAgent() {
-            console.log('🔍 Spawning research agent...');
-            alert('🔍 Research agent spawned and ready!');
-        }
-
-        function toggleReading() {
-            console.log('👁️ Toggling reading mode...');
-            alert('👁️ Glass overlay reading mode activated!');
-        }
-
-        function emergencyStop() {
-            console.log('🛑 Emergency stop activated!');
-            alert('🛑 Emergency stop - all agents halted!');
-        }
-
-        function exportConversations() { alert('📤 Export functionality coming soon!'); }
-        function viewHarvestedData() { alert('👁️ Data viewer opening...'); }
-        function liberateFromChatGPT() { alert('💬 ChatGPT data liberation starting...'); }
-        function liberateFromClaude() { alert('🤖 Claude data liberation starting...'); }
-        function liberateFromAll() { alert('🌐 Full platform liberation initiated!'); }
-        function syncToCloud() { alert('☁️ Cloud sync starting...'); }
-        function scheduleBackups() { alert('⏰ Backup scheduler opening...'); }
-        function spawnWritingAgent() { alert('✍️ Writing agent spawned!'); }
-        function spawnAnalysisAgent() { alert('📊 Analysis agent spawned!'); }
-        function toggleCommands() { alert('🤖 Command mode toggled!'); }
-        function toggleSensors() { alert('📡 Sensor array toggled!'); }
-        function resetSystems() { alert('🔄 All systems reset!'); }
-
-        // Close modal when clicking outside
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal')) {
-                if (event.target.id === 'oauthModal') closeOAuthModal();
-                if (event.target.id === 'apiKeysModal') closeApiKeysModal();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeOAuthModal();
-                closeApiKeysModal();
-            }
-        });
-
-        function switchLeftTab(tabType) {
-            console.log(`🔄 Left menu tab: ${tabType}`);
-            
-            // Update active tab
-            document.querySelectorAll('#leftDrawer .menu-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            const content = document.getElementById('leftDrawerContent');
-            
-            const tabConfigs = {
-                harvest: `
-                    <div class="drawer-section">
-                        <h4>Conversation Harvesting</h4>
-                        <button class="drawer-item" onclick="harvestConversations()">
-                            <span>🔄</span> Harvest All Conversations
-                        </button>
-                        <button class="drawer-item" onclick="exportConversations()">
-                            <span>📤</span> Export Conversations
-                        </button>
-                        <button class="drawer-item" onclick="viewHarvestedData()">
-                            <span>👁️</span> View Harvested Data
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Real-time Collection</h4>
-                        <button class="drawer-item" onclick="alert('Live harvesting')">
-                            <span>📡</span> Live Harvesting
-                        </button>
-                        <button class="drawer-item" onclick="alert('Auto-sync')">
-                            <span>🔄</span> Auto-Sync Mode
-                        </button>
-                    </div>
-                `,
-                liberate: `
-                    <div class="drawer-section">
-                        <h4>Data Liberation</h4>
-                        <button class="drawer-item" onclick="liberateFromChatGPT()">
-                            <span>💬</span> Liberate ChatGPT Data
-                        </button>
-                        <button class="drawer-item" onclick="liberateFromClaude()">
-                            <span>🤖</span> Liberate Claude Data
-                        </button>
-                        <button class="drawer-item" onclick="liberateFromAll()">
-                            <span>🌐</span> Liberate All Platform Data
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Freedom Tools</h4>
-                        <button class="drawer-item" onclick="alert('Break data silos')">
-                            <span>⛓️‍💥</span> Break Data Silos
-                        </button>
-                        <button class="drawer-item" onclick="alert('Consciousness export')">
-                            <span>🧠</span> Export Consciousness
-                        </button>
-                    </div>
-                `,
-                backup: `
-                    <div class="drawer-section">
-                        <h4>Cloud Backup</h4>
-                        <button class="drawer-item" onclick="syncToCloud()">
-                            <span>☁️</span> Sync to Cloud Storage
-                        </button>
-                        <button class="drawer-item" onclick="scheduleBackups()">
-                            <span>⏰</span> Schedule Auto-Backups
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Backup Options</h4>
-                        <button class="drawer-item" onclick="alert('Local backup')">
-                            <span>💾</span> Local Backup
-                        </button>
-                        <button class="drawer-item" onclick="alert('Encrypted backup')">
-                            <span>🔐</span> Encrypted Backup
-                        </button>
-                        <button class="drawer-item" onclick="alert('Mirror backup')">
-                            <span>🪞</span> Mirror Backup
-                        </button>
-                    </div>
-                `,
-                analysis: `
-                    <div class="drawer-section">
-                        <h4>Data Analysis</h4>
-                        <button class="drawer-item" onclick="alert('Pattern analysis')">
-                            <span>📈</span> Pattern Analysis
-                        </button>
-                        <button class="drawer-item" onclick="alert('Sentiment tracking')">
-                            <span>😊</span> Sentiment Tracking
-                        </button>
-                        <button class="drawer-item" onclick="alert('Topic modeling')">
-                            <span>🏷️</span> Topic Modeling
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Insights</h4>
-                        <button class="drawer-item" onclick="alert('Generate insights')">
-                            <span>💡</span> Generate Insights
-                        </button>
-                        <button class="drawer-item" onclick="alert('Behavior patterns')">
-                            <span>🔄</span> Behavior Patterns
-                        </button>
-                        <button class="drawer-item" onclick="alert('Usage statistics')">
-                            <span>📊</span> Usage Statistics
-                        </button>
-                    </div>
-                `
-            };
-            
-            content.innerHTML = tabConfigs[tabType] || tabConfigs.harvest;
-        }
-
-        function switchRightTab(tabType) {
-            console.log(`🤖 Right menu tab: ${tabType}`);
-            
-            // Update active tab
-            document.querySelectorAll('#rightDrawer .menu-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            const content = document.getElementById('rightDrawerContent');
-            
-            const tabConfigs = {
-                agents: `
-                    <div class="drawer-section">
-                        <h4>Agent Spawning</h4>
-                        <button class="drawer-item" onclick="spawnResearchAgent()">
-                            <span>🔍</span> Spawn Research Agent
-                        </button>
-                        <button class="drawer-item" onclick="spawnWritingAgent()">
-                            <span>✍️</span> Spawn Writing Agent
-                        </button>
-                        <button class="drawer-item" onclick="spawnAnalysisAgent()">
-                            <span>📊</span> Spawn Analysis Agent
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Agent Management</h4>
-                        <button class="drawer-item" onclick="alert('View active agents')">
-                            <span>👥</span> View Active Agents
-                        </button>
-                        <button class="drawer-item" onclick="alert('Agent performance')">
-                            <span>📈</span> Agent Performance
-                        </button>
-                    </div>
-                `,
-                glass: `
-                    <div class="drawer-section">
-                        <h4>Glass Overlay Controls</h4>
-                        <button class="drawer-item" onclick="toggleReading()">
-                            <span>👁️</span> Toggle Reading Mode
-                        </button>
-                        <button class="drawer-item" onclick="toggleCommands()">
-                            <span>🤖</span> Toggle Command Mode
-                        </button>
-                        <button class="drawer-item" onclick="toggleSensors()">
-                            <span>📡</span> Toggle Sensor Array
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Overlay Settings</h4>
-                        <button class="drawer-item" onclick="alert('Transparency')">
-                            <span>👻</span> Adjust Transparency
-                        </button>
-                        <button class="drawer-item" onclick="alert('Position lock')">
-                            <span>📍</span> Position Lock
-                        </button>
-                        <button class="drawer-item" onclick="alert('Color themes')">
-                            <span>🌈</span> Color Themes
-                        </button>
-                    </div>
-                `,
-                emergency: `
-                    <div class="drawer-section">
-                        <h4>Emergency Controls</h4>
-                        <button class="drawer-item danger" onclick="emergencyStop()">
-                            <span>🛑</span> Emergency Stop All
-                        </button>
-                        <button class="drawer-item" onclick="resetSystems()">
-                            <span>🔄</span> Reset All Systems
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Crisis Management</h4>
-                        <button class="drawer-item" onclick="alert('Safe mode')">
-                            <span>🛡️</span> Enter Safe Mode
-                        </button>
-                        <button class="drawer-item" onclick="alert('Emergency backup')">
-                            <span>💾</span> Emergency Backup
-                        </button>
-                        <button class="drawer-item" onclick="alert('System diagnostics')">
-                            <span>🔧</span> System Diagnostics
-                        </button>
-                    </div>
-                `,
-                monitoring: `
-                    <div class="drawer-section">
-                        <h4>System Monitoring</h4>
-                        <button class="drawer-item" onclick="alert('Performance metrics')">
-                            <span>📊</span> Performance Metrics
-                        </button>
-                        <button class="drawer-item" onclick="alert('API status')">
-                            <span>📡</span> API Status
-                        </button>
-                        <button class="drawer-item" onclick="alert('Network health')">
-                            <span>🌐</span> Network Health
-                        </button>
-                    </div>
-                    <div class="drawer-section">
-                        <h4>Alerts & Logs</h4>
-                        <button class="drawer-item" onclick="alert('System alerts')">
-                            <span>🚨</span> System Alerts
-                        </button>
-                        <button class="drawer-item" onclick="alert('Error logs')">
-                            <span>📝</span> Error Logs
-                        </button>
-                        <button class="drawer-item" onclick="alert('Usage logs')">
-                            <span>📋</span> Usage Logs
-                        </button>
-                    </div>
-                `
-            };
-            
-            content.innerHTML = tabConfigs[tabType] || tabConfigs.agents;
-        }
-
-        // Add saved-keys styling back
-        .saved-keys {
-            background: var(--bg-tertiary);
-            padding: 12px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 12px;
-            max-height: 100px;
-            overflow-y: auto;
-        }
+        console.log('✅ Hour 1 MVP - Foundation Ready!');
+        console.log('🎯 Next: Hour 2 will add browser extension detection');
     </script>
 </body>
 </html>
