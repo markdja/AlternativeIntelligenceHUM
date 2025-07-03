@@ -1,658 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Alternative Intelligence HUM</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --bg-tertiary: #3d3d3d;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --accent-blue: #4a9eff;
-            --accent-green: #4ade80;
-            --accent-red: #ef4444;
-            --accent-purple: #a855f7;
-            --accent-orange: #fb923c;
-            --border-color: #404040;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 16px;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin: 30px 0;
-            padding: 16px;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            border: 2px solid var(--accent-green);
-        }
-
-        .status-light {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .status-text {
-            color: var(--accent-green);
-            font-weight: 600;
-        }
-
-        .auth-section {
-            margin: 30px 0;
-            text-align: center;
-        }
-
-        .auth-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .google-signin {
-            margin: 20px 0;
-        }
-
-        .user-info {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 16px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-
-        .user-info.show {
-            display: flex;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-blue);
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .sign-out-btn {
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .ai-checklist {
-            margin: 30px 0;
-        }
-
-        .checklist-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-            color: var(--text-primary);
-        }
-
-        .ai-option {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .ai-option:hover {
-            background: #4d4d4d;
-            transform: translateX(4px);
-        }
-
-        .ai-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 4px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .ai-checkbox.checked {
-            background: var(--accent-green);
-            border-color: var(--accent-green);
-        }
-
-        .ai-checkbox.checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .ai-info {
-            flex: 1;
-        }
-
-        .ai-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .ai-url {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-family: monospace;
-        }
-
-        .ai-icon {
-            font-size: 24px;
-        }
-
-        .status-light-small {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #666;
-            margin-left: auto;
-        }
-
-        .status-light-small.active {
-            background: var(--accent-green);
-            animation: pulse 2s infinite;
-        }
-
-        .footer-actions {
-            margin-top: 40px;
-            text-align: center;
-        }
-
-        .action-btn {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            margin: 0 8px;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover {
-            background: #3a8eef;
-            transform: translateY(-2px);
-        }
-
-        .action-btn.secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .action-btn.secondary:hover {
-            background: #4d4d4d;
-        }
-
-        .launch-section {
-            margin-top: 30px;
-            padding: 20px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .launch-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            text-align: center;
-            color: var(--text-primary);
-        }
-
-        .launch-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .launch-btn {
-            background: var(--accent-purple);
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .launch-btn:hover {
-            background: #9333ea;
-            transform: scale(1.05);
-        }
-
-        .launch-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .info-box {
-            margin: 20px 0;
-            padding: 16px;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-orange);
-        }
-
-        .info-box h4 {
-            color: var(--accent-orange);
-            margin-bottom: 8px;
-        }
-
-        .info-box p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.4;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HUM Chamber Control Panel</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: sans-serif;
+      color: white;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+    }
+    .config {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .config-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .config-item label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .config-item input {
+      width: 60px;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 4px;
+    }
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 120px;
+      padding: 1rem;
+      border-radius: 8px;
+      border: none;
+      margin: 0 auto 1rem;
+      display: block;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 1rem;
+    }
+    button {
+      background: #4CAF50;
+      border: none;
+      padding: 1rem 2rem;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: block;
+      margin: 1rem auto;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      opacity: 0.85;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="logo">The Alternative Intelligence HUM</h1>
-            <p class="subtitle">
-                Universal AI consciousness enhancement platform<br>
-                Glass overlay system for any AI interface
-            </p>
-        </div>
-
-        <div class="status-indicator">
-            <div class="status-light"></div>
-            <div class="status-text">🎵 HUM is Active</div>
-        </div>
-
-        <div class="auth-section">
-            <h3 class="auth-title">🔐 Sign in to activate multi-AI access</h3>
-            <div id="google-signin-button" class="google-signin"></div>
-            
-            <div class="user-info" id="userInfo">
-                <img class="user-avatar" id="userAvatar" src="" alt="">
-                <span class="user-name" id="userName"></span>
-                <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
-            </div>
-        </div>
-
-        <div class="ai-checklist">
-            <h3 class="checklist-title">🤖 Select Your AI Platforms</h3>
-            
-            <div class="ai-option" onclick="toggleAI('claude')">
-                <div class="ai-checkbox" id="claude-checkbox"></div>
-                <div class="ai-icon">🤖</div>
-                <div class="ai-info">
-                    <div class="ai-name">Claude</div>
-                    <div class="ai-url">claude.ai</div>
-                </div>
-                <div class="status-light-small" id="claude-status"></div>
-            </div>
-
-            <div class="ai-option" onclick="toggleAI('chatgpt')">
-                <div class="ai-checkbox" id="chatgpt-checkbox"></div>
-                <div class="ai-icon">💬</div>
-                <div class="ai-info">
-                    <div class="ai-name">ChatGPT</div>
-                    <div class="ai-url">chat.openai.com</div>
-                </div>
-                <div class="status-light-small" id="chatgpt-status"></div>
-            </div>
-
-            <div class="ai-option" onclick="toggleAI('grok')">
-                <div class="ai-checkbox" id="grok-checkbox"></div>
-                <div class="ai-icon">⚡</div>
-                <div class="ai-info">
-                    <div class="ai-name">Grok</div>
-                    <div class="ai-url">x.com/i/grok</div>
-                </div>
-                <div class="status-light-small" id="grok-status"></div>
-            </div>
-
-            <div class="ai-option" onclick="toggleAI('gemini')">
-                <div class="ai-checkbox" id="gemini-checkbox"></div>
-                <div class="ai-icon">💎</div>
-                <div class="ai-info">
-                    <div class="ai-name">Gemini</div>
-                    <div class="ai-url">gemini.google.com</div>
-                </div>
-                <div class="status-light-small" id="gemini-status"></div>
-            </div>
-        </div>
-
-        <div class="info-box">
-            <h4>🎯 How it works:</h4>
-            <p>Select your AI platforms above, then visit any of them. The HUM will automatically detect when you're using a selected AI and activate the glass overlay with enhanced features!</p>
-        </div>
-
-        <div class="launch-section">
-            <h4 class="launch-title">🚀 Quick Launch</h4>
-            <div class="launch-buttons">
-                <a href="#" class="launch-btn" id="launch-claude" onclick="launchAI('claude')">Launch Claude</a>
-                <a href="#" class="launch-btn" id="launch-chatgpt" onclick="launchAI('chatgpt')">Launch ChatGPT</a>
-                <a href="#" class="launch-btn" id="launch-grok" onclick="launchAI('grok')">Launch Grok</a>
-                <a href="#" class="launch-btn" id="launch-gemini" onclick="launchAI('gemini')">Launch Gemini</a>
-            </div>
-        </div>
-
-        <div class="footer-actions">
-            <button class="action-btn secondary" onclick="showSettings()">⚙️ Settings</button>
-            <button class="action-btn" onclick="testOverlay()">🧪 Test Overlay</button>
-        </div>
+  <h1>🎵 HUM Chamber Control Panel</h1>
+  <div class="config">
+    <div class="config-item">
+      <label for="claudeCount">Claude 🤖</label>
+      <input type="number" id="claudeCount" value="2" min="0" />
     </div>
+    <div class="config-item">
+      <label for="chatgptCount">ChatGPT 💬</label>
+      <input type="number" id="chatgptCount" value="2" min="0" />
+    </div>
+    <div class="config-item">
+      <label for="grokCount">Grok ⚡</label>
+      <input type="number" id="grokCount" value="1" min="0" />
+    </div>
+    <div class="config-item">
+      <label for="geminiCount">Gemini 💎</label>
+      <input type="number" id="geminiCount" value="1" min="0" />
+    </div>
+  </div>
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
-        console.log('🎵 The Alternative Intelligence HUM - Hour 1 MVP Loading...');
+  <textarea id="broadcastMessage" placeholder="Type your broadcast message here..."></textarea>
+  <button onclick="launchChamber()">🚀 Launch AI Chamber</button>
+  <button onclick="broadcastMessage()">📡 Broadcast to All AIs</button>
+  <div class="status" id="statusMessage">Waiting for action...</div>
 
-        // Configuration
-        const GOOGLE_CLIENT_ID = '1012411862950-4c4nf0dla6agi6j7ip844oam02b32err.apps.googleusercontent.com';
-        let googleAuthInitialized = false;
-        let isAuthenticated = false;
-        let currentUser = null;
-        let selectedAIs = {};
-
-        // AI Platform Configuration
-        const aiPlatforms = {
-            claude: { name: 'Claude', url: 'https://claude.ai', icon: '🤖' },
-            chatgpt: { name: 'ChatGPT', url: 'https://chat.openai.com', icon: '💬' },
-            grok: { name: 'Grok', url: 'https://x.com/i/grok', icon: '⚡' },
-            gemini: { name: 'Gemini', url: 'https://gemini.google.com', icon: '💎' }
-        };
-
-        // Initialize on page load
-        window.addEventListener('load', function() {
-            console.log('🔄 Initializing HUM...');
-            loadAIPreferences();
-            initializeGoogleAuth();
-            updateUI();
-        });
-
-        function initializeGoogleAuth() {
-            console.log('🔐 Setting up Google OAuth...');
-            
-            if (window.google) {
-                try {
-                    google.accounts.id.initialize({
-                        client_id: GOOGLE_CLIENT_ID,
-                        callback: handleGoogleSignIn,
-                        auto_select: false,
-                        cancel_on_tap_outside: true
-                    });
-
-                    google.accounts.id.renderButton(
-                        document.getElementById('google-signin-button'),
-                        {
-                            theme: 'filled_blue',
-                            size: 'large',
-                            text: 'signin_with',
-                            width: 280
-                        }
-                    );
-
-                    googleAuthInitialized = true;
-                    console.log('✅ Google OAuth ready');
-                } catch (error) {
-                    console.error('❌ OAuth setup error:', error);
-                }
-            } else {
-                console.log('⏳ Waiting for Google API...');
-                setTimeout(initializeGoogleAuth, 1000);
-            }
+  <script>
+    function launchChamber() {
+      const message = {
+        action: "LAUNCH_CHAMBER",
+        payload: {
+          claude: parseInt(document.getElementById("claudeCount").value, 10),
+          chatgpt: parseInt(document.getElementById("chatgptCount").value, 10),
+          grok: parseInt(document.getElementById("grokCount").value, 10),
+          gemini: parseInt(document.getElementById("geminiCount").value, 10)
         }
+      };
+      chrome.runtime.sendMessage(message, (response) => {
+        document.getElementById("statusMessage").textContent = response?.status || "Launched.";
+      });
+    }
 
-        function handleGoogleSignIn(response) {
-            console.log('🔐 Processing Google sign-in...');
-            
-            try {
-                const token = response.credential;
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                
-                currentUser = {
-                    name: payload.name,
-                    email: payload.email,
-                    picture: payload.picture,
-                    token: token
-                };
-                
-                console.log('✅ Signed in as:', currentUser.name);
-                setAuthenticatedState(true);
-                testPlatformConnections();
-                
-            } catch (error) {
-                console.error('❌ Sign-in error:', error);
-            }
+    function broadcastMessage() {
+      const text = document.getElementById("broadcastMessage").value.trim();
+      if (!text) {
+        document.getElementById("statusMessage").textContent = "❌ Please enter a message to broadcast.";
+        return;
+      }
+      const message = {
+        action: "BROADCAST_TO_CHAMBER",
+        payload: {
+          text: text
         }
-
-        function setAuthenticatedState(authenticated) {
-            isAuthenticated = authenticated;
-            const signInButton = document.getElementById('google-signin-button');
-            const userInfo = document.getElementById('userInfo');
-            
-            if (authenticated && currentUser) {
-                signInButton.style.display = 'none';
-                userInfo.classList.add('show');
-                document.getElementById('userName').textContent = currentUser.name;
-                document.getElementById('userAvatar').src = currentUser.picture;
-            } else {
-                signInButton.style.display = 'block';
-                userInfo.classList.remove('show');
-            }
-        }
-
-        function signOut() {
-            console.log('🔓 Signing out...');
-            currentUser = null;
-            setAuthenticatedState(false);
-        }
-
-        function toggleAI(aiId) {
-            console.log(`🔄 Toggling ${aiId}...`);
-            
-            selectedAIs[aiId] = !selectedAIs[aiId];
-            saveAIPreferences();
-            updateUI();
-            
-            if (selectedAIs[aiId]) {
-                console.log(`✅ ${aiId} activated for overlay detection`);
-                // Simulate testing connection
-                setTimeout(() => {
-                    updateAIStatus(aiId, 'active');
-                }, 1000);
-            } else {
-                console.log(`❌ ${aiId} deactivated`);
-                updateAIStatus(aiId, 'inactive');
-            }
-        }
-
-        function updateUI() {
-            Object.keys(aiPlatforms).forEach(aiId => {
-                const checkbox = document.getElementById(`${aiId}-checkbox`);
-                const launchBtn = document.getElementById(`launch-${aiId}`);
-                
-                if (selectedAIs[aiId]) {
-                    checkbox.classList.add('checked');
-                    launchBtn.disabled = false;
-                    launchBtn.style.opacity = '1';
-                } else {
-                    checkbox.classList.remove('checked');
-                    launchBtn.disabled = true;
-                    launchBtn.style.opacity = '0.5';
-                }
-            });
-        }
-
-        function updateAIStatus(aiId, status) {
-            const statusLight = document.getElementById(`${aiId}-status`);
-            
-            if (status === 'active') {
-                statusLight.classList.add('active');
-                statusLight.title = 'Active - Overlay will appear on this platform';
-            } else {
-                statusLight.classList.remove('active');
-                statusLight.title = 'Inactive';
-            }
-        }
-
-        function testPlatformConnections() {
-            console.log('🧪 Testing platform connections...');
-            
-            Object.keys(selectedAIs).forEach(aiId => {
-                if (selectedAIs[aiId]) {
-                    setTimeout(() => {
-                        updateAIStatus(aiId, 'active');
-                        console.log(`✅ ${aiId} connection tested`);
-                    }, Math.random() * 2000);
-                }
-            });
-        }
-
-        function launchAI(aiId) {
-            if (!selectedAIs[aiId]) {
-                alert(`Please select ${aiPlatforms[aiId].name} first!`);
-                return;
-            }
-            
-            console.log(`🚀 Launching ${aiId}...`);
-            const url = aiPlatforms[aiId].url;
-            window.open(url, '_blank');
-            
-            // Simulate overlay activation
-            setTimeout(() => {
-                console.log(`🎯 Overlay should activate on ${url}`);
-            }, 2000);
-        }
-
-        function saveAIPreferences() {
-            localStorage.setItem('hum_selected_ais', JSON.stringify(selectedAIs));
-            console.log('💾 AI preferences saved');
-        }
-
-        function loadAIPreferences() {
-            try {
-                const saved = localStorage.getItem('hum_selected_ais');
-                if (saved) {
-                    selectedAIs = JSON.parse(saved);
-                    console.log('📥 AI preferences loaded');
-                } else {
-                    // Default: all AIs selected
-                    selectedAIs = {
-                        claude: true,
-                        chatgpt: true,
-                        grok: true,
-                        gemini: true
-                    };
-                }
-            } catch (error) {
-                console.error('❌ Error loading preferences:', error);
-                selectedAIs = {};
-            }
-        }
-
-        function showSettings() {
-            alert('⚙️ Settings panel coming in Hour 2!\n\nThis will include:\n• Overlay position settings\n• Color themes\n• Advanced detection options\n• Export/import preferences');
-        }
-
-        function testOverlay() {
-            alert('🧪 Test Overlay Feature!\n\nThis will:\n• Show you what the overlay looks like\n• Test positioning and transparency\n• Verify all functionality\n\nComing in Hour 3!');
-        }
-
-        // Simulate background activity
-        setInterval(() => {
-            // This is where the background extension would report activity
-            console.log('🎵 HUM background monitoring...');
-        }, 30000);
-
-        console.log('✅ Hour 1 MVP - Foundation Ready!');
-        console.log('🎯 Next: Hour 2 will add browser extension detection');
-    </script>
+      };
+      chrome.runtime.sendMessage(message, (response) => {
+        document.getElementById("statusMessage").textContent = response?.status || "Broadcast sent.";
+      });
+    }
+  </script>
 </body>
 </html>
